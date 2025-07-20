@@ -10,10 +10,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-
 import { useDispatch, useSelector } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
@@ -23,9 +22,17 @@ import {
 import { DialogModal } from '../../components'
 import { ContainerApp, BoxContainerApp } from '../../layouts'
 import { StyledContainer, StyledCard } from '../../assets/styles/style'
-import { LoginFormInterface } from '../../model_interfaces'
 import { resetValues } from '../../data/loginForm'
 import { useNavigate } from 'react-router'
+import {
+  sessionErrors,
+  sessionResult,
+  sessionStatus,
+} from '../../redux/selectors'
+import { logIn } from '../../redux/actions'
+import { LoginFormInterface } from '../../model_interfaces/formsInterface'
+import { LoginResponse } from '../../model_interfaces/apiResponsesInterface'
+import { SessionState } from '../../legal'
 
 const Login: React.FC = () => {
   const [emailToPasswordRecover, setEmailToPasswordRecover] = useState('')
@@ -33,20 +40,77 @@ const Login: React.FC = () => {
   const [values, setValues] = useState<LoginFormInterface>(resetValues)
   const navigate = useNavigate()
 
-  const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen(false)
-    setEmailToPasswordRecover('')
-  }
-
   const handleChange =
     (prop: keyof LoginFormInterface) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value })
     }
 
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    })
+  }
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    navigate('/dashboard')
+    prepareDataAndGenerateRequest()
+  }
+
+  const handleSubmitPasswordRecover = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault()
+    let data = {
+      user: {
+        email: emailToPasswordRecover,
+      },
+    }
+    //dispatch(sendToken(data))
+  }
+
+  const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setOpen(false)
+    setEmailToPasswordRecover('')
+  }
+
+  // ** Connection **
+  const dispatch = useDispatch()
+  const errors:  = useSelector((state: SessionState) => sessionErrors(state))
+  const result: LoginResponse = useSelector((state: SessionState) => sessionResult(state))
+  const status: string = useSelector((state: SessionState) => sessionStatus(state))
+
+  useEffect(() => {
+    if (status === 'FETCHED') {
+      showToastifySuccess(
+        `Bienvenido ${result.user.first_name} ${result.user.last_name}`
+      )
+      navigate('/dashboard')
+    }
+    if (status === 'ERROR') {
+      showToastifyError()
+    }
+  }, [status, result, errors, history])
+
+  const prepareDataAndGenerateRequest = () => {
+    let data = {
+      user: {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      },
+    }
+    let extra = {
+      remember: values.remember,
+    }
+    dispatch(logIn({ data, extra }))
   }
 
   return (
@@ -66,6 +130,17 @@ const Login: React.FC = () => {
               <TextField
                 autoFocus
                 fullWidth
+                id='username'
+                label='Nombre de Usuario'
+                margin='normal'
+                name='username'
+                onChange={handleChange('username')}
+                placeholder='Guillermo'
+                required
+              />
+              <TextField
+                autoFocus
+                fullWidth
                 id='email'
                 label='Correo Electrónico'
                 margin='normal'
@@ -82,28 +157,59 @@ const Login: React.FC = () => {
                 name='password'
                 onChange={handleChange('password')}
                 required
-                type={'password'}
+                type={values.showPassword ? 'text' : 'password'}
                 value={values.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        edge='end'
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <FormControlLabel
                 control={
                   <Checkbox
                     checked={false}
                     color='primary'
-                    onChange={() => {}}
+                    onChange={() =>
+                      setValues({
+                        ...values,
+                        remember: !values.remember,
+                      })
+                    }
                   />
                 }
                 label='Recuérdame'
               />
               <Button
                 color='primary'
-                disabled={false}
+                disabled={status === 'FETCHING'}
                 fullWidth
                 size='large'
                 type='submit'
                 variant='contained'
               >
-                Iniciar sesión
+                {status === 'FETCHING' ? (
+                  <CircularProgress
+                    sx={{ color: '#FFFFFF' }}
+                    thickness={4}
+                    value={100}
+                  />
+                ) : (
+                  'Iniciar sesión'
+                )}
               </Button>
               <Grid container>
                 <Link

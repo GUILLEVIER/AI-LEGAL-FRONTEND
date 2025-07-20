@@ -1,6 +1,6 @@
 // Theme configuration separated for better maintainability
 import { createTheme } from '@mui/material/styles'
-import { paletteColors } from '../../utils/paletteColors'
+import { PaletteColors } from '../../utils/PaletteColors'
 
 // Theme configuration - Improved with breakpoints and typography variants
 export const theme = createTheme({
@@ -27,30 +27,30 @@ export const theme = createTheme({
   },
   palette: {
     primary: {
-      main: paletteColors.colorPrimary,
-      light: paletteColors.colorPrimaryLight,
-      dark: paletteColors.colorPrimaryDark,
+      main: PaletteColors.colorPrimary,
+      light: PaletteColors.colorPrimaryLight,
+      dark: PaletteColors.colorPrimaryDark,
     },
     secondary: {
-      main: paletteColors.colorSecondary,
-      light: paletteColors.colorSecondaryLight,
-      dark: paletteColors.colorSecondaryDark,
+      main: PaletteColors.colorSecondary,
+      light: PaletteColors.colorSecondaryLight,
+      dark: PaletteColors.colorSecondaryDark,
     },
     success: {
-      main: paletteColors.colorSuccess,
+      main: PaletteColors.colorSuccess,
     },
     error: {
-      main: paletteColors.colorError,
+      main: PaletteColors.colorError,
     },
     warning: {
-      main: paletteColors.colorWarning,
+      main: PaletteColors.colorWarning,
     },
     info: {
-      main: paletteColors.colorInfo,
+      main: PaletteColors.colorInfo,
     },
     background: {
-      default: paletteColors.colorSurface,
-      paper: paletteColors.colorBackground,
+      default: PaletteColors.colorSurface,
+      paper: PaletteColors.colorBackground,
     },
   },
   breakpoints: {
@@ -79,26 +79,26 @@ export const theme = createTheme({
           ),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'primary' && {
-              '&:hover': {
-                backgroundColor: paletteColors.colorPrimary,
-                boxShadow: theme.shadows[4],
-              },
-            }),
+            '&:hover': {
+              backgroundColor: PaletteColors.colorPrimary,
+              boxShadow: theme.shadows[4],
+            },
+          }),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'secondary' && {
-              '&:hover': {
-                backgroundColor: paletteColors.colorSecondary,
-                boxShadow: theme.shadows[4],
-              },
-            }),
+            '&:hover': {
+              backgroundColor: PaletteColors.colorSecondary,
+              boxShadow: theme.shadows[4],
+            },
+          }),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'error' && {
-              backgroundColor: paletteColors.colorError,
-              '&:hover': {
-                backgroundColor: paletteColors.colorError,
-                boxShadow: theme.shadows[4],
-              },
-            }),
+            backgroundColor: PaletteColors.colorError,
+            '&:hover': {
+              backgroundColor: PaletteColors.colorError,
+              boxShadow: theme.shadows[4],
+            },
+          }),
           ...(ownerState.variant === 'text' && {
             '&:hover': { background: 'transparent' },
           }),

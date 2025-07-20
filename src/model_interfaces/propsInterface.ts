@@ -23,33 +23,12 @@ export interface FooterProps {
   date: number
 }
 
-// Login
-export interface LoginFormInterface {
-  email: string
-  password: string
-  remember: boolean
-  showPassword: boolean
-}
-
-export interface MenuItem {
-  id: string
-  label: string
-  icon: string
-  type: 'item' | 'group'
-  children?: MenuItem[]
-}
-
+// Left Side Menu props
 export interface LeftSideMenuProps {
   drawerOpen?: boolean
 }
 
-export interface UserProfile {
-  name: string
-  role: string
-  email?: string
-  avatar?: string
-}
-
+// Header props
 export interface HeaderProps {
   onDrawerToggle?: () => void
   drawerOpen?: boolean

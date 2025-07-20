@@ -6,36 +6,44 @@ import {
 } from '../../consts/types'
 import { SessionState } from '../../legal'
 
-let session =
-  localStorage.getItem('session') || sessionStorage.getItem('session')
-let user = session !== null ? JSON.parse(session) : {}
-
 const initialState: SessionState = {
   errors: [],
   fetchStatus: 'NO_FETCH',
-  user: user,
+  user: {},
 }
 
+// eslint-disable-next-line
 export default (state = initialState, action: any) => {
   switch (action.type) {
     case LOG_IN_START:
-      return { ...state, fetchStatus: 'FETCHING' }
+      return {
+        ...state,
+        fetchStatus: 'FETCHING',
+        errors: [],
+      }
     case LOG_IN_ERROR:
       return {
         ...state,
-        errors: action.error.response.data.errors,
+        // TODO: Definir qué obtener desde la respuesta de la API como error.
+        errors: action.payload?.response?.data?.errors || [
+          'Error de autenticación',
+        ],
         fetchStatus: 'ERROR',
       }
     case LOG_IN_SUCCESS:
       return {
         ...state,
         fetchStatus: 'FETCHED',
-        user: action.sessionResponse.data.data,
+        // TODO: Definir qué obtener desde la respuesta de la API como usuario.
+        user: action.payload?.data || {},
+        errors: [],
       }
     case LOG_OUT_SUCCESS:
-      localStorage.clear()
-      sessionStorage.clear()
-      return { ...initialState, fetchStatus: 'FETCHED_LOGOUT' }
+      return {
+        ...initialState,
+        fetchStatus: 'FETCHED_LOGOUT',
+        user: {},
+      }
     default:
       return state
   }

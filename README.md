@@ -1,4 +1,4 @@
-# AI LEGAL
+# AI Legal Vite
 
 Proyecto base con Vite, React, Redux Toolkit y Vitest.
 
@@ -107,48 +107,181 @@ flowchart TD
 - **routes**: Definición de rutas y navegación.
 - **tests**: Pruebas unitarias y de integración.
 
-Este proyecto sigue las siguientes reglas de desarrollo y gestión de ramas.
+## Uso Devcontainer
 
-## Estructura de Ramas
+## Implementación de AXIOS
 
-### 🌟 Main/Master
+- **ApiFactory.ts**: Patrón Singleton/Factory.
+- **ErrorHandler.ts**: Manejo centralizado de errores.
+- **vite-env.d.ts**: Tipado para variables de entorno.
+- **Ejemplos de uso**: Documentación práctica.
 
-- **Descripción**: Almacena el historial oficial de lanzamiento. Contiene el código en producción y es la base para las versiones estables.
-- **Regla**: Todos los commits deben estar etiquetados con el número de versión correspondiente.
+## Plan de Implementación
 
-### 🔄 Develop
+### 📋 Pasos Manuales para Implementar las Mejoras
 
-- **Descripción**: Sirve como la rama de integración para las características. Aquí se fusionan las ramas de características (feature) después de que las Pull Requests han sido revisadas y aprobadas.
-- **Regla**: Esta rama es donde se realiza el desarrollo activo y se preparan las nuevas funcionalidades.
+#### **PASO 1: Verificar configuración de entorno**
 
-### 🚀 Release
+Primero, asegúrate de que las variables de entorno estén correctamente configuradas:
 
-- **Descripción**: Esta rama se crea desde `Develop` durante el tiempo de lanzamiento para realizar la auditoría final del código. Una vez que se ha validado, se fusiona con `Main/Master` y `Develop`.
-- **Regla**: Asegura que el código esté completamente testeado y listo para producción.
+```bash
+# Verificar que las variables de entorno estén configuradas
+echo "VITE_API_URL=${VITE_API_URL}"
+```
 
-### 🛠️ Hotfix
+Verifica que el archivo `.env` contenga:
 
-- **Descripción**: Se utiliza para corregir problemas críticos en producción. Se crea a partir de `Main/Master` y, una vez solucionado el problema, se fusiona de nuevo en ambas ramas: `Main/Master` y `Develop`.
-- **Regla**: Permite realizar correcciones urgentes sin interrumpir el flujo de desarrollo.
+```properties
+VITE_API_URL = https://tu-api-url.com/
+```
 
-### ✨ Feature
+#### **PASO 2:**
 
-- **Descripción**: Estas ramas se utilizan para desarrollar nuevas características. Se crean a partir de `Develop` y, una vez que la característica está completa, se fusionan de nuevo en `Develop`.
-- **Regla**: Cada nueva funcionalidad debe ser desarrollada en su propia rama de características.
+1. **Utilizar ApiFactory - getServices()**:
 
-### Infografía
+   ```typescript
+   import ApiFactory from './api/ApiFactory'
+   const services = ApiFactory.getServices()
+   ```
 
-![GITFLOW](https://user-images.githubusercontent.com/47147484/120933311-3819a980-c702-11eb-999e-797386ee07fd.png)
+2. **Actualizar manejo de errores**:
 
-## Contribuciones
+   ```typescript
+   import { ErrorHandler, ErrorTypes } from './utils/ErrorHandler'
 
-Si deseas contribuir a este proyecto, por favor sigue las siguientes pautas:
+   try {
+     const response = await services.get('/endpoint')
+   } catch (error) {
+     const appError = ErrorHandler.createError(
+       ErrorTypes.NETWORK_ERROR,
+       'Error al cargar datos',
+       error
+     )
+     ErrorHandler.logError(appError)
+     const userMessage = ErrorHandler.getUserFriendlyMessage(appError)
+   }
+   ```
 
-1. Crea una nueva rama `Feature` para tu trabajo.
-2. Realiza tus cambios y asegúrate de que todo funcione correctamente.
-3. Abre un Pull Request hacia la rama `Develop`.
+3. **Utilizar ApiResponse**:
+   ```typescript
+   const response: ApiResponse<YourDataType> = yield call(...)
+   ```
 
-Si deseas hacer pruebas utilizando este proyecto, por favor sigue las siguientes pautas:
+#### **PASO 4: Redux Actions / En caso de almacenaje global**
 
-1. Crea una nueva rama `Feature/nombre_dev` para experimentar.
-2. Experimente.
+```typescript
+yield put({ type: LOG_IN_SUCCESS, payload: logginResponse })
+```
+
+Implementar los reducers correspondientes:
+
+```typescript
+// En el reducer:
+case LOG_IN_SUCCESS:
+  return {
+    ...state,
+    isAuthenticated: true,
+    user: action.payload.data,
+    loading: false
+  }
+```
+
+#### **PASO 5: Implementar en componentes React**
+
+Ejemplo de uso en un componente de manera clásica, sin usar SAGAS/REDUX:
+
+```typescript
+import React, { useState } from 'react'
+import ApiFactory from '../api/ApiFactory'
+import { ErrorHandler, ErrorTypes } from '../utils/ErrorHandler'
+
+const LoginComponent = () => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleLogin = async (credentials: LoginCredentials) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const services = ApiFactory.getServices()
+      const response = await services.login(credentials)
+      console.log('Login exitoso:', response.data)
+    } catch (error) {
+      const appError = ErrorHandler.createError(
+        ErrorTypes.AUTH_ERROR,
+        'Error de autenticación',
+        error
+      )
+      setError(ErrorHandler.getUserFriendlyMessage(appError))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Resto del componente...
+}
+```
+
+## 🏗️ Beneficios de la Arquitectura
+
+### **Principios SOLID Aplicados**
+
+✅ **Open/Closed Principle (OCP)**:
+
+- La arquitectura es extensible sin modificar código existente
+- Nuevos tipos de autenticación pueden agregarse sin cambiar HttpClient
+- Nuevos servicios pueden implementar la misma interfaz
+
+✅ **Single Responsibility Principle (SRP)**:
+
+- HttpClient: Solo maneja comunicación HTTP
+- Services: Solo maneja lógica de negocio de API
+- ErrorHandler: Solo maneja errores
+- ApiFactory: Solo maneja la creación de instancias
+
+### **Patrones de Diseño Implementados**
+
+🏭 **Factory Pattern**: ApiFactory centraliza la creación de servicios
+🔌 **Adapter Pattern**: HttpClient abstrae axios de la lógica de negocio
+🔄 **Singleton Pattern**: Una sola instancia de HttpClient en toda la aplicación
+
+### **Beneficios Técnicos**
+
+#### **1. Tipado Fuerte y Seguridad**
+
+```typescript
+const response: ApiResponse<User[]> = await services.getUsers()
+```
+
+#### **2. Manejo de Errores Centralizado**
+
+- Mensajes consistentes para el usuario
+- Logging centralizado para debugging
+- Fácil customización de comportamiento por tipo de error
+
+#### **3. Interceptores Inteligentes**
+
+- Manejo automático de tokens
+- Retry automático en fallos de red
+- Headers consistentes en todas las peticiones
+
+#### **4. Configuración Centralizada**
+
+- Un solo lugar para configurar timeouts, base URL, headers
+- Fácil cambio entre ambientes (dev, staging, prod)
+- Configuración de interceptores reutilizable
+
+### **Beneficios de Mantenimiento**
+
+📈 **Escalabilidad**: Fácil agregar nuevos endpoints y servicios
+🔧 **Mantenibilidad**: Código organizado y bien separado
+🐛 **Debugging**: Logs centralizados y manejo de errores consistente
+🧪 **Testing**: Arquitectura que facilita unit tests y integration tests
+📚 **Documentación**: Tipos TypeScript sirven como documentación viva
+
+### **Beneficios de Desarrollo**
+
+⚡ **Productividad**: Menos código boilerplate
+🛡️ **Seguridad**: Manejo automático de tokens y headers
+🎯 **Consistencia**: Misma interfaz para todas las llamadas API
+🔄 **Reutilización**: Servicios reutilizables en toda la aplicación
