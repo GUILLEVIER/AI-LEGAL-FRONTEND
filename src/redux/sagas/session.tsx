@@ -9,7 +9,7 @@ import {
 } from '../../consts/types'
 // Importar ApiFactory y obtener la instancia de servicios
 import ApiFactory from '../../api/ApiFactory'
-import { ApiResponse } from '../../model_interfaces/configInterface'
+import { ApiResponse, AppError } from '../../model_interfaces/configInterface'
 import {
   LoginResponse,
   LogoutResponse,
@@ -28,10 +28,8 @@ export function* logIn({ payload }: any) {
       [services, services.login],
       data
     )
-    console.log('login response: ', loginResponse)
     yield put({ type: LOG_IN_SUCCESS, payload: loginResponse })
     if (loginResponse && loginResponse.data) {
-      // Usar AuthManager para almacenar la sesión
       AuthManager.storeAuth(
         {
           authorization: loginResponse.data.access,
@@ -42,20 +40,7 @@ export function* logIn({ payload }: any) {
       )
     }
   } catch (error) {
-    // TODO: Generar un objeto de error personalizado utilizando ErrorHandler dependiendo del tipo de error
-    /*
-        const appError = ErrorHandler.createError(
-      ErrorTypes.AUTH_ERROR,
-      'Error en login',
-      error
-    )
-    ErrorHandler.logError(appError)
-    throw appError
-
-    const mensajeUsuario = ErrorHandler.getUserFriendlyMessage(error)
-    console.log('Mensaje para el usuario:', mensajeUsuario)
-    */
-    yield put({ type: LOG_IN_ERROR, payload: error })
+    yield put({ type: LOG_IN_ERROR, payload: error as AppError })
   }
 }
 
@@ -65,24 +50,10 @@ export function* logOut() {
       services,
       services.logout,
     ])
-    console.log('logout response: ', logOutResponse)
     yield put({ type: LOG_OUT_SUCCESS, payload: logOutResponse })
     AuthManager.clearAuth(ClearReason.USER_LOGOUT)
   } catch (error) {
-    // TODO: Generar un objeto de error personalizado utilizando ErrorHandler dependiendo del tipo de error
-    /*
-        const appError = ErrorHandler.createError(
-      ErrorTypes.NETWORK_ERROR,
-      'Error al obtener datos',
-      error
-    )
-    ErrorHandler.logError(appError)
-    throw appError
-
-    const mensajeUsuario = ErrorHandler.getUserFriendlyMessage(error)
-    console.log('Mensaje para el usuario:', mensajeUsuario)
-    */
-    yield put({ type: LOG_OUT_ERROR, payload: error })
+    yield put({ type: LOG_OUT_ERROR, payload: error as AppError })
   }
 }
 

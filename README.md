@@ -205,7 +205,6 @@ const LoginComponent = () => {
     try {
       const services = ApiFactory.getServices()
       const response = await services.login(credentials)
-      console.log('Login exitoso:', response.data)
     } catch (error) {
       const appError = ErrorHandler.createError(
         ErrorTypes.AUTH_ERROR,

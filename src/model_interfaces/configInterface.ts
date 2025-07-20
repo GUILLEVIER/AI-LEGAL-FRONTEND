@@ -2,14 +2,14 @@
 import { LoginRequest } from "./apiRequestsInteface"
 import { LoginResponse, LogoutResponse, RefreshResponse } from "./apiResponsesInterface"
 
-/*
+// Respuesta de error personalizada de la aplicación REACT
 export interface AppError {
-  type: ErrorTypes
+  type: string
+  status: number
   message: string
-  details?: any
-  timestamp: Date
+  details: any
+  timestamp: string
 }
-*/
 
 // Respuesta Generica de la API
 // Se genera a partir de la obtención de datos desde AxiosResponse en HttpClient.ts

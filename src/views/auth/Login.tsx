@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
@@ -69,9 +69,7 @@ const Login: React.FC = () => {
   ) => {
     event.preventDefault()
     let data = {
-      user: {
-        email: emailToPasswordRecover,
-      },
+      email: emailToPasswordRecover,
     }
     //dispatch(sendToken(data))
   }
@@ -83,7 +81,7 @@ const Login: React.FC = () => {
 
   // ** Connection **
   const dispatch = useDispatch()
-  const errors:  = useSelector((state: SessionState) => sessionErrors(state))
+  const errors: any = useSelector((state: SessionState) => sessionErrors(state))
   const result: LoginResponse = useSelector((state: SessionState) => sessionResult(state))
   const status: string = useSelector((state: SessionState) => sessionStatus(state))
 
@@ -95,17 +93,21 @@ const Login: React.FC = () => {
       navigate('/dashboard')
     }
     if (status === 'ERROR') {
-      showToastifyError()
+      // Implementar save navigation para errores
+      if (errors.non_field_errors && errors.non_field_errors.length > 0) {
+        showToastifyError(errors.non_field_errors[0])
+      }
+      if (errors.email && errors.email.length > 0) {
+        showToastifyError(errors.email[0])
+      }
     }
   }, [status, result, errors, history])
 
   const prepareDataAndGenerateRequest = () => {
     let data = {
-      user: {
         username: values.username,
         email: values.email,
         password: values.password,
-      },
     }
     let extra = {
       remember: values.remember,

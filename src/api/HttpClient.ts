@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
 import { ApiResponse } from '../model_interfaces/configInterface'
 import { AuthManager } from '../utils/AuthManager'
+import { ErrorHandler } from '../utils/ErrorHandler'
 
 export class HttpClient {
   private api: AxiosInstance
@@ -21,13 +22,13 @@ export class HttpClient {
         if (token) {
           config.headers['Authorization'] = `Bearer ${token}`
         }
-        config.headers['Accept'] = 'application/json'
-        config.headers['Cache-Control'] = 'no-cache'
         config.headers['Content-Type'] = 'application/json'
         return config
       },
       (error: AxiosError) => {
-        return Promise.reject(error)
+        // Utilizar la clase ErrorHandler para manejar errores
+        // Aquí se puede integrar ErrorHandler para mapear errores de Axios a AppError
+        return Promise.reject(ErrorHandler.mapAxiosErrorToAppError(error as AxiosError))
       }
     )
 
@@ -37,7 +38,9 @@ export class HttpClient {
       (error: AxiosError) => {
         // Manejo de errores globales. Esto se puede personalizar según las necesidades.
         // Utilizar Códigos de error específicos.
-        return Promise.reject(error)
+        // Utilizar la clase ErrorHandler para manejar errores
+        // Aquí se puede integrar ErrorHandler para mapear errores de Axios a AppError
+        return Promise.reject(ErrorHandler.mapAxiosErrorToAppError(error as AxiosError))
       }
     )
   }

@@ -6,14 +6,17 @@ import {
 } from '../../consts/types'
 import { SessionState } from '../../legal'
 
+let session = localStorage.getItem('session') || sessionStorage.getItem('session')
+let user = session ? JSON.parse(session) : {}
+
 const initialState: SessionState = {
   errors: [],
   fetchStatus: 'NO_FETCH',
-  user: {},
+  user: user,
 }
 
 // eslint-disable-next-line
-export default (state = initialState, action: any) => {
+export default (state = initialState, action: { type: string; payload: any }) => {
   switch (action.type) {
     case LOG_IN_START:
       return {
@@ -22,15 +25,15 @@ export default (state = initialState, action: any) => {
         errors: [],
       }
     case LOG_IN_ERROR:
+      console.error('Error during login:', action.payload)
       return {
         ...state,
         // TODO: Definir qué obtener desde la respuesta de la API como error.
-        errors: action.payload?.response?.data?.errors || [
-          'Error de autenticación',
-        ],
+        errors: action.payload?.details,
         fetchStatus: 'ERROR',
       }
     case LOG_IN_SUCCESS:
+      console.log('Login successful:', action.payload)
       return {
         ...state,
         fetchStatus: 'FETCHED',
