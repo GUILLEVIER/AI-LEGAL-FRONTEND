@@ -5,14 +5,14 @@ import {
   LOG_OUT_SUCCESS,
 } from '../../consts/types'
 import { SessionState } from '../../legal'
+import { AuthManager } from '../../utils/AuthManager'
 
-let session = localStorage.getItem('session') || sessionStorage.getItem('session')
-let user = session ? JSON.parse(session) : {}
+let user = AuthManager.getCurrentUser()
 
 const initialState: SessionState = {
   errors: [],
   fetchStatus: 'NO_FETCH',
-  user: user,
+  user: user || {},
 }
 
 // eslint-disable-next-line
@@ -38,7 +38,7 @@ export default (state = initialState, action: { type: string; payload: any }) =>
         ...state,
         fetchStatus: 'FETCHED',
         // TODO: Definir qué obtener desde la respuesta de la API como usuario.
-        user: action.payload?.data || {},
+        user: action.payload.data.user || {},
         errors: [],
       }
     case LOG_OUT_SUCCESS:

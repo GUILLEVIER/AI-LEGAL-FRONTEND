@@ -31,7 +31,6 @@ import {
 } from '../../redux/selectors'
 import { logIn } from '../../redux/actions'
 import { LoginFormInterface } from '../../model_interfaces/formsInterface'
-import { LoginResponse } from '../../model_interfaces/apiResponsesInterface'
 import { SessionState } from '../../legal'
 
 const Login: React.FC = () => {
@@ -82,14 +81,18 @@ const Login: React.FC = () => {
   // ** Connection **
   const dispatch = useDispatch()
   const errors: any = useSelector((state: SessionState) => sessionErrors(state))
-  const result: LoginResponse = useSelector((state: SessionState) => sessionResult(state))
+  const result: any = useSelector((state: SessionState) => sessionResult(state))
   const status: string = useSelector((state: SessionState) => sessionStatus(state))
 
   useEffect(() => {
     if (status === 'FETCHED') {
-      showToastifySuccess(
-        `Bienvenido ${result.user.first_name} ${result.user.last_name}`
-      )
+      if (result.first_name && result.last_name) {
+        showToastifySuccess(
+          `Bienvenido ${result.first_name.toUpperCase()} ${result.last_name.toUpperCase()}`
+        )
+      } else {
+        showToastifySuccess(`Bienvenido ${result.username.toUpperCase()}`)
+      }
       navigate('/dashboard')
     }
     if (status === 'ERROR') {
@@ -101,7 +104,7 @@ const Login: React.FC = () => {
         showToastifyError(errors.email[0])
       }
     }
-  }, [status, result, errors, history])
+  }, [status, result, errors])
 
   const prepareDataAndGenerateRequest = () => {
     let data = {
@@ -183,7 +186,7 @@ const Login: React.FC = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={false}
+                    checked={values.remember}
                     color='primary'
                     onChange={() =>
                       setValues({
