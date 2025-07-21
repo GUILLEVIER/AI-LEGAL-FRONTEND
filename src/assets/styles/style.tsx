@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import AppBar, { AppBarProps } from '@mui/material/AppBar'
 import Menu, { MenuProps } from '@mui/material/Menu'
 import { Container, Card } from '@mui/material'
-import { PaletteColors } from '../../utils/PaletteColors'
+import { paletteColors } from '../../utils/paletteColors'
 
 // Shared style objects - Use theme for better maintainability
 const centeredStyleObj = {
@@ -29,17 +29,17 @@ const StyledCard = styled(Card)(({ theme }) => ({
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
   backdropFilter: 'blur(15px)',
-  backgroundColor: `${PaletteColors.colorGray} !important`,
+  backgroundColor: `${paletteColors.colorGray} !important`,
   borderRadius: theme.spacing(2.5),
-  boxShadow: `10px 10px 20px #9d9d9d, -10px -10px 20px ${PaletteColors.colorWhite}`,
+  boxShadow: `10px 10px 20px #9d9d9d, -10px -10px 20px ${paletteColors.colorWhite}`,
   ...centeredStyleObj,
 }))
 
 // NavBar with improved styling
 const NavBarApp = styled(AppBar)<AppBarProps>(({ theme }) => ({
-  backgroundColor: PaletteColors.colorSecondary,
+  backgroundColor: paletteColors.colorSecondary,
   height: 64,
-  boxShadow: `0 2px 8px ${PaletteColors.colorGray}`,
+  boxShadow: `0 2px 8px ${paletteColors.colorGray}`,
   '& .MuiToolbar-root': {
     minHeight: 64,
     padding: theme.spacing(0, 2),
@@ -65,14 +65,14 @@ const BaseMenuStyles = {
       },
     },
     '& .log-in': {
-      '&:hover': { backgroundColor: PaletteColors.colorPrimary },
-      backgroundColor: PaletteColors.colorPrimary,
-      color: PaletteColors.colorWhite,
+      '&:hover': { backgroundColor: paletteColors.colorPrimary },
+      backgroundColor: paletteColors.colorPrimary,
+      color: paletteColors.colorWhite,
     },
     '& .log-out': {
-      '&:hover': { backgroundColor: PaletteColors.colorError },
-      backgroundColor: PaletteColors.colorError,
-      color: PaletteColors.colorWhite,
+      '&:hover': { backgroundColor: paletteColors.colorError },
+      backgroundColor: paletteColors.colorError,
+      color: paletteColors.colorWhite,
     },
   },
   '& .MuiBackdrop-root': {

@@ -1,5 +1,5 @@
 // Color palette following Material Design principles
-export const PaletteColors = {
+export const paletteColors = {
   // Primary colors
   colorPrimary: '#0F766E',
   colorPrimaryLight: '#14B8A6',
