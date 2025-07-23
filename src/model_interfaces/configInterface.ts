@@ -7,7 +7,7 @@ export interface AppError {
   type: string
   status: number
   message: string
-  details: any
+  details: ApiGenericResponse
   timestamp: string
 }
 
@@ -17,15 +17,23 @@ export interface ApiResponse<T = any> {
   data: T
   status: number
   statusText: string
-  headers: any
+}
+
+export interface ApiGenericResponse<T = any> {
+  data: T,
+  message: string,
+  status: string,
+  code: string,
+  http_status: number,
+  errors: string[]
 }
 
 // Interfaz para los servicios de autenticación
 // Esto se implementa en Services.ts
 export interface AuthService {
-  login(credentials: LoginRequest): Promise<ApiResponse<LoginResponse>>
-  logout(): Promise<ApiResponse<LogoutResponse>>
-  refreshToken(refreshToken: string): Promise<ApiResponse<RefreshResponse>>
+  login(credentials: LoginRequest): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>>
+  logout(): Promise<ApiResponse<ApiGenericResponse<LogoutResponse>>>
+  refreshToken(refreshToken: string): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>>
 }
 
 

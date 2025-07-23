@@ -1,5 +1,5 @@
 import { HttpClient } from './HttpClient'
-import { ApiResponse, AuthService } from '../model_interfaces/configInterface'
+import { ApiGenericResponse, ApiResponse, AuthService } from '../model_interfaces/configInterface'
 import { LoginRequest } from '../model_interfaces/apiRequestsInteface'
 import { LoginResponse, LogoutResponse, RefreshResponse } from '../model_interfaces/apiResponsesInterface'
 
@@ -11,7 +11,7 @@ export class Services implements AuthService {
    * @param credentials - Credenciales del usuario.
    * @returns Promesa con la respuesta de la API.
    */
-  async login(credentials: LoginRequest): Promise<ApiResponse<LoginResponse>> {
+  async login(credentials: LoginRequest): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>> {
     return this.httpClient.post<LoginResponse>('login/', credentials)
   }
 
@@ -19,7 +19,7 @@ export class Services implements AuthService {
    * Cierra la sesión del usuario.
    * @returns Promesa con la respuesta de la API.
    */
-  async logout(): Promise<ApiResponse<LogoutResponse>> {
+  async logout(): Promise<ApiResponse<ApiGenericResponse<LogoutResponse>>> {
     return this.httpClient.post<LogoutResponse>('logout/', {})
   }
 
@@ -28,8 +28,17 @@ export class Services implements AuthService {
    * @param refreshToken - El token de refresco.
    * @returns Promesa con la respuesta de la API.
    */
-  async refreshToken(refreshToken: string): Promise<ApiResponse<RefreshResponse>> {
+  async refreshToken(refreshToken: string): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>> {
     return this.httpClient.post<RefreshResponse>('token/refresh/', { refresh: refreshToken })
+  }
+
+  /**
+   * Verifica el estado del token de acceso.
+   * @param accessToken - El token de acceso a verificar.
+   * @return Promesa con la respuesta de la API.
+   */
+  async verifyToken(accessToken: string): Promise<ApiResponse<ApiGenericResponse<any>>> {
+    return this.httpClient.post<any>('token/verify/', { token: accessToken })
   }
 
   /**
@@ -38,7 +47,7 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.get<T>(url, headers)
   }
 
@@ -49,7 +58,7 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.post<T>(url, data, headers)
   }
 
@@ -60,7 +69,7 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.put<T>(url, data, headers)
   }
 
@@ -70,7 +79,7 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.delete<T>(url, headers)
   }
 }

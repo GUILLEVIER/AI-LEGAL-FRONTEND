@@ -3,7 +3,7 @@
  */
 
 import { AxiosError } from "axios";
-import { AppError } from "../model_interfaces/configInterface"
+import { ApiGenericResponse, AppError } from "../model_interfaces/configInterface"
 
 export enum ErrorTypes {
   VALIDATION_ERROR = "ERR_BAD_REQUEST",
@@ -46,9 +46,17 @@ export class ErrorHandler {
   }
 
   static mapAxiosErrorToAppError = (error: AxiosError): AppError => {
+    console.log("ERROR AXIOS: ", error)
     const status = error.response?.status || 500;
     const message = error.message || 'Error desconocido';
-    const details = error.response?.data || {};
+    const details: ApiGenericResponse = error.response?.data as ApiGenericResponse || {
+      data: null,
+      message: 'No se proporcionaron detalles',
+      status: 'error',
+      code: 'UNKNOWN_ERROR',
+      http_status: status,
+      errors: []
+    };
 
     switch (status) {
       case 400:

@@ -32,6 +32,8 @@ const UserProfileMenu: React.FC = () => {
       dispatch(logOut())
     } else if (item.id === 'edit-profile') {
     } else if (item.id === 'view-profile') {
+    } else if (item.id === 'examples') {
+      navigate('/examples')
     }
   }
 

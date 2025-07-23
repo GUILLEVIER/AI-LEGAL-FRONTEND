@@ -80,7 +80,7 @@ const Login: React.FC = () => {
 
   // ** Connection **
   const dispatch = useDispatch()
-  const errors: any = useSelector((state: SessionState) => sessionErrors(state))
+  const errors: string[] = useSelector((state: SessionState) => sessionErrors(state))
   const result: any = useSelector((state: SessionState) => sessionResult(state))
   const status: string = useSelector((state: SessionState) => sessionStatus(state))
 
@@ -96,13 +96,7 @@ const Login: React.FC = () => {
       navigate('/dashboard')
     }
     if (status === 'ERROR') {
-      // Implementar save navigation para errores
-      if (errors.non_field_errors && errors.non_field_errors.length > 0) {
-        showToastifyError(errors.non_field_errors[0])
-      }
-      if (errors.email && errors.email.length > 0) {
-        showToastifyError(errors.email[0])
-      }
+      showToastifyError(errors[0])
     }
   }, [status, result, errors])
 

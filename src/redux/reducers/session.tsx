@@ -7,12 +7,10 @@ import {
 import { SessionState } from '../../legal'
 import { AuthManager } from '../../utils/AuthManager'
 
-let user = AuthManager.getCurrentUser()
-
 const initialState: SessionState = {
   errors: [],
   fetchStatus: 'NO_FETCH',
-  user: user || {},
+  user: AuthManager.getCurrentUser() || {},
 }
 
 // eslint-disable-next-line
@@ -25,11 +23,9 @@ export default (state = initialState, action: { type: string; payload: any }) =>
         errors: [],
       }
     case LOG_IN_ERROR:
-      console.error('Error during login:', action.payload)
       return {
         ...state,
-        // TODO: Definir qué obtener desde la respuesta de la API como error.
-        errors: action.payload?.details,
+        errors: action.payload?.details?.errors,
         fetchStatus: 'ERROR',
       }
     case LOG_IN_SUCCESS:
@@ -38,10 +34,11 @@ export default (state = initialState, action: { type: string; payload: any }) =>
         ...state,
         fetchStatus: 'FETCHED',
         // TODO: Definir qué obtener desde la respuesta de la API como usuario.
-        user: action.payload.data.user || {},
+        user: action.payload?.data?.data?.user || {},
         errors: [],
       }
     case LOG_OUT_SUCCESS:
+      console.log('Logout successful:', action.payload)
       return {
         ...initialState,
         fetchStatus: 'FETCHED_LOGOUT',

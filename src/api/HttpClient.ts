@@ -1,8 +1,16 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
-import { ApiResponse } from '../model_interfaces/configInterface'
+import { ApiGenericResponse, ApiResponse } from '../model_interfaces/configInterface'
 import { AuthManager } from '../utils/AuthManager'
 import { ErrorHandler } from '../utils/ErrorHandler'
 
+/**
+ * Flujo de datos:
+ * AxiosResponse → ApiResponse → ApiGenericResponse → Datos específicos (LoginResponse, LogoutResponse, etc.)
+ * AxiosResponse: La respuesta nativa de Axios
+ * ApiResponse: Tu interfaz que mapea status, statusText y data
+ * ApiGenericResponse: La estructura estándar de tu backend (data, message, status, code, etc.)
+ * Datos específicos: Los datos reales (como LoginResponse, LogoutResponse, etc.)
+ */
 export class HttpClient {
   private api: AxiosInstance
 
@@ -45,56 +53,54 @@ export class HttpClient {
     )
   }
 
-  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.get<T>(url, { headers })
+      // Esto corresponde al AXIOS RESPONSE
+      const response = await this.api.get<ApiGenericResponse<T>>(url, { headers })
+      console.log("AXIOS RESPONSE: ", response)
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
+        statusText: response.statusText
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.post<T>(url, data, { headers })
+      const response = await this.api.post<ApiGenericResponse<T>>(url, data, { headers })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
+        statusText: response.statusText
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.put<T>(url, data, { headers })
+      const response = await this.api.put<ApiGenericResponse<T>>(url, data, { headers })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
+        statusText: response.statusText
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<T>> {
+  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.delete<T>(url, { headers })
+      const response = await this.api.delete<ApiGenericResponse<T>>(url, { headers })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
+        statusText: response.statusText
       }
     } catch (error) {
       throw error as AxiosError

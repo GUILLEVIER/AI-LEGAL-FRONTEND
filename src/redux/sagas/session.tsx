@@ -9,7 +9,7 @@ import {
 } from '../../consts/types'
 // Importar ApiFactory y obtener la instancia de servicios
 import ApiFactory from '../../api/ApiFactory'
-import { ApiResponse, AppError } from '../../model_interfaces/configInterface'
+import { ApiGenericResponse, ApiResponse, AppError } from '../../model_interfaces/configInterface'
 import {
   LoginResponse,
   LogoutResponse,
@@ -24,7 +24,7 @@ const services = ApiFactory.getServices()
 export function* logIn({ payload }: any) {
   const { data, extra } = payload
   try {
-    const loginResponse: ApiResponse<LoginResponse> = yield call(
+    const loginResponse: ApiResponse<ApiGenericResponse<LoginResponse>> = yield call(
       [services, services.login],
       data
     )
@@ -32,15 +32,15 @@ export function* logIn({ payload }: any) {
     if (loginResponse && loginResponse.data) {
       AuthManager.storeAuth(
         {
-          authorization: loginResponse.data.access,
-          session: loginResponse.data.user,
-          refreshToken: loginResponse.data.refresh,
+          authorization: loginResponse.data.data.access,
+          session: loginResponse.data.data.user,
+          refreshToken: loginResponse.data.data.refresh,
         },
         extra.remember
       )
     }
   } catch (error) {
-    yield put({ type: LOG_IN_ERROR, payload: error as AppError })
+    yield put({ type: LOG_IN_ERROR, payload: error })
   }
 }
 
@@ -53,7 +53,7 @@ export function* logOut() {
     yield put({ type: LOG_OUT_SUCCESS, payload: logOutResponse })
     AuthManager.clearAuth(ClearReason.USER_LOGOUT)
   } catch (error) {
-    yield put({ type: LOG_OUT_ERROR, payload: error as AppError })
+    yield put({ type: LOG_OUT_ERROR, payload: error })
   }
 }
 
