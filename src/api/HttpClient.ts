@@ -57,7 +57,6 @@ export class HttpClient {
     try {
       // Esto corresponde al AXIOS RESPONSE
       const response = await this.api.get<ApiGenericResponse<T>>(url, { headers })
-      console.log("AXIOS RESPONSE: ", response)
       return {
         data: response.data,
         status: response.status,

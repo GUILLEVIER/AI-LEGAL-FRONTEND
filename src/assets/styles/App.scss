@@ -9,11 +9,9 @@ $color-green: #08504a;
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Play', sans-serif;
 }
 
 // LISTO
@@ -36,73 +34,13 @@ h1 {
   text-align: center;
 }
 
-.title-menu {
-  @extend .title-menu-logout;
-  padding-right: 4.5rem;
-}
-
-.title-menu-logout {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+span {
+  font-family: 'Play', sans-serif;
 }
 
 .box-shadow {
   backdrop-filter: blur(1.875rem);
   border-radius: 0.25rem;
-}
-
-.item-animation-info {
-  @extend .box-shadow;
-  animation: fadeIn 2s;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  font-size: 3.125rem;
-  font-family: 'Play';
-  text-align: center;
-  background-color: $color-primary;
-  color: $color-white;
-  flex-direction: column;
-
-  p {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-.item-animation-info-selected {
-  @extend .item-animation-info;
-  background-color: $color-white;
-  color: $color-primary;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.menu-resource-image {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.resource-image-container {
-  width: 100%;
-  margin: 0;
-  padding: 0.25rem;
-  height: 18.75rem;
-
-  img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-  }
 }
 
 // TOASTIFY
@@ -185,71 +123,6 @@ h1 {
 // LISTO
 .rotation-zoom {
   animation: rotation-zoom 2s infinite ease-in-out;
-}
-
-// TABLES
-.MuiTableCell-root {
-  font-size: 1rem !important;
-  white-space: nowrap;
-}
-
-// ARROWS
-/* Se configuran las flechas de navegacion */
-#prev_section,
-#next_section {
-  cursor: pointer;
-  height: 100%;
-  position: relative;
-  /* No existiera para el resto de los elementos en cuanto a posicionamiento */
-  margin-top: 16px;
-}
-
-/* Ahora, le damos caracteristicas generales a las imagenes que se encuentran 
-dentro de los botones */
-#prev_section svg,
-#next_section svg {
-  color: $color-primary;
-  font-size: 50px;
-}
-
-.card-carousel {
-  max-width: 345px;
-  min-height: 200px;
-  border-radius: 0.25rem;
-  background: linear-gradient(135deg, $color-secondary 0%, $color-primary 100%);
-  color: $color-white;
-}
-
-.img-div {
-  display: block;
-  margin: 30px 0;
-  max-height: 500px;
-  overflow-y: scroll;
-}
-
-.img-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  margin: 20px 0;
-}
-
-.img-action-delete {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
-
-.img-action-upload {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.img-container img {
-  height: 100%;
-  width: 100%;
 }
 
 // LEFT SIDE MENU

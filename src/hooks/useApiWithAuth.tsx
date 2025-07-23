@@ -32,7 +32,7 @@ export const useApiWithAuth = () => {
           return null
         }
       }
-      // Paso 4: Ejecutar la llamada original
+      // Paso 3: Ejecutar la llamada original
       const result = await apiCall()
       return result
     } catch (error: any) {

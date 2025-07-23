@@ -8,7 +8,7 @@ import { useTokenValidator } from '../hooks/useTokenValidator'
  * o para verificaciones puntuales del estado de autenticación
  */
 export const ExampleTokenValidation: React.FC = () => {
-  const { validateAndRefreshToken, isTokenValid, getAuthStatus } = useTokenValidator()
+  const { validateAndRefreshToken, isTokenValid, getAuthStatus, refreshCurrentToken } = useTokenValidator()
   
   const [tokenStatus, setTokenStatus] = useState<'checking' | 'valid' | 'invalid'>('checking')
   const [authInfo, setAuthInfo] = useState<any>(null)
@@ -47,6 +47,16 @@ export const ExampleTokenValidation: React.FC = () => {
   }
 
   /**
+   * Forzar actualización del token actual
+   */
+  const handleForceRefresh = async () => {
+    setTokenStatus('checking')
+    const isValid = await refreshCurrentToken()
+    setTokenStatus(isValid ? 'valid' : 'invalid')
+    setAuthInfo(getAuthStatus())
+  }
+
+  /**
    * Actualizar información de autenticación
    */
   const refreshAuthInfo = () => {
@@ -54,7 +64,7 @@ export const ExampleTokenValidation: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '20px' }}>
       <h1>Validación de Token</h1>
       
       {/* Estado del token */}
@@ -95,7 +105,14 @@ export const ExampleTokenValidation: React.FC = () => {
           >
             Validar y Renovar Token
           </button>
-          
+
+          <button 
+            onClick={handleForceRefresh}
+            style={{ padding: '8px 16px', backgroundColor: '#28a745', color: 'white' }}
+          >
+            Forzar Actualización de Token
+          </button>
+
           <button 
             onClick={refreshAuthInfo}
             style={{ padding: '8px 16px', backgroundColor: '#6c757d', color: 'white' }}
@@ -112,8 +129,7 @@ export const ExampleTokenValidation: React.FC = () => {
           <div style={{ 
             backgroundColor: '#f8f9fa', 
             padding: '15px', 
-            borderRadius: '5px',
-            fontFamily: 'monospace'
+            borderRadius: '5px'
           }}>
             <div><strong>¿Tiene Token?:</strong> {authInfo.hasToken ? '✅ Sí' : '❌ No'}</div>
             <div><strong>¿Tiene Refresh Token?:</strong> {authInfo.hasRefreshToken ? '✅ Sí' : '❌ No'}</div>
@@ -151,6 +167,14 @@ export const ExampleTokenValidation: React.FC = () => {
             <li>
               <strong>getAuthStatus():</strong> Para obtener información completa del estado 
               de autenticación sin hacer llamadas a la API.
+            </li>
+            <li>
+              <strong>refreshAuthInfo():</strong> Para actualizar la información de autenticación 
+              sin necesidad de volver a iniciar sesión.
+            </li>
+            <li>
+              <strong>refreshCurrentToken():</strong> Para forzar la renovación del token actual 
+              sin necesidad de volver a iniciar sesión.
             </li>
           </ul>
         </div>

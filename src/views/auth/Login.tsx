@@ -134,7 +134,7 @@ const Login: React.FC = () => {
                 margin='normal'
                 name='username'
                 onChange={handleChange('username')}
-                placeholder='Guillermo'
+                placeholder=''
                 required
               />
               <TextField

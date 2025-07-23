@@ -40,7 +40,6 @@ export const ExampleComponentWithAuth: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h1>Ejemplo de API con Autenticación</h1>
-      
       {error && (
         <div style={{ color: 'red', marginBottom: '20px' }}>
           Error: {error}

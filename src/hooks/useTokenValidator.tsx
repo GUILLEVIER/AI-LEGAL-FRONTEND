@@ -21,58 +21,49 @@ export const useTokenValidator = () => {
         console.warn('No token found')
         return false
       }
-
       // Verificar token actual
       const services = ApiFactory.getServices()
       const verifyResponse = await services.verifyToken(token)
-
       // Si el token es válido, retornar true
       if (verifyResponse.status === 200 && verifyResponse.data.status === 'success') {
         console.log('✅ Token is valid')
         return true
       }
-
-      // Si el token no es válido, intentar renovarlo
-      console.log('🔄 Token invalid, attempting refresh...')
-      const refreshToken = AuthManager.getRefreshToken()
-      
-      if (!refreshToken) {
-        console.warn('No refresh token available')
-        AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
-        return false
-      }
-
-      const refreshResponse = await services.refreshToken(refreshToken)
-
-      if (refreshResponse.status === 200 && 
-          refreshResponse.data.status === 'success' && 
-          refreshResponse.data.data) {
-        
-        // Determinar el tipo de storage a usar
-        const hadLocalStorage = !!localStorage.getItem('authorization')
-        
-        // Actualizar tokens
-        const authData = {
-          authorization: refreshResponse.data.data.access,
-          session: AuthManager.getSession(),
-          refreshToken: refreshResponse.data.data.refresh
+    } catch (verifyError: any) {
+      // Si el error es 401, intentar renovarlo
+      if (verifyError?.status === 401) {
+        console.log('🔄 Token expired, attempting refresh in catch...')
+        const refreshToken = AuthManager.getRefreshToken()
+        if (!refreshToken) {
+          console.warn('No refresh token available')
+          AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
+          return false
         }
-
-        AuthManager.storeAuth(authData, hadLocalStorage)
-        console.log('✅ Token refreshed successfully')
-        return true
+        const services = ApiFactory.getServices()
+        try {
+          const refreshResponse = await services.refreshToken(refreshToken)
+          if (refreshResponse.status === 200 && 
+              refreshResponse.data.status === 'success' && 
+              refreshResponse.data.data) {
+            const hadLocalStorage = !!localStorage.getItem('authorization')
+            const authData = {
+              authorization: refreshResponse.data.data.access,
+              session: AuthManager.getSession(),
+              refreshToken: refreshResponse.data.data.refresh
+            }
+            AuthManager.storeAuth(authData, hadLocalStorage)
+            console.log('✅ Token refreshed successfully (catch)')
+            return true
+          }
+        } catch (refreshError: any) {
+          console.error('Error refreshing token (catch):', refreshError)
+        }
       }
-
-      // Si llegamos aquí, tanto verify como refresh fallaron
-      console.error('❌ Both token verification and refresh failed')
-      AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
-      return false
-
-    } catch (error) {
-      console.error('Token validation error:', error)
-      AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
-      return false
+      console.error('Token verification error (catch):', verifyError)
     }
+    console.warn('❌ Token is invalid or expired, no refresh attempted')
+    AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
+    return false
   }, [])
 
   /**
@@ -95,6 +86,44 @@ export const useTokenValidator = () => {
   }, [])
 
   /**
+   * Solo refresca el token actual
+   * @return Promise<boolean> - true si el token fue renovado exitosamente
+   */
+  const refreshCurrentToken = useCallback(async (): Promise<boolean> => {
+    try {
+      const refreshToken = AuthManager.getRefreshToken()
+      if (!refreshToken) {
+        console.warn('No refresh token available')
+        return false
+      }
+
+      const services = ApiFactory.getServices()
+      const response = await services.refreshToken(refreshToken)
+
+      if (response.status === 200 && 
+          response.data.status === 'success' && 
+          response.data.data) {
+        
+        const authData = {
+          authorization: response.data.data.access,
+          session: AuthManager.getSession(),
+          refreshToken: response.data.data.refresh
+        }
+
+        AuthManager.storeAuth(authData, true)
+        return true
+      }
+
+      console.error('❌ Token refresh failed')
+      return false
+
+    } catch (error) {
+      console.error('Error refreshing token:', error)
+      return false
+    }
+  }, []);
+
+  /**
    * Obtiene información sobre el estado actual de la autenticación
    */
   const getAuthStatus = useCallback(() => {
@@ -112,6 +141,7 @@ export const useTokenValidator = () => {
   }, [])
 
   return {
+    refreshCurrentToken,
     validateAndRefreshToken,
     isTokenValid,
     getAuthStatus

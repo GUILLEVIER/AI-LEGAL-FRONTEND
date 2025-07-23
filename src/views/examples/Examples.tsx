@@ -1,6 +1,6 @@
 const Examples: React.FC = () => {
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '20px' }}>
       <h1>Ejemplos de Uso</h1>
       <div style={{ backgroundColor: '#e9ecef', padding: '15px', borderRadius: '5px' }}>
       <p>Esta sección contiene ejemplos de uso de las funcionalidades del sistema.</p>
