@@ -1,6 +1,9 @@
 import { useState, useCallback } from 'react'
 import ApiFactory from '../api/ApiFactory'
-import { ApiResponse, ApiGenericResponse } from '../model_interfaces/configInterface'
+import {
+  ApiResponse,
+  ApiGenericResponse,
+} from '../model_interfaces/configInterface'
 import { useTokenValidator } from './useTokenValidator'
 
 /**
@@ -14,78 +17,93 @@ export const useApiWithAuth = () => {
   /**
    * Ejecuta una llamada a la API con verificación automática de token
    */
-  const executeWithAuth = useCallback(async <T = any>(
-    apiCall: () => Promise<ApiResponse<ApiGenericResponse<T>>>
-  ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
-    setIsLoading(true)
-    setError(null)
-    try {
-      // Paso 1: Verificar token actual
-      const isTokenValidResult = await isTokenValid()
-      if (!isTokenValidResult) {
-        console.log('🔐 Token invalid, attempting refresh...')
-        // Paso 2: Intentar renovar token
-        const refreshSuccessful = await validateAndRefreshToken()
-        // Si la renovación falla, retronar null, debido a que no se puede continuar sin un token válido
-        // En validateAndRefreshToken se maneja el caso de limpiar la sesión si no hay token
-        if (!refreshSuccessful) {
-          return null
+  const executeWithAuth = useCallback(
+    async <T = any,>(
+      apiCall: () => Promise<ApiResponse<ApiGenericResponse<T>>>
+    ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        // Paso 1: Verificar token actual
+        const isTokenValidResult = await isTokenValid()
+        if (!isTokenValidResult) {
+          console.log('🔐 Token invalid, attempting refresh...')
+          // Paso 2: Intentar renovar token
+          const refreshSuccessful = await validateAndRefreshToken()
+          // Si la renovación falla, retronar null, debido a que no se puede continuar sin un token válido
+          // En validateAndRefreshToken se maneja el caso de limpiar la sesión si no hay token
+          if (!refreshSuccessful) {
+            return null
+          }
         }
+        // Paso 3: Ejecutar la llamada original
+        const result = await apiCall()
+        return result
+      } catch (error: any) {
+        return null
+      } finally {
+        setIsLoading(false)
       }
-      // Paso 3: Ejecutar la llamada original
-      const result = await apiCall()
-      return result
-    } catch (error: any) {
-      return null
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+    },
+    []
+  )
 
   /**
    * Métodos de conveniencia para diferentes tipos de llamadas HTTP con autenticación.
    */
-  const getWithAuth = useCallback(async <T = any>(
-    url: string, 
-    headers?: Record<string, string>
-  ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
-    return executeWithAuth(() => {
-      const services = ApiFactory.getServices()
-      return services.get<T>(url, headers)
-    })
-  }, [executeWithAuth])
+  const getWithAuth = useCallback(
+    async <T = any,>(
+      url: string,
+      headers?: Record<string, string>
+    ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
+      return executeWithAuth(() => {
+        const services = ApiFactory.getServices()
+        return services.get<T>(url, headers)
+      })
+    },
+    [executeWithAuth]
+  )
 
-  const postWithAuth = useCallback(async <T = any>(
-    url: string, 
-    data: any, 
-    headers?: Record<string, string>
-  ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
-    return executeWithAuth(() => {
-      const services = ApiFactory.getServices()
-      return services.post<T>(url, data, headers)
-    })
-  }, [executeWithAuth])
+  const postWithAuth = useCallback(
+    async <T = any,>(
+      url: string,
+      data: any,
+      headers?: Record<string, string>
+    ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
+      return executeWithAuth(() => {
+        const services = ApiFactory.getServices()
+        return services.post<T>(url, data, headers)
+      })
+    },
+    [executeWithAuth]
+  )
 
-  const putWithAuth = useCallback(async <T = any>(
-    url: string, 
-    data: any, 
-    headers?: Record<string, string>
-  ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
-    return executeWithAuth(() => {
-      const services = ApiFactory.getServices()
-      return services.put<T>(url, data, headers)
-    })
-  }, [executeWithAuth])
+  const putWithAuth = useCallback(
+    async <T = any,>(
+      url: string,
+      data: any,
+      headers?: Record<string, string>
+    ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
+      return executeWithAuth(() => {
+        const services = ApiFactory.getServices()
+        return services.put<T>(url, data, headers)
+      })
+    },
+    [executeWithAuth]
+  )
 
-  const deleteWithAuth = useCallback(async <T = any>(
-    url: string, 
-    headers?: Record<string, string>
-  ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
-    return executeWithAuth(() => {
-      const services = ApiFactory.getServices()
-      return services.delete<T>(url, headers)
-    })
-  }, [executeWithAuth])
+  const deleteWithAuth = useCallback(
+    async <T = any,>(
+      url: string,
+      headers?: Record<string, string>
+    ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
+      return executeWithAuth(() => {
+        const services = ApiFactory.getServices()
+        return services.delete<T>(url, headers)
+      })
+    },
+    [executeWithAuth]
+  )
 
   return {
     isLoading,
@@ -94,6 +112,6 @@ export const useApiWithAuth = () => {
     getWithAuth,
     postWithAuth,
     putWithAuth,
-    deleteWithAuth
+    deleteWithAuth,
   }
 }

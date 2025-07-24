@@ -5,4 +5,11 @@ import Examples from './examples/Examples'
 import TokenValidationExample from './examples/TokenValidationExample'
 import AppWithAuthExample from './examples/AppWithAuthExample'
 
-export { Login, SignIn, Dashboard, Examples, TokenValidationExample, AppWithAuthExample }
+export {
+  Login,
+  SignIn,
+  Dashboard,
+  Examples,
+  TokenValidationExample,
+  AppWithAuthExample,
+}

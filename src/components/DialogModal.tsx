@@ -5,7 +5,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material'
-import { DialogModalProps } from '../model_interfaces'
+import { DialogModalProps } from '../model_interfaces/propsInterface'
 
 const DialogModal: React.FC<DialogModalProps> = ({
   dialogModalActions,

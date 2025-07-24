@@ -1,5 +1,5 @@
 import { Container } from '@mui/material'
-import { ContainerAppProps } from '../model_interfaces'
+import { ContainerAppProps } from '../model_interfaces/propsInterface'
 
 const ContainerApp: React.FC<ContainerAppProps> = ({ children }) => {
   return (

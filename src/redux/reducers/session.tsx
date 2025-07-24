@@ -2,6 +2,7 @@ import {
   LOG_IN_ERROR,
   LOG_IN_START,
   LOG_IN_SUCCESS,
+  LOG_OUT_ERROR,
   LOG_OUT_SUCCESS,
 } from '../../consts/types'
 import { SessionState } from '../../legal'
@@ -14,7 +15,10 @@ const initialState: SessionState = {
 }
 
 // eslint-disable-next-line
-export default (state = initialState, action: { type: string; payload: any }) => {
+export default (
+  state = initialState,
+  action: { type: string; payload: any }
+) => {
   switch (action.type) {
     case LOG_IN_START:
       return {
@@ -25,20 +29,24 @@ export default (state = initialState, action: { type: string; payload: any }) =>
     case LOG_IN_ERROR:
       return {
         ...state,
-        errors: action.payload?.details?.errors,
+        errors: action.payload?.details?.errors || ['Error al iniciar sesión'],
         fetchStatus: 'ERROR',
       }
     case LOG_IN_SUCCESS:
-      console.log('Login successful:', action.payload)
       return {
         ...state,
         fetchStatus: 'FETCHED',
-        // TODO: Definir qué obtener desde la respuesta de la API como usuario.
         user: action.payload?.data?.data?.user || {},
         errors: [],
       }
+    case LOG_OUT_ERROR:
+      return {
+        ...state,
+        fetchStatus: 'ERROR',
+        errors: action.payload?.details?.errors || ['Error al cerrar sesión'],
+        user: {},
+      }
     case LOG_OUT_SUCCESS:
-      console.log('Logout successful:', action.payload)
       return {
         ...initialState,
         fetchStatus: 'FETCHED_LOGOUT',

@@ -9,8 +9,6 @@ import store from './redux/store'
 import React from 'react'
 
 const App: React.FunctionComponent = () => {
-  const date = new Date().getFullYear()
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

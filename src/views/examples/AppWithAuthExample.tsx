@@ -1,4 +1,4 @@
-import ExampleComponentWithAuth from "../../examples/ExampleComponentWithAuth"
+import ExampleComponentWithAuth from '../../examples/ExampleComponentWithAuth'
 
 const AppWithAuthExample: React.FC = () => {
   return (

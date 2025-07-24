@@ -32,13 +32,52 @@ import {
 import { logIn } from '../../redux/actions'
 import { LoginFormInterface } from '../../model_interfaces/formsInterface'
 import { SessionState } from '../../legal'
+import { AuthInfo } from '../../model_interfaces/configInterface'
+import { useTokenValidator } from '../../hooks/useTokenValidator'
 
 const Login: React.FC = () => {
+  // USE STATES AND HOOKS
   const [emailToPasswordRecover, setEmailToPasswordRecover] = useState('')
   const [open, setOpen] = useState(false)
   const [values, setValues] = useState<LoginFormInterface>(resetValues)
+  const { getAuthStatus } = useTokenValidator()
   const navigate = useNavigate()
 
+  // REDUX
+  const dispatch = useDispatch()
+  const errors: string[] = useSelector((state: SessionState) =>
+    sessionErrors(state)
+  )
+  const result: any = useSelector((state: SessionState) => sessionResult(state))
+  const status: string = useSelector((state: SessionState) =>
+    sessionStatus(state)
+  )
+
+  // USE EFFECT
+  useEffect(() => {
+    if (status === 'FETCHED') {
+      if (result.first_name && result.last_name) {
+        showToastifySuccess(
+          `Bienvenido ${result.first_name.toUpperCase()} ${result.last_name.toUpperCase()}`
+        )
+      } else {
+        showToastifySuccess(`Bienvenido ${result.username.toUpperCase()}`)
+      }
+      navigate('/dashboard')
+    }
+    if (status === 'ERROR') {
+      showToastifyError(errors[0])
+    }
+  }, [status, result, errors])
+
+  useEffect(() => {
+    const authStatus = getAuthStatus()
+    if (authStatus?.isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [])
+
+  // METHODS
   const handleChange =
     (prop: keyof LoginFormInterface) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,33 +117,10 @@ const Login: React.FC = () => {
     setEmailToPasswordRecover('')
   }
 
-  // ** Connection **
-  const dispatch = useDispatch()
-  const errors: string[] = useSelector((state: SessionState) => sessionErrors(state))
-  const result: any = useSelector((state: SessionState) => sessionResult(state))
-  const status: string = useSelector((state: SessionState) => sessionStatus(state))
-
-  useEffect(() => {
-    if (status === 'FETCHED') {
-      if (result.first_name && result.last_name) {
-        showToastifySuccess(
-          `Bienvenido ${result.first_name.toUpperCase()} ${result.last_name.toUpperCase()}`
-        )
-      } else {
-        showToastifySuccess(`Bienvenido ${result.username.toUpperCase()}`)
-      }
-      navigate('/dashboard')
-    }
-    if (status === 'ERROR') {
-      showToastifyError(errors[0])
-    }
-  }, [status, result, errors])
-
   const prepareDataAndGenerateRequest = () => {
     let data = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
+      email: values.email,
+      password: values.password,
     }
     let extra = {
       remember: values.remember,
@@ -126,17 +142,6 @@ const Login: React.FC = () => {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              <TextField
-                autoFocus
-                fullWidth
-                id='username'
-                label='Nombre de Usuario'
-                margin='normal'
-                name='username'
-                onChange={handleChange('username')}
-                placeholder=''
-                required
-              />
               <TextField
                 autoFocus
                 fullWidth

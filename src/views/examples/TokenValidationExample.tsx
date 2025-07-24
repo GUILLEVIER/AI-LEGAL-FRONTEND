@@ -1,4 +1,4 @@
-import ExampleTokenValidation from "../../examples/ExampleTokenValidation"
+import ExampleTokenValidation from '../../examples/ExampleTokenValidation'
 
 const TokenValidationExample: React.FC = () => {
   return (

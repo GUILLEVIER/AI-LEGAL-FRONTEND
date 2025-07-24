@@ -11,9 +11,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className='dashboard-layout'>
       <Header onDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} />
-      <LeftMenu
-        drawerOpen={drawerOpen}
-      />
+      <LeftMenu drawerOpen={drawerOpen} />
       <main
         className={`main-content ${
           drawerOpen ? 'drawer-open' : 'drawer-closed'

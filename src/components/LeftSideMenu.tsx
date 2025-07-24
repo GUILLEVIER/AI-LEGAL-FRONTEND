@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { LeftSideMenuProps } from '../model_interfaces'
+import { LeftSideMenuProps } from '../model_interfaces/propsInterface'
 import { leftSideMenuItems } from '../data/leftSideMenuItems'
 import LoadingLogo from '../assets/logos/LoadingLogo.svg?url'
 
-const LeftSideMenu: React.FC<LeftSideMenuProps> = ({
-  drawerOpen = true,
-}) => {
+const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = true }) => {
   const [activeItem, setActiveItem] = useState<string>('favorites')
 
   const handleItemClick = (itemId: string) => {

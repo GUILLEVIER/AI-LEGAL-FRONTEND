@@ -14,7 +14,14 @@ interface UserData {
 }
 
 export const ExampleComponentWithAuth: React.FC = () => {
-  const { isLoading, error, getWithAuth, postWithAuth, putWithAuth, deleteWithAuth } = useApiWithAuth()
+  const {
+    isLoading,
+    error,
+    getWithAuth,
+    postWithAuth,
+    putWithAuth,
+    deleteWithAuth,
+  } = useApiWithAuth()
   const [userData, setUserData] = useState<UserData | null>(null)
 
   /**
@@ -23,7 +30,7 @@ export const ExampleComponentWithAuth: React.FC = () => {
   useEffect(() => {
     const loadUserData = async (id: string) => {
       const response = await getWithAuth<UserData>(`/users/v1/${id}`)
-      
+
       if (response && response.data.data) {
         setUserData(response.data.data)
       }
@@ -31,7 +38,6 @@ export const ExampleComponentWithAuth: React.FC = () => {
 
     loadUserData('2') // ID de ejemplo, puede ser dinámico
   }, [getWithAuth])
-
 
   if (isLoading) {
     return <div>Cargando...</div>
@@ -41,9 +47,7 @@ export const ExampleComponentWithAuth: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <h1>Ejemplo de API con Autenticación</h1>
       {error && (
-        <div style={{ color: 'red', marginBottom: '20px' }}>
-          Error: {error}
-        </div>
+        <div style={{ color: 'red', marginBottom: '20px' }}>Error: {error}</div>
       )}
       {/* Sección de información del usuario */}
       <section style={{ marginBottom: '30px' }}>

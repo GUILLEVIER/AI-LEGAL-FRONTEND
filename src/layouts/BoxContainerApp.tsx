@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { BoxContainerAppProps } from '../model_interfaces'
+import { BoxContainerAppProps } from '../model_interfaces/propsInterface'
 
 const BoxContainerApp: React.FC<BoxContainerAppProps> = ({ children }) => {
   return (

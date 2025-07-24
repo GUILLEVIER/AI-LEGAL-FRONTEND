@@ -1,4 +1,4 @@
-import { MenuItem } from "../model_interfaces";
+import { MenuItem } from "../model_interfaces/dataInterface";
 
 export const leftSideMenuItems: MenuItem[] = [
   {

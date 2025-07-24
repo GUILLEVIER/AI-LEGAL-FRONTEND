@@ -42,3 +42,11 @@ export interface AuthData {
   session: any // Session de usuario autenticado
   refreshToken: string // Token de actualización
 }
+
+export interface AuthInfo {
+  hasToken: boolean
+  hasRefreshToken: boolean
+  hasSession: boolean
+  isAuthenticated: boolean
+  currentUser: any // Información del usuario actual, si está disponible
+}

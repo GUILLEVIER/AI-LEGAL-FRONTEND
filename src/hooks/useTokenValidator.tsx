@@ -1,15 +1,15 @@
 import { useCallback } from 'react'
 import ApiFactory from '../api/ApiFactory'
 import { AuthManager, ClearReason } from '../utils/AuthManager'
+import { ErrorHandler } from '../utils/ErrorHandler'
 
 /**
  * Hook simple para validación y renovación de tokens
- * 
+ *
  * Útil cuando solo necesitas verificar la validez del token
  * sin hacer una llamada específica a la API
  */
 export const useTokenValidator = () => {
-
   /**
    * Valida el token actual y lo renueva si es necesario
    * @returns Promise<boolean> - true si el token es válido o se renovó exitosamente
@@ -25,7 +25,10 @@ export const useTokenValidator = () => {
       const services = ApiFactory.getServices()
       const verifyResponse = await services.verifyToken(token)
       // Si el token es válido, retornar true
-      if (verifyResponse.status === 200 && verifyResponse.data.status === 'success') {
+      if (
+        verifyResponse.status === 200 &&
+        verifyResponse.data.status === 'success'
+      ) {
         console.log('✅ Token is valid')
         return true
       }
@@ -42,24 +45,26 @@ export const useTokenValidator = () => {
         const services = ApiFactory.getServices()
         try {
           const refreshResponse = await services.refreshToken(refreshToken)
-          if (refreshResponse.status === 200 && 
-              refreshResponse.data.status === 'success' && 
-              refreshResponse.data.data) {
+          if (
+            refreshResponse.status === 200 &&
+            refreshResponse.data.status === 'success' &&
+            refreshResponse.data.data
+          ) {
             const hadLocalStorage = !!localStorage.getItem('authorization')
             const authData = {
               authorization: refreshResponse.data.data.access,
               session: AuthManager.getSession(),
-              refreshToken: refreshResponse.data.data.refresh
+              refreshToken: refreshResponse.data.data.refresh,
             }
             AuthManager.storeAuth(authData, hadLocalStorage)
             console.log('✅ Token refreshed successfully (catch)')
             return true
           }
         } catch (refreshError: any) {
-          console.error('Error refreshing token (catch):', refreshError)
+          ErrorHandler.logError(refreshError)
         }
       }
-      console.error('Token verification error (catch):', verifyError)
+      ErrorHandler.logError(verifyError)
     }
     console.warn('❌ Token is invalid or expired, no refresh attempted')
     AuthManager.clearAuth(ClearReason.SECURITY_VIOLATION)
@@ -100,28 +105,28 @@ export const useTokenValidator = () => {
       const services = ApiFactory.getServices()
       const response = await services.refreshToken(refreshToken)
 
-      if (response.status === 200 && 
-          response.data.status === 'success' && 
-          response.data.data) {
-        
+      if (
+        response.status === 200 &&
+        response.data.status === 'success' &&
+        response.data.data
+      ) {
         const authData = {
           authorization: response.data.data.access,
           session: AuthManager.getSession(),
-          refreshToken: response.data.data.refresh
+          refreshToken: response.data.data.refresh,
         }
 
         AuthManager.storeAuth(authData, true)
         return true
       }
 
-      console.error('❌ Token refresh failed')
+      console.warn('❌ Token refresh failed')
       return false
-
     } catch (error) {
-      console.error('Error refreshing token:', error)
+      ErrorHandler.logError(error)
       return false
     }
-  }, []);
+  }, [])
 
   /**
    * Obtiene información sobre el estado actual de la autenticación
@@ -136,7 +141,7 @@ export const useTokenValidator = () => {
       hasRefreshToken: !!refreshToken,
       hasSession: !!session,
       isAuthenticated: AuthManager.isAuthenticated(),
-      currentUser: AuthManager.getCurrentUser()
+      currentUser: AuthManager.getCurrentUser(),
     }
   }, [])
 
@@ -144,6 +149,6 @@ export const useTokenValidator = () => {
     refreshCurrentToken,
     validateAndRefreshToken,
     isTokenValid,
-    getAuthStatus
+    getAuthStatus,
   }
 }

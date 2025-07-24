@@ -9,7 +9,11 @@ import {
 } from '../../consts/types'
 // Importar ApiFactory y obtener la instancia de servicios
 import ApiFactory from '../../api/ApiFactory'
-import { ApiGenericResponse, ApiResponse, AppError } from '../../model_interfaces/configInterface'
+import {
+  ApiGenericResponse,
+  ApiResponse,
+  AppError,
+} from '../../model_interfaces/configInterface'
 import {
   LoginResponse,
   LogoutResponse,
@@ -24,10 +28,8 @@ const services = ApiFactory.getServices()
 export function* logIn({ payload }: any) {
   const { data, extra } = payload
   try {
-    const loginResponse: ApiResponse<ApiGenericResponse<LoginResponse>> = yield call(
-      [services, services.login],
-      data
-    )
+    const loginResponse: ApiResponse<ApiGenericResponse<LoginResponse>> =
+      yield call([services, services.login], data)
     yield put({ type: LOG_IN_SUCCESS, payload: loginResponse })
     if (loginResponse && loginResponse.data) {
       AuthManager.storeAuth(
@@ -51,10 +53,10 @@ export function* logOut() {
       services.logout,
     ])
     yield put({ type: LOG_OUT_SUCCESS, payload: logOutResponse })
-    AuthManager.clearAuth(ClearReason.USER_LOGOUT)
   } catch (error) {
     yield put({ type: LOG_OUT_ERROR, payload: error })
   }
+  AuthManager.clearAuth(ClearReason.USER_LOGOUT)
 }
 
 export default function* session() {

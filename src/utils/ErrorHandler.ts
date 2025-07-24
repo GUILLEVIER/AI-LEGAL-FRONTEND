@@ -46,7 +46,7 @@ export class ErrorHandler {
   }
 
   static mapAxiosErrorToAppError = (error: AxiosError): AppError => {
-    console.log("ERROR AXIOS: ", error)
+    console.error('Error captured by ErrorHandler (AxiosError):', error);
     const status = error.response?.status || 500;
     const message = error.message || 'Error desconocido';
     const details: ApiGenericResponse = error.response?.data as ApiGenericResponse || {
