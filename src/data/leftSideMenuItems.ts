@@ -20,7 +20,7 @@ export const leftSideMenuItems: MenuItem[] = [
         type: 'item',
       },
       {
-        id: 'generation-with-AI',
+        id: 'generation-with-ia',
         label: 'Generación con IA',
         icon: '📝',
         type: 'item',

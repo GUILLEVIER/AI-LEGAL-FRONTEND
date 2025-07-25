@@ -39,11 +39,11 @@ const UserProfileMenu: React.FC = () => {
   useEffect(() => {
     if (status === 'FETCHED_LOGOUT') {
       showToastifySuccess('Cierre de sesión exitoso.')
-      navigate('/log_in')
+      navigate('/log-in')
     }
     if (status === 'ERROR') {
       showToastifyError(errors[0])
-      navigate('/log_in')
+      navigate('/log-in')
     }
   }, [status])
 
@@ -58,10 +58,8 @@ const UserProfileMenu: React.FC = () => {
     // Por ejemplo, redirigir a una página específica o realizar una acción
     if (item.id === 'logout') {
       dispatch(logOut())
-    } else if (item.id === 'edit-profile') {
-    } else if (item.id === 'view-profile') {
-    } else if (item.id === 'examples') {
-      navigate('/examples')
+    } else if (item.id === 'profile') {
+      navigate('/control-panel/profile')
     }
   }
 

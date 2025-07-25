@@ -49,7 +49,7 @@ src/
     selectors/
     middlewares/
   utils/               # Helpers y utilidades
-  views/               # Vistas principales (Dashboard, Login, etc)
+  views/               # Vistas principales (ControlPanel, Login, etc)
   routes/              # Definición de rutas y navegación
   tests/               # Tests unitarios y de integración (Vitest)
   App.tsx
@@ -100,10 +100,10 @@ flowchart TD
 - **data**: Datos mock, archivos JSON o fixtures para pruebas y desarrollo.
 - **hooks**: Custom hooks de React para lógica reutilizable.
 - **model_interfaces**: Interfaces y tipos TypeScript para props, formularios y modelos de datos.
-- **layouts**: Componentes de layout reutilizables para estructurar páginas (por ejemplo, layouts de dashboard, auth, etc).
+- **layouts**: Componentes de layout reutilizables para estructurar páginas (por ejemplo, layouts de controlPanel, auth, etc).
 - **redux**: Slices, store, thunks y llamadas a APIs si usas Redux Toolkit.
 - **utils**: Funciones auxiliares y helpers (formateo, validaciones, estilos particulares como función, etc).
-- **views**: Vistas principales de la aplicación (Dashboard, Login, Register, Home, etc).
+- **views**: Vistas principales de la aplicación (ControlPanel, Login, Register, Home, etc).
 - **routes**: Definición de rutas y navegación.
 - **tests**: Pruebas unitarias y de integración.
 
@@ -405,7 +405,7 @@ const ProtectedRoute = ({ children }) => {
     isTokenValid().then(setCanAccess)
   }, [])
 
-  return canAccess ? children : <Navigate to='/login' />
+  return canAccess ? children : <Navigate to='/log-in' />
 }
 ```
 

@@ -2,12 +2,21 @@ import React, { useState } from 'react'
 import { LeftSideMenuProps } from '../model_interfaces/propsInterface'
 import { leftSideMenuItems } from '../data/leftSideMenuItems'
 import LoadingLogo from '../assets/logos/LoadingLogo.svg?url'
+import { useNavigate } from 'react-router'
 
 const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = true }) => {
+  // USE STATES AND HOOKS
   const [activeItem, setActiveItem] = useState<string>('favorites')
+  const navigate = useNavigate()
 
-  const handleItemClick = (itemId: string) => {
-    setActiveItem(itemId)
+  // METHODS
+  const handleItemClick = (item: any) => {
+    setActiveItem(item.id)
+    // Aquí puedes manejar la lógica de cada elemento del menú
+    // Por ejemplo, redirigir a una página específica o realizar una acción
+    if (item.id) {
+      navigate(`/control-panel/${item.id}`)
+    }
   }
 
   const renderMenuItems = () => {
@@ -23,7 +32,7 @@ const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = true }) => {
                 className={`menu-button ${
                   activeItem === item.id ? 'active' : ''
                 }`}
-                onClick={() => handleItemClick(item.id)}
+                onClick={() => handleItemClick(item)}
                 title={!drawerOpen ? item.label : undefined}
               >
                 <span className='menu-icon'>{item.icon}</span>

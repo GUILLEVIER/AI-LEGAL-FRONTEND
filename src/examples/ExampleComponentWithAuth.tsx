@@ -30,12 +30,10 @@ export const ExampleComponentWithAuth: React.FC = () => {
   useEffect(() => {
     const loadUserData = async (id: string) => {
       const response = await getWithAuth<UserData>(`/users/v1/${id}`)
-
       if (response && response.data.data) {
         setUserData(response.data.data)
       }
     }
-
     loadUserData('2') // ID de ejemplo, puede ser dinámico
   }, [getWithAuth])
 
@@ -47,14 +45,16 @@ export const ExampleComponentWithAuth: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <h1>Ejemplo de API con Autenticación</h1>
       {error && (
-        <div style={{ color: 'red', marginBottom: '20px' }}>Error: {error}</div>
+        <div style={{ color: 'red', marginBottom: '20px' }}>
+          Error: {error.details?.errors}
+        </div>
       )}
       {/* Sección de información del usuario */}
       <section style={{ marginBottom: '30px' }}>
         <h2>Información del Usuario</h2>
         {userData ? (
           <div>
-            <p>Nombre: {userData.name}</p>
+            <p>Nombre: {userData.first_name}</p>
             <p>Email: {userData.email}</p>
             <p>Apellido: {userData.last_name}</p>
           </div>

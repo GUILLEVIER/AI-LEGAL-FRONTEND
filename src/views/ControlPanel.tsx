@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { LeftMenu, Header } from '../components'
+import { Outlet } from 'react-router'
 
-const Dashboard: React.FC = () => {
+const ControlPanel: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(true)
 
   const handleDrawerToggle = () => {
@@ -9,7 +10,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className='dashboard-layout'>
+    <div className='control-panel-layout'>
       <Header onDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} />
       <LeftMenu drawerOpen={drawerOpen} />
       <main
@@ -17,10 +18,10 @@ const Dashboard: React.FC = () => {
           drawerOpen ? 'drawer-open' : 'drawer-closed'
         }`}
       >
-        DASHBOARD
+        <Outlet />
       </main>
     </div>
   )
 }
 
-export default Dashboard
+export default ControlPanel

@@ -3,6 +3,7 @@ import ApiFactory from '../api/ApiFactory'
 import {
   ApiResponse,
   ApiGenericResponse,
+  AppError,
 } from '../model_interfaces/configInterface'
 import { useTokenValidator } from './useTokenValidator'
 
@@ -11,7 +12,7 @@ import { useTokenValidator } from './useTokenValidator'
  */
 export const useApiWithAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<AppError | null>(null)
   const { isTokenValid, validateAndRefreshToken } = useTokenValidator()
 
   /**
@@ -38,8 +39,11 @@ export const useApiWithAuth = () => {
         }
         // Paso 3: Ejecutar la llamada original
         const result = await apiCall()
+        console.log('API call successful:', result)
         return result
       } catch (error: any) {
+        console.log('Error executing API call:', error)
+        setError(error)
         return null
       } finally {
         setIsLoading(false)

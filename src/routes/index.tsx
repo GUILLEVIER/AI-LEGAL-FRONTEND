@@ -1,21 +1,17 @@
-import { Login, SignIn, Dashboard, Examples, TokenValidationExample, AppWithAuthExample } from '../views'
+import { Login, SignIn, ControlPanel, Examples, TokenValidationExample, AppWithAuthExample } from '../views'
 
 const routes = [
-  {
-    path: '/log_in',
-    element: <Login />,
-  },
-  {
-    path: '/sign_in',
-    element: <SignIn />,
-  },
   {
     path: '/',
     element: <Login />,
   },
   {
-    path: '/dashboard',
-    element: <Dashboard />,
+    path: '/log-in',
+    element: <Login />,
+  },
+  {
+    path: '/sign-in',
+    element: <SignIn />,
   },
   {
     path: '/examples',

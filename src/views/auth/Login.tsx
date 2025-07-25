@@ -58,12 +58,12 @@ const Login: React.FC = () => {
     if (status === 'FETCHED') {
       if (result.first_name && result.last_name) {
         showToastifySuccess(
-          `Bienvenido ${result.first_name.toUpperCase()} ${result.last_name.toUpperCase()}`
+          `Bienvenido ${result.first_name.toUpperCase()} ${result.last_name.toUpperCase()}.`
         )
       } else {
-        showToastifySuccess(`Bienvenido ${result.username.toUpperCase()}`)
+        showToastifySuccess(`Bienvenido ${result.username.toUpperCase()}.`)
       }
-      navigate('/dashboard')
+      navigate('/control-panel')
     }
     if (status === 'ERROR') {
       showToastifyError(errors[0])
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     const authStatus = getAuthStatus()
     if (authStatus?.isAuthenticated) {
-      navigate('/dashboard')
+      navigate('/control-panel')
     }
   }, [])
 
