@@ -6,7 +6,7 @@ import {
   LOG_OUT_SUCCESS,
 } from '../../consts/types'
 import { SessionState } from '../../legal'
-import { AuthManager } from '../../utils/AuthManager'
+import { AuthManager, ClearReason } from '../../utils/AuthManager'
 
 const initialState: SessionState = {
   errors: [],
@@ -40,6 +40,7 @@ export default (
         errors: [],
       }
     case LOG_OUT_ERROR:
+      AuthManager.clearAuth(ClearReason.USER_LOGOUT)
       return {
         ...state,
         fetchStatus: 'ERROR',
@@ -47,6 +48,7 @@ export default (
         user: {},
       }
     case LOG_OUT_SUCCESS:
+      AuthManager.clearAuth(ClearReason.USER_LOGOUT)
       return {
         ...initialState,
         fetchStatus: 'FETCHED_LOGOUT',

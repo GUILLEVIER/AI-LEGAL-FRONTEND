@@ -56,7 +56,6 @@ export function* logOut() {
   } catch (error) {
     yield put({ type: LOG_OUT_ERROR, payload: error })
   }
-  AuthManager.clearAuth(ClearReason.USER_LOGOUT)
 }
 
 export default function* session() {
