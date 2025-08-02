@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useApiWithAuth } from '../hooks/useApiWithAuth'
+import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
 
 /**
  * Ejemplo de componente que usa el hook useApiWithAuth

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useTokenValidator } from '../hooks/useTokenValidator'
+import { useTokenValidator } from '../hooks/utils/useTokenValidator'
 import { AuthInfo } from '../model_interfaces/configInterface'
 
 /**

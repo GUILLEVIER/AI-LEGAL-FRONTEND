@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react'
-import ApiFactory from '../api/ApiFactory'
+import ApiFactory from '../../api/ApiFactory'
 import {
   ApiResponse,
   ApiGenericResponse,
   AppError,
-} from '../model_interfaces/configInterface'
+} from '../../model_interfaces/configInterface'
 import { useTokenValidator } from './useTokenValidator'
 
 /**
@@ -19,7 +19,7 @@ export const useApiWithAuth = () => {
    * Ejecuta una llamada a la API con verificación automática de token
    */
   const executeWithAuth = useCallback(
-    async <T = any,>(
+    async <T = any>(
       apiCall: () => Promise<ApiResponse<ApiGenericResponse<T>>>
     ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
       setIsLoading(true)
@@ -56,7 +56,7 @@ export const useApiWithAuth = () => {
    * Métodos de conveniencia para diferentes tipos de llamadas HTTP con autenticación.
    */
   const getWithAuth = useCallback(
-    async <T = any,>(
+    async <T = any>(
       url: string,
       headers?: Record<string, string>
     ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
@@ -69,7 +69,7 @@ export const useApiWithAuth = () => {
   )
 
   const postWithAuth = useCallback(
-    async <T = any,>(
+    async <T = any>(
       url: string,
       data: any,
       headers?: Record<string, string>
@@ -83,7 +83,7 @@ export const useApiWithAuth = () => {
   )
 
   const putWithAuth = useCallback(
-    async <T = any,>(
+    async <T = any>(
       url: string,
       data: any,
       headers?: Record<string, string>
@@ -97,7 +97,7 @@ export const useApiWithAuth = () => {
   )
 
   const deleteWithAuth = useCallback(
-    async <T = any,>(
+    async <T = any>(
       url: string,
       headers?: Record<string, string>
     ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {

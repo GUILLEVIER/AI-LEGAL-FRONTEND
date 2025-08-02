@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import { LeftMenu, Header } from '../components'
 import { Outlet } from 'react-router'
+import { useControlPanel } from '../hooks/views/useControlPanel'
 
 const ControlPanel: React.FC = () => {
-  const [drawerOpen, setDrawerOpen] = useState(true)
-
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen)
-  }
+  const { drawerOpen, handleDrawerToggle } = useControlPanel()
 
   return (
     <div className='control-panel-layout'>

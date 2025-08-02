@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
-import ApiFactory from '../api/ApiFactory'
-import { AuthManager, ClearReason } from '../utils/AuthManager'
-import { ErrorHandler } from '../utils/ErrorHandler'
+import ApiFactory from '../../api/ApiFactory'
+import { AuthManager, ClearReason } from '../../utils/AuthManager'
+import { ErrorHandler } from '../../utils/ErrorHandler'
+import { AppError } from '../../model_interfaces/configInterface'
 
 /**
  * Hook simple para validación y renovación de tokens
@@ -123,7 +124,7 @@ export const useTokenValidator = () => {
       console.warn('❌ Token refresh failed')
       return false
     } catch (error) {
-      ErrorHandler.logError(error)
+      ErrorHandler.logError(error as AppError)
       return false
     }
   }, [])
