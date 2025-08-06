@@ -10,7 +10,7 @@ import {
   sessionStatus,
 } from '../../../redux/selectors'
 import { logIn } from '../../../redux/actions'
-import { LoginFormInterface } from '../../../model_interfaces/formsInterface'
+import { LoginFormInterface } from '../../../interfaces/formsInterface'
 import { SessionState } from '../../../legal'
 import { useTokenValidator } from '../../../hooks/utils/useTokenValidator'
 import { useDispatch, useSelector } from 'react-redux'

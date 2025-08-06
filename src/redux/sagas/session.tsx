@@ -13,11 +13,11 @@ import {
   ApiGenericResponse,
   ApiResponse,
   AppError,
-} from '../../model_interfaces/configInterface'
+} from '../../interfaces/configInterface'
 import {
   LoginResponse,
   LogoutResponse,
-} from '../../model_interfaces/apiResponsesInterface'
+} from '../../interfaces/apiResponsesInterface'
 import { AuthManager, ClearReason } from '../../utils/AuthManager'
 
 // Usar factory para crear el cliente HTTP y obtener servicios

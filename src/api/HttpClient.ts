@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
-import { ApiGenericResponse, ApiResponse } from '../model_interfaces/configInterface'
+import { ApiGenericResponse, ApiResponse } from '../interfaces/configInterface'
 import { AuthManager } from '../utils/AuthManager'
 import { ErrorHandler } from '../utils/ErrorHandler'
 
@@ -17,7 +17,7 @@ export class HttpClient {
   constructor() {
     this.api = axios.create({
       baseURL: import.meta.env.VITE_API_URL,
-      timeout: 10000
+      timeout: 10000,
     })
     this.setupInterceptors()
   }
@@ -36,7 +36,9 @@ export class HttpClient {
       (error: AxiosError) => {
         // Utilizar la clase ErrorHandler para manejar errores
         // Aquí se puede integrar ErrorHandler para mapear errores de Axios a AppError
-        return Promise.reject(ErrorHandler.mapAxiosErrorToAppError(error as AxiosError))
+        return Promise.reject(
+          ErrorHandler.mapAxiosErrorToAppError(error as AxiosError)
+        )
       }
     )
 
@@ -48,58 +50,82 @@ export class HttpClient {
         // Utilizar Códigos de error específicos.
         // Utilizar la clase ErrorHandler para manejar errores
         // Aquí se puede integrar ErrorHandler para mapear errores de Axios a AppError
-        return Promise.reject(ErrorHandler.mapAxiosErrorToAppError(error as AxiosError))
+        return Promise.reject(
+          ErrorHandler.mapAxiosErrorToAppError(error as AxiosError)
+        )
       }
     )
   }
 
-  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async get<T = any>(
+    url: string,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
       // Esto corresponde al AXIOS RESPONSE
-      const response = await this.api.get<ApiGenericResponse<T>>(url, { headers })
+      const response = await this.api.get<ApiGenericResponse<T>>(url, {
+        headers,
+      })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async post<T = any>(
+    url: string,
+    data: any,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.post<ApiGenericResponse<T>>(url, data, { headers })
+      const response = await this.api.post<ApiGenericResponse<T>>(url, data, {
+        headers,
+      })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async put<T = any>(
+    url: string,
+    data: any,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.put<ApiGenericResponse<T>>(url, data, { headers })
+      const response = await this.api.put<ApiGenericResponse<T>>(url, data, {
+        headers,
+      })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
       }
     } catch (error) {
       throw error as AxiosError
     }
   }
 
-  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async delete<T = any>(
+    url: string,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
-      const response = await this.api.delete<ApiGenericResponse<T>>(url, { headers })
+      const response = await this.api.delete<ApiGenericResponse<T>>(url, {
+        headers,
+      })
       return {
         data: response.data,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
       }
     } catch (error) {
       throw error as AxiosError

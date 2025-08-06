@@ -1,4 +1,4 @@
-import { LoginFormInterface } from '../model_interfaces/formsInterface'
+import { LoginFormInterface } from '../interfaces/formsInterface'
 
 export const resetValues: LoginFormInterface = {
   email: '',

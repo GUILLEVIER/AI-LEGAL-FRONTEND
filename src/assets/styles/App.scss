@@ -84,7 +84,7 @@ span {
 .loading-modal {
   display: flex;
   position: fixed;
-  z-index: 2;
+  //z-index: 2;
   left: 0;
   top: 0;
   width: 100%;
@@ -485,12 +485,10 @@ span {
   .main-content {
     flex-grow: 1;
     width: calc(100% - 260px);
-    margin-left: 260px;
     margin-top: 88px;
     padding: 24px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     &.drawer-closed {
-      width: calc(100% - 3.75rem);
       margin-left: 3.75rem;
     }
   }

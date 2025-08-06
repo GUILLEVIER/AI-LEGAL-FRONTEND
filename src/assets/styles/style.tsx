@@ -3,6 +3,8 @@ import AppBar, { AppBarProps } from '@mui/material/AppBar'
 import Menu, { MenuProps } from '@mui/material/Menu'
 import { Container, Card } from '@mui/material'
 import { paletteColors } from '../../utils/paletteColors'
+import TableCell from '@mui/material/TableCell'
+import { tableCellClasses } from '@mui/material/TableCell'
 
 // Shared style objects - Use theme for better maintainability
 const centeredStyleObj = {
@@ -53,7 +55,6 @@ const BaseMenuStyles = {
     height: '100vh',
     maxHeight: '100vh',
     borderRadius: '0 !important',
-    opacity: '0.96 !important',
     width: '250px !important',
     '& .MuiList-root': {
       padding: '0 !important',
@@ -101,4 +102,19 @@ const MenuItemsProfile = styled(Menu)<MenuProps>({
   },
 })
 
-export { MenuItems, MenuItemsProfile, NavBarApp, StyledContainer, StyledCard }
+const TableHeadCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: paletteColors.colorPrimary,
+    color: paletteColors.colorWhite,
+    fontWeight: 'bold',
+  },
+}))
+
+export {
+  MenuItems,
+  MenuItemsProfile,
+  NavBarApp,
+  StyledContainer,
+  StyledCard,
+  TableHeadCell,
+}

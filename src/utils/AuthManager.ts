@@ -1,17 +1,17 @@
 /**
  * AuthManager - Manejo centralizado de Autenticación
- * 
+ *
  * Este módulo se encarga de:
  * - Almacenamiento y recuperación de tokens
  * - Limpieza de sesión
  * - Verificación de estado de autenticación
  */
 
-import { AuthData } from "../model_interfaces/configInterface"
+import { AuthData } from '../interfaces/configInterface'
 
 export enum ClearReason {
   USER_LOGOUT = 'USER_LOGOUT',
-  SECURITY_VIOLATION = 'SECURITY_VIOLATION'
+  SECURITY_VIOLATION = 'SECURITY_VIOLATION',
 }
 
 /**
@@ -22,22 +22,25 @@ export class AuthManager {
   private static readonly KEYS = {
     AUTHORIZATION: 'authorization',
     SESSION: 'session',
-    REFRESH_TOKEN: 'refreshToken'
+    REFRESH_TOKEN: 'refreshToken',
   } as const
 
   /**
    * Obtener token almacenado (Prioritiza localStorage sobre sessionStorage)
    */
   static getToken(): string | null {
-    return localStorage.getItem(this.KEYS.AUTHORIZATION) ||
+    return (
+      localStorage.getItem(this.KEYS.AUTHORIZATION) ||
       sessionStorage.getItem(this.KEYS.AUTHORIZATION)
+    )
   }
 
   /**
    * Obtener datos de sesión almacenados
    */
   static getSession(): any | null {
-    const sessionData = localStorage.getItem(this.KEYS.SESSION) ||
+    const sessionData =
+      localStorage.getItem(this.KEYS.SESSION) ||
       sessionStorage.getItem(this.KEYS.SESSION)
 
     if (sessionData) {
@@ -56,8 +59,10 @@ export class AuthManager {
    * Obtener token de actualización
    */
   static getRefreshToken(): string | null {
-    return localStorage.getItem(this.KEYS.REFRESH_TOKEN) ||
+    return (
+      localStorage.getItem(this.KEYS.REFRESH_TOKEN) ||
       sessionStorage.getItem(this.KEYS.REFRESH_TOKEN)
+    )
   }
 
   /**

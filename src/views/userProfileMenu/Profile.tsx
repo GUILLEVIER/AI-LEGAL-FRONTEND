@@ -25,8 +25,10 @@ const Profile: React.FC = () => {
   } = useProfile()
 
   return (
-    <div>
-      <h1>Perfil</h1>
+    <>
+      <Typography component='h1' variant='h5'>
+        Perfil de Usuario
+      </Typography>
       <ContainerApp>
         <BoxContainerApp>
           <Typography
@@ -45,7 +47,7 @@ const Profile: React.FC = () => {
             name='name'
             onChange={() => {}}
             required
-            value={user.first_name.toString().toUpperCase()}
+            value={user?.first_name?.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
@@ -56,7 +58,7 @@ const Profile: React.FC = () => {
             name='lastName'
             onChange={() => {}}
             required
-            value={user.last_name.toString().toUpperCase()}
+            value={user?.last_name?.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
@@ -68,7 +70,7 @@ const Profile: React.FC = () => {
             onChange={() => {}}
             placeholder='correo@ejemplo.com'
             required
-            value={user.email}
+            value={user?.email}
           />
           <Typography
             gutterBottom
@@ -155,7 +157,7 @@ const Profile: React.FC = () => {
           open={open}
         />
       </ContainerApp>
-    </div>
+    </>
   )
 }
 

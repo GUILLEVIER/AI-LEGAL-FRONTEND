@@ -1,4 +1,4 @@
-import { MenuItem } from "../model_interfaces/dataInterface";
+import { MenuItem } from '../interfaces/dataInterface'
 
 export const leftSideMenuItems: MenuItem[] = [
   {
@@ -61,6 +61,12 @@ export const leftSideMenuItems: MenuItem[] = [
         id: 'my-activities',
         label: 'Mis Actividades',
         icon: '🌑',
+        type: 'item',
+      },
+      {
+        id: 'manage-users',
+        label: 'Gestión de Usuarios',
+        icon: '👥',
         type: 'item',
       },
     ],

@@ -10,6 +10,7 @@ import Templates from './leftSideMenu/Templates'
 import GenerationWithIa from './leftSideMenu/GenerationWithIa'
 import CaseAnalysis from './leftSideMenu/CaseAnalysis'
 import LawsAndRulings from './leftSideMenu/LawsAndRulings'
+import ManageUsers from './leftSideMenu/ManageUsers'
 
 export {
   Login,
@@ -23,5 +24,6 @@ export {
   Templates,
   GenerationWithIa,
   CaseAnalysis,
-  LawsAndRulings
+  LawsAndRulings,
+  ManageUsers,
 }

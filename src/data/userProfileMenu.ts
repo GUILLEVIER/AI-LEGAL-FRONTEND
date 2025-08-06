@@ -1,4 +1,4 @@
-import { UserProfile } from "../model_interfaces/dataInterface";
+import { UserProfile } from '../interfaces/dataInterface'
 
 export const userProfileMenu: UserProfile = {
   name: 'Pablo Lopez',

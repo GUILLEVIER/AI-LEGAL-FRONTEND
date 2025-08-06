@@ -79,26 +79,35 @@ export const theme = createTheme({
           ),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'primary' && {
-            '&:hover': {
-              backgroundColor: paletteColors.colorPrimary,
-              boxShadow: theme.shadows[4],
-            },
-          }),
+              '&:hover': {
+                backgroundColor: paletteColors.colorPrimary,
+                boxShadow: theme.shadows[4],
+              },
+            }),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'secondary' && {
-            '&:hover': {
-              backgroundColor: paletteColors.colorSecondary,
-              boxShadow: theme.shadows[4],
-            },
-          }),
+              '&:hover': {
+                backgroundColor: paletteColors.colorSecondary,
+                boxShadow: theme.shadows[4],
+              },
+            }),
           ...(ownerState.variant === 'contained' &&
             ownerState.color === 'error' && {
-            backgroundColor: paletteColors.colorError,
-            '&:hover': {
               backgroundColor: paletteColors.colorError,
-              boxShadow: theme.shadows[4],
-            },
-          }),
+              '&:hover': {
+                backgroundColor: paletteColors.colorError,
+                boxShadow: theme.shadows[4],
+              },
+            }),
+          ...(ownerState.variant === 'contained' &&
+            ownerState.color === 'warning' && {
+              backgroundColor: paletteColors.colorWarning,
+              color: paletteColors.colorWhite,
+              '&:hover': {
+                backgroundColor: paletteColors.colorWarning,
+                boxShadow: theme.shadows[4],
+              },
+            }),
           ...(ownerState.variant === 'text' && {
             '&:hover': { background: 'transparent' },
           }),

@@ -5,6 +5,7 @@ export interface BoxContainerAppProps {
 
 // Container App
 export interface ContainerAppProps {
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   children: any
 }
 
@@ -32,4 +33,11 @@ export interface LeftSideMenuProps {
 export interface HeaderProps {
   onDrawerToggle?: () => void
   drawerOpen?: boolean
+}
+
+// Dialog Modal Confirm Delete props
+export interface DialogModalConfirmDeleteProps {
+  handleClose: any
+  handleConfirm: any
+  open: any
 }

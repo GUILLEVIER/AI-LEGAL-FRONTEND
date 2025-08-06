@@ -4,7 +4,7 @@ import {
   ApiResponse,
   ApiGenericResponse,
   AppError,
-} from '../../model_interfaces/configInterface'
+} from '../../interfaces/configInterface'
 import { useTokenValidator } from './useTokenValidator'
 
 /**

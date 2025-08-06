@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTokenValidator } from '../hooks/utils/useTokenValidator'
-import { AuthInfo } from '../model_interfaces/configInterface'
+import { AuthInfo } from '../interfaces/configInterface'
 
 /**
  * Ejemplo de componente que usa el hook useTokenValidator

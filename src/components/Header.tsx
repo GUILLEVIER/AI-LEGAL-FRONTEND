@@ -1,10 +1,10 @@
 import React from 'react'
-import { HeaderProps } from '../model_interfaces/propsInterface'
+import { HeaderProps } from '../interfaces/propsInterface'
 import UserProfileMenu from './UserProfileMenu'
 
 const Header: React.FC<HeaderProps> = ({
   onDrawerToggle,
-  drawerOpen = true,
+  drawerOpen = false,
 }) => {
   return (
     <header

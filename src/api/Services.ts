@@ -1,17 +1,27 @@
 import { HttpClient } from './HttpClient'
-import { ApiGenericResponse, ApiResponse, AuthService } from '../model_interfaces/configInterface'
-import { LoginRequest } from '../model_interfaces/apiRequestsInteface'
-import { LoginResponse, LogoutResponse, RefreshResponse } from '../model_interfaces/apiResponsesInterface'
+import {
+  ApiGenericResponse,
+  ApiResponse,
+  AuthService,
+} from '../interfaces/configInterface'
+import { LoginRequest } from '../interfaces/apiRequestsInteface'
+import {
+  LoginResponse,
+  LogoutResponse,
+  RefreshResponse,
+} from '../interfaces/apiResponsesInterface'
 
 export class Services implements AuthService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   /**
    * Inicia sesión con las credenciales proporcionadas.
    * @param credentials - Credenciales del usuario.
    * @returns Promesa con la respuesta de la API.
    */
-  async login(credentials: LoginRequest): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>> {
+  async login(
+    credentials: LoginRequest
+  ): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>> {
     return this.httpClient.post<LoginResponse>('login/', credentials)
   }
 
@@ -28,8 +38,12 @@ export class Services implements AuthService {
    * @param refreshToken - El token de refresco.
    * @returns Promesa con la respuesta de la API.
    */
-  async refreshToken(refreshToken: string): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>> {
-    return this.httpClient.post<RefreshResponse>('token/refresh/', { refresh: refreshToken })
+  async refreshToken(
+    refreshToken: string
+  ): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>> {
+    return this.httpClient.post<RefreshResponse>('token/refresh/', {
+      refresh: refreshToken,
+    })
   }
 
   /**
@@ -37,7 +51,9 @@ export class Services implements AuthService {
    * @param accessToken - El token de acceso a verificar.
    * @return Promesa con la respuesta de la API.
    */
-  async verifyToken(accessToken: string): Promise<ApiResponse<ApiGenericResponse<any>>> {
+  async verifyToken(
+    accessToken: string
+  ): Promise<ApiResponse<ApiGenericResponse<any>>> {
     return this.httpClient.post<any>('token/verify/', { token: accessToken })
   }
 
@@ -47,7 +63,10 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async get<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async get<T = any>(
+    url: string,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.get<T>(url, headers)
   }
 
@@ -58,7 +77,11 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async post<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async post<T = any>(
+    url: string,
+    data: any,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.post<T>(url, data, headers)
   }
 
@@ -69,7 +92,11 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async put<T = any>(url: string, data: any, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async put<T = any>(
+    url: string,
+    data: any,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.put<T>(url, data, headers)
   }
 
@@ -79,7 +106,10 @@ export class Services implements AuthService {
    * @param headers - Encabezados adicionales para la solicitud.
    * @returns Promesa con la respuesta de la API.
    */
-  async delete<T = any>(url: string, headers?: Record<string, string>): Promise<ApiResponse<ApiGenericResponse<T>>> {
+  async delete<T = any>(
+    url: string,
+    headers?: Record<string, string>
+  ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     return this.httpClient.delete<T>(url, headers)
   }
 }

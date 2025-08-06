@@ -1,30 +1,42 @@
-import { CaseAnalysis, Favorites, GenerationWithIa, LawsAndRulings, Profile, Templates } from '../views'
+import {
+  CaseAnalysis,
+  Favorites,
+  GenerationWithIa,
+  LawsAndRulings,
+  ManageUsers,
+  Profile,
+  Templates,
+} from '../views'
 
 const controlPanelNestedRoutes = [
   {
     path: 'profile',
-    element: <Profile />
+    element: <Profile />,
   },
   {
     path: 'favorites',
-    element: <Favorites />
+    element: <Favorites />,
   },
   {
     path: 'templates',
-    element: <Templates />
+    element: <Templates />,
   },
   {
     path: 'generation-with-ia',
-    element: <GenerationWithIa />
+    element: <GenerationWithIa />,
   },
   {
     path: 'case-analysis',
-    element: <CaseAnalysis />
+    element: <CaseAnalysis />,
   },
   {
     path: 'laws-and-rulings',
-    element: <LawsAndRulings />
-  }
+    element: <LawsAndRulings />,
+  },
+  {
+    path: 'manage-users',
+    element: <ManageUsers />,
+  },
 ]
 
 export default controlPanelNestedRoutes
