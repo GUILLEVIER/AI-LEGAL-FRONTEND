@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
+import { useUsersApi } from '../hooks/api/apiWithAuth/useUsersApi'
 import { UserReponse } from '../interfaces/apiResponsesInterface'
 
 /**
- * Ejemplo de componente que usa el hook useApiWithAuth
+ * Ejemplo de componente que usa el hook useUsersApi
  */
-export const ExampleComponentWithAuth: React.FC = () => {
-  const { isLoading, error, getWithAuth } = useApiWithAuth()
+export const ExampleComponentWithAuthUsingApiHook: React.FC = () => {
+  const { isLoading, error, getUser } = useUsersApi()
   const [userResponse, setUserResponse] = useState<UserReponse | null>(null)
 
-  /**
-   * Ejemplo 1: Cargar datos del usuario al montar el componente
-   */
   useEffect(() => {
     const loadUserData = async (id: string) => {
-      const response = await getWithAuth<UserReponse>(`/users/v1/${id}`)
+      const response = await getUser(id)
       if (response && response.data.data) {
         setUserResponse(response.data.data)
       }
     }
     loadUserData('2') // ID de ejemplo, puede ser dinámico
-  }, [getWithAuth])
+  }, [])
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Ejemplo de API con Autenticación</h1>
       {isLoading && <div>Cargando...</div>}
       {error && (
         <div style={{ color: 'red', marginBottom: '20px' }}>
           Error: {error.details?.errors}
         </div>
       )}
+      <h1>Ejemplo de API con Autenticación</h1>
       <section style={{ marginBottom: '30px' }}>
         <h2>Información del Usuario</h2>
         {userResponse ? (
@@ -47,4 +44,4 @@ export const ExampleComponentWithAuth: React.FC = () => {
   )
 }
 
-export default ExampleComponentWithAuth
+export default ExampleComponentWithAuthUsingApiHook

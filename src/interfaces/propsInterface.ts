@@ -41,3 +41,18 @@ export interface DialogModalConfirmDeleteProps {
   handleConfirm: any
   open: any
 }
+
+// Document Upload
+export interface UploadedFile extends File {
+  preview?: string
+  status?: 'uploading' | 'success' | 'error'
+  id?: string
+}
+
+export interface DocumentUploadProps {
+  onFilesUploaded?: (files: File[]) => void
+  acceptedFileTypes?: string[]
+  maxFiles?: number
+  maxSize?: number
+  disabled?: boolean
+}

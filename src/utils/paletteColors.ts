@@ -3,12 +3,17 @@ export const paletteColors = {
   // Primary colors
   colorPrimary: '#0F766E',
   colorPrimaryLight: '#14B8A6',
-  colorPrimaryDark: '#0D544A',
+  colorPrimaryDark: '#08504a',
 
   // Secondary colors
   colorSecondary: '#34344A',
   colorSecondaryLight: '#4A4A60',
   colorSecondaryDark: '#2A2A3A',
+
+  // Additional semantic colors
+  colorTertiary: '#D1345B',
+  colorTertiaryLight: '#F4D3DB',
+  colorTertiaryDark: '#A61E3D',
 
   // State colors
   colorSuccess: '#0F766E',
@@ -23,9 +28,6 @@ export const paletteColors = {
   colorGrayLight: '#F9FAFB',
   colorGrayMedium: '#9CA3AF',
   colorGrayDark: '#374151',
-
-  // Additional semantic colors
-  colorTertiary: '#D1345B',
 
   // Surface colors for better contrast
   colorSurface: '#FAFAFA',

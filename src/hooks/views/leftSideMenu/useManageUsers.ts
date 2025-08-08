@@ -1,43 +1,40 @@
-import { useState } from 'react'
-import { useApiWithAuth } from '../../utils/useApiWithAuth'
-import { UserProfileResponse } from '../../../interfaces/apiResponsesInterface'
+import { use, useEffect, useState } from 'react'
+import {
+  User,
+  UserProfileResponse,
+} from '../../../interfaces/apiResponsesInterface'
 import { ManageUsersFormInterface } from '../../../interfaces/formsInterface'
 import { resetValuesManageUserForm } from '../../../data/resetValuesForm'
+import { useUsersApi } from '../../api/apiWithAuth/useUsersApi'
 
 export const useManageUsers = () => {
   // HOOKS
-  const {
-    isLoading,
-    error,
-    getWithAuth,
-    postWithAuth,
-    putWithAuth,
-    deleteWithAuth,
-  } = useApiWithAuth()
+  const { isLoading, error, getUsers, deleteUser } = useUsersApi()
 
   // USE STATE
   const [values, setValues] = useState<ManageUsersFormInterface>(
     resetValuesManageUserForm
   )
-  const [users, setUsers] = useState<UserProfileResponse[]>([
-    {
-      pk: 2,
-      username: 'guillermo',
-      email: 'guillermo@gmail.com',
-      first_name: 'Guillermo',
-      last_name: 'Morales',
-    },
-  ])
-  const [filteredUsers, setFilteredUsers] =
-    useState<UserProfileResponse[]>(users)
+  const [users, setUsers] = useState<User[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(users)
   const [open, setOpen] = useState(false)
   const [filter, setFilter] = useState('')
   const [isViewMode, setIsViewMode] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<UserProfileResponse | null>(
-    null
-  )
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [openDeleteModalUser, setOpenModalDeleteUser] = useState(false)
+
+  // FIRST LOAD
+  useEffect(() => {
+    const loadUsersData = async () => {
+      const response = await getUsers()
+      if (response && response.data.data) {
+        setUsers(response.data.data.results)
+        setFilteredUsers(response.data.data.results)
+      }
+    }
+    loadUsersData()
+  }, [])
 
   // METHODS
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -86,7 +83,7 @@ export const useManageUsers = () => {
       return setValues({ ...values, [prop]: event.target.value })
     }
 
-  const handleViewUserDetails = (user: UserProfileResponse) => {
+  const handleViewUserDetails = (user: User) => {
     setSelectedUser(user)
     setIsViewMode(true)
     setIsEditMode(false)
@@ -102,7 +99,7 @@ export const useManageUsers = () => {
     setOpen(true)
   }
 
-  const handleEditUser = (user: UserProfileResponse) => {
+  const handleEditUser = (user: User) => {
     setSelectedUser(user)
     setIsEditMode(true)
     setIsViewMode(false)
@@ -118,7 +115,7 @@ export const useManageUsers = () => {
     setOpen(true)
   }
 
-  const handleDeleteUser = (user: UserProfileResponse) => {
+  const handleDeleteUser = (user: User) => {
     setSelectedUser(user)
     setOpenModalDeleteUser(true)
   }
@@ -133,10 +130,10 @@ export const useManageUsers = () => {
   const handleConfirmDeleteUser = async () => {
     if (selectedUser) {
       try {
-        await deleteWithAuth(`/users/${selectedUser.pk}/`)
-        setUsers((prev) => prev.filter((user) => user.pk !== selectedUser.pk))
+        await deleteUser(selectedUser.id)
+        setUsers((prev) => prev.filter((user) => user.id !== selectedUser.id))
         setFilteredUsers((prev) =>
-          prev.filter((user) => user.pk !== selectedUser.pk)
+          prev.filter((user) => user.id !== selectedUser.id)
         )
         setOpenModalDeleteUser(false)
       } catch (error) {
@@ -148,10 +145,6 @@ export const useManageUsers = () => {
   return {
     isLoading,
     error,
-    getWithAuth,
-    postWithAuth,
-    putWithAuth,
-    deleteWithAuth,
     open,
     setOpen,
     handleSubmit,

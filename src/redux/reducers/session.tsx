@@ -27,6 +27,7 @@ export default (
         errors: [],
       }
     case LOG_IN_ERROR:
+      console.log('LOG_IN_ERROR', action.payload)
       return {
         ...state,
         errors: action.payload?.details?.errors || ['Error al iniciar sesión'],
@@ -40,6 +41,7 @@ export default (
         errors: [],
       }
     case LOG_OUT_ERROR:
+      console.log('LOG_OUT_ERROR', action.payload)
       AuthManager.clearAuth(ClearReason.USER_LOGOUT)
       return {
         ...state,

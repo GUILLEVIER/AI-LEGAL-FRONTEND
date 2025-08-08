@@ -1,17 +1,22 @@
 $color-primary: #0f766e;
+$color-primary-dark: #08504a;
 $color-secondary: #34344a;
 $color-tertiary: #d1345b;
 $color-white: #fff;
+$color-black: #000;
 $color-success: #0f766e;
 $color-error: #f58f29;
+$color-warning: #f59e0b;
+$color-info: #3b82f6;
 $color-gray: #f2f2f2;
-$color-green: #08504a;
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Play', sans-serif;
+  z-index: -1000;
+  position: relative;
 }
 
 // LISTO
@@ -132,11 +137,12 @@ span {
   top: 0;
   height: 100vh;
   width: 16.25rem;
-  background: $color-green;
+  background: $color-primary-dark;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 1000;
   &.closed {
     width: 3.75rem;
     .logo-text {
@@ -337,7 +343,11 @@ span {
       animation: dropdownFadeIn 0.2s ease;
       .dropdown-header {
         padding: 1.5rem;
-        background: linear-gradient(120deg, $color-primary, $color-green);
+        background: linear-gradient(
+          120deg,
+          $color-primary,
+          $color-primary-dark
+        );
         color: $color-white;
         text-align: center;
         .user-avatar-large {
@@ -444,6 +454,7 @@ span {
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 4px #9d9d9d;
+  z-index: 1000;
   &.drawer-closed {
     left: 60px;
   }
@@ -464,7 +475,7 @@ span {
         cursor: pointer;
         padding: 8px;
         border-radius: 8px;
-        color: $color-green;
+        color: $color-primary-dark;
         transition: all 0.2s ease;
         &:hover {
           color: $color-primary;
@@ -481,6 +492,8 @@ span {
   width: 100%;
   min-height: 100vh;
   background: $color-gray;
+  z-index: 0;
+  position: relative;
 
   .main-content {
     flex-grow: 1;

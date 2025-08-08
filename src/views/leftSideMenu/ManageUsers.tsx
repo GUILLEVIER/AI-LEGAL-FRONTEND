@@ -9,7 +9,10 @@ import {
   Typography,
 } from '@mui/material'
 import { BoxContainerApp, ContainerApp } from '../../layouts'
-import { UserProfileResponse } from '../../interfaces/apiResponsesInterface'
+import {
+  User,
+  UserProfileResponse,
+} from '../../interfaces/apiResponsesInterface'
 import { useManageUsers } from '../../hooks/views/leftSideMenu/useManageUsers'
 import {
   DialogModal,
@@ -48,6 +51,9 @@ const ManageUsers: React.FC = () => {
     handleDeleteUser,
   } = useManageUsers()
 
+  console.log('Filtered Users:', filteredUsers)
+  console.log('Users:', users)
+
   return (
     <>
       <Typography component='h1' variant='h5'>
@@ -55,14 +61,22 @@ const ManageUsers: React.FC = () => {
       </Typography>
       <ContainerApp maxWidth='lg'>
         <BoxContainerApp>
-          <Button
-            variant='contained'
-            color='primary'
-            fullWidth
-            onClick={() => setOpen(true)}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 1,
+            }}
           >
-            Crear Usuario
-          </Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => setOpen(true)}
+            >
+              Crear Usuario
+            </Button>
+          </Box>
           <Typography
             gutterBottom
             sx={{ fontWeight: 'bold', my: 2 }}
@@ -113,7 +127,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <VisibilityTwoToneIcon />,
                 tooltip: 'Detalles',
-                onClick: (user: UserProfileResponse) => {
+                onClick: (user: User) => {
                   handleViewUserDetails(user)
                 },
                 color: 'primary',
@@ -123,7 +137,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <EditTwoToneIcon />,
                 tooltip: 'Editar',
-                onClick: (user: UserProfileResponse) => {
+                onClick: (user: User) => {
                   handleEditUser(user)
                 },
                 color: 'secondary',
@@ -133,7 +147,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <DeleteTwoToneIcon />,
                 tooltip: 'Eliminar',
-                onClick: (user: UserProfileResponse) => {
+                onClick: (user: User) => {
                   handleDeleteUser(user)
                 },
                 color: 'error',

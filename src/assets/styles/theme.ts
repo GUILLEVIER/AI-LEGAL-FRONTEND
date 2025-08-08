@@ -6,24 +6,6 @@ import { paletteColors } from '../../utils/paletteColors'
 export const theme = createTheme({
   typography: {
     fontFamily: ['Play', 'sans-serif'].join(','),
-    // Add more typography variants for better consistency
-    h1: {
-      fontSize: '2.5rem',
-      fontWeight: 600,
-    },
-    h2: {
-      fontSize: '2rem',
-      fontWeight: 500,
-    },
-    body1: {
-      fontSize: '1rem',
-      lineHeight: 1.6,
-    },
-    button: {
-      fontSize: '0.875rem',
-      fontWeight: 600,
-      textTransform: 'uppercase',
-    },
   },
   palette: {
     primary: {
@@ -61,6 +43,16 @@ export const theme = createTheme({
       lg: 1200,
       xl: 1536,
     },
+  },
+  zIndex: {
+    mobileStepper: 1000,
+    fab: 1050,
+    speedDial: 1050,
+    appBar: 1100,
+    drawer: 1200,
+    modal: 1300,
+    snackbar: 1400,
+    tooltip: 1500,
   },
   components: {
     MuiButton: {

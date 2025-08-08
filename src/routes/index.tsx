@@ -1,4 +1,11 @@
-import { Login, SignIn, ControlPanel, Examples, TokenValidationExample, AppWithAuthExample } from '../views'
+import {
+  Login,
+  SignIn,
+  Examples,
+  TokenValidationExample,
+  AppWithAuthExample,
+  AppWithAuthUsingApiHookExample,
+} from '../views'
 
 const routes = [
   {
@@ -24,7 +31,11 @@ const routes = [
   {
     path: '/examples/api-with-auth',
     element: <AppWithAuthExample />,
-  }
+  },
+  {
+    path: '/examples/api-with-auth-using-hook',
+    element: <AppWithAuthUsingApiHookExample />,
+  },
 ]
 
 export default routes

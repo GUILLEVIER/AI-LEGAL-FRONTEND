@@ -12,6 +12,7 @@ import { useTokenValidator } from './useTokenValidator'
  */
 export const useApiWithAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
+  // TODO: AQUÍ PODRIAMOS SOLO LIBERAR EL MENSAJE DE ERROR Y NO TODA LA ESTRUCTURA DEL ERROR.
   const [error, setError] = useState<AppError | null>(null)
   const { isTokenValid, validateAndRefreshToken } = useTokenValidator()
 

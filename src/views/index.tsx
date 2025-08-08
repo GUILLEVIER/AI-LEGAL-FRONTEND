@@ -11,6 +11,7 @@ import GenerationWithIa from './leftSideMenu/GenerationWithIa'
 import CaseAnalysis from './leftSideMenu/CaseAnalysis'
 import LawsAndRulings from './leftSideMenu/LawsAndRulings'
 import ManageUsers from './leftSideMenu/ManageUsers'
+import AppWithAuthUsingApiHookExample from './examples/AppWithAuthUsingApiHookExample'
 
 export {
   Login,
@@ -26,4 +27,5 @@ export {
   CaseAnalysis,
   LawsAndRulings,
   ManageUsers,
+  AppWithAuthUsingApiHookExample,
 }
