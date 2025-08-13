@@ -2,7 +2,6 @@ import {
   showToastifySuccess,
   showToastifyError,
 } from '../../../utils/showToastify'
-import { resetValues } from '../../../data/loginForm'
 import { useNavigate } from 'react-router'
 import {
   sessionErrors,
@@ -15,6 +14,7 @@ import { SessionState } from '../../../legal'
 import { useTokenValidator } from '../../../hooks/utils/useTokenValidator'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
+import { resetValues } from '../../../data/resetValuesForm'
 
 export const useLogin = () => {
   // USE STATES AND HOOKS

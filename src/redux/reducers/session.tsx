@@ -34,6 +34,7 @@ export default (
         fetchStatus: 'ERROR',
       }
     case LOG_IN_SUCCESS:
+      // TODO: AGREGAR EL MAPPER DE USUARIO A ALMACENAR.
       return {
         ...state,
         fetchStatus: 'FETCHED',

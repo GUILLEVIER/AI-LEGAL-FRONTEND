@@ -12,7 +12,3 @@ export interface UserProfile {
   email?: string
   avatar?: string
 }
-
-export interface GroupTypesInterface {
-  name: string
-}

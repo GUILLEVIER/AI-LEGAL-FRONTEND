@@ -7,6 +7,9 @@ import { sessionResult } from '../../../redux/selectors'
 import { useSelector } from 'react-redux'
 import { SessionState } from '../../../legal'
 import React, { useState } from 'react'
+import { PasswordChangeFormInterface } from '../../../interfaces/formsInterface'
+import { resetValuesPasswordChangeForm } from '../../../data/resetValuesForm'
+import { PasswordChangeMapper } from '../../../mapper/PasswordChangeMapper'
 
 export const useProfile = () => {
   // HOOKS
@@ -21,17 +24,8 @@ export const useProfile = () => {
 
   // USE STATE
   const [open, setOpen] = useState(false)
-  /*
-  const [passwordChange, setPasswordChange] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  })
-  */
-  const [passwordChange, setPasswordChange] = useState<any>({
-    new_password1: '',
-    new_password2: '',
-  })
+  const [passwordChange, setPasswordChange] =
+    useState<PasswordChangeFormInterface>(resetValuesPasswordChangeForm)
 
   // REDUX
   const user: any = useSelector((state: SessionState) => sessionResult(state))
@@ -39,17 +33,7 @@ export const useProfile = () => {
   // METHODS
   const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(false)
-    /*
-    setPasswordChange({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    })
-    */
-    setPasswordChange({
-      new_password1: '',
-      new_password2: '',
-    })
+    setPasswordChange(resetValuesPasswordChangeForm)
   }
 
   const handleChangePasswordChange =
@@ -63,24 +47,14 @@ export const useProfile = () => {
   }
 
   const changePassword = async () => {
-    if (passwordChange.new_password1 === passwordChange.new_password2) {
-      const response = await postWithAuth('/password/change', {
-        new_password1: passwordChange.new_password1,
-        new_password2: passwordChange.new_password2,
-      })
+    if (passwordChange.newPassword === passwordChange.confirmPassword) {
+      const response = await postWithAuth(
+        '/password/change',
+        PasswordChangeMapper.toApiPasswordChange(passwordChange)
+      )
       if (response && response.data) {
         setOpen(false)
-        /*
-        setPasswordChange({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: '',
-        })
-        */
-        setPasswordChange({
-          new_password1: '',
-          new_password2: '',
-        })
+        setPasswordChange(resetValuesPasswordChangeForm)
         showToastifySuccess(response.data.message)
       } else {
         if (error) {

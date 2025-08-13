@@ -9,10 +9,6 @@ import {
   Typography,
 } from '@mui/material'
 import { BoxContainerApp, ContainerApp } from '../../layouts'
-import {
-  User,
-  UserProfileResponse,
-} from '../../interfaces/apiResponsesInterface'
 import { useManageUsers } from '../../hooks/views/leftSideMenu/useManageUsers'
 import {
   DialogModal,
@@ -24,7 +20,13 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import PersonSearchTwoToneIcon from '@mui/icons-material/PersonSearchTwoTone'
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone'
-import { GroupTypesInterface } from '../../interfaces/dataInterface'
+import {
+  UsersGroupsResponseMapper,
+  UserMapper,
+  CompanyMapper,
+} from '../../interfaces/mappersInterface'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import Visibility from '@mui/icons-material/Visibility'
 
 const ManageUsers: React.FC = () => {
   const {
@@ -49,10 +51,11 @@ const ManageUsers: React.FC = () => {
     openDeleteModalUser,
     handleConfirmDeleteUser,
     handleDeleteUser,
+    groups,
+    companies,
+    handleClickShowPassword,
+    handleMouseDownPassword,
   } = useManageUsers()
-
-  console.log('Filtered Users:', filteredUsers)
-  console.log('Users:', users)
 
   return (
     <>
@@ -118,7 +121,7 @@ const ManageUsers: React.FC = () => {
           <TableInfo
             data={filteredUsers}
             headData={[
-              { title: 'Nombre' },
+              { title: 'Nombre Usuario' },
               { title: 'Email' },
               { title: 'Acciones' },
             ]}
@@ -127,7 +130,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <VisibilityTwoToneIcon />,
                 tooltip: 'Detalles',
-                onClick: (user: User) => {
+                onClick: (user: UserMapper) => {
                   handleViewUserDetails(user)
                 },
                 color: 'primary',
@@ -137,7 +140,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <EditTwoToneIcon />,
                 tooltip: 'Editar',
-                onClick: (user: User) => {
+                onClick: (user: UserMapper) => {
                   handleEditUser(user)
                 },
                 color: 'secondary',
@@ -147,7 +150,7 @@ const ManageUsers: React.FC = () => {
               {
                 icon: <DeleteTwoToneIcon />,
                 tooltip: 'Eliminar',
-                onClick: (user: User) => {
+                onClick: (user: UserMapper) => {
                   handleDeleteUser(user)
                 },
                 color: 'error',
@@ -199,7 +202,7 @@ const ManageUsers: React.FC = () => {
                 disabled={isViewMode && !isEditMode}
                 fullWidth
                 id='firstName'
-                label='Apellido Paterno'
+                label='Nombre'
                 margin='normal'
                 name='firstName'
                 onChange={handleChange('firstName')}
@@ -210,7 +213,7 @@ const ManageUsers: React.FC = () => {
                 disabled={isViewMode && !isEditMode}
                 fullWidth
                 id='lastName'
-                label='Apellido Materno'
+                label='Apellido'
                 margin='normal'
                 name='lastName'
                 onChange={handleChange('lastName')}
@@ -239,45 +242,85 @@ const ManageUsers: React.FC = () => {
               <TextField
                 disabled={isViewMode && !isEditMode}
                 fullWidth
-                id='empresa'
-                label='Empresa'
+                id='company'
+                label='Nombre Empresa'
                 margin='normal'
-                name='empresa'
-                onChange={handleChange('empresa')}
-                required
-                value={values.empresa}
-              />
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='groupType'
-                label='Tipo de Usuario'
-                margin='normal'
-                name='groupType'
-                onChange={handleChange('groupType')}
+                name='company'
+                onChange={handleChange('company')}
                 required
                 select
-                value={values.groupType}
+                value={values.company.id}
               >
-                {values.groupTypes.map(
-                  (groupType: GroupTypesInterface, id: number) => (
-                    <MenuItem key={id} value={groupType.name}>
-                      {groupType.name}
-                    </MenuItem>
-                  )
-                )}
+                <MenuItem key={0} value={0}>
+                  SIN EMPRESA
+                </MenuItem>
+                {companies.map((company: CompanyMapper) => (
+                  <MenuItem key={company.id} value={company.id}>
+                    {company.name.toUpperCase()}
+                  </MenuItem>
+                ))}
               </TextField>
-              {!isViewMode && !isEditMode && (
-                <Button
-                  color='primary'
-                  disabled={isLoading}
-                  fullWidth
-                  size='large'
-                  type='submit'
-                  variant='contained'
-                >
-                  Crear Usuario
-                </Button>
+              <TextField
+                disabled={isViewMode || isEditMode}
+                fullWidth
+                id='group'
+                label='Tipo de Usuario'
+                margin='normal'
+                name='group'
+                onChange={handleChange('group')}
+                required
+                select
+                value={values.group}
+              >
+                <MenuItem value='Sin grupo'>SIN GRUPO</MenuItem>
+                {groups.map((group: UsersGroupsResponseMapper, id: number) => (
+                  <MenuItem key={id} value={group.name}>
+                    {group.name.toUpperCase()}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {!isEditMode && !isViewMode && (
+                <>
+                  <TextField
+                    fullWidth
+                    id='password'
+                    label='Contraseña'
+                    margin='normal'
+                    name='password'
+                    onChange={handleChange('password')}
+                    required
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label='toggle password visibility'
+                            edge='end'
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {values.showPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Button
+                    color='primary'
+                    disabled={isLoading}
+                    fullWidth
+                    size='large'
+                    type='submit'
+                    variant='contained'
+                  >
+                    Crear Usuario
+                  </Button>
+                </>
               )}
               {isEditMode && (
                 <Button

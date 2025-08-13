@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
             name='name'
             onChange={() => {}}
             required
-            value={user?.first_name?.toString().toUpperCase()}
+            value={user.first_name.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
@@ -58,7 +58,7 @@ const Profile: React.FC = () => {
             name='lastName'
             onChange={() => {}}
             required
-            value={user?.last_name?.toString().toUpperCase()}
+            value={user.last_name.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
@@ -70,7 +70,7 @@ const Profile: React.FC = () => {
             onChange={() => {}}
             placeholder='correo@ejemplo.com'
             required
-            value={user?.email}
+            value={user.email}
           />
           <Typography
             gutterBottom
@@ -121,23 +121,23 @@ const Profile: React.FC = () => {
                 fullWidth
                 margin='normal'
                 //name='newPassword'
-                name='new_password1'
+                name='newPassword'
                 label='Nueva Contraseña'
                 //value={passwordChange.newPassword}
                 //onChange={handleChangePasswordChange('newPassword')}
-                value={passwordChange.new_password1}
-                onChange={handleChangePasswordChange('new_password1')}
+                value={passwordChange.newPassword}
+                onChange={handleChangePasswordChange('newPassword')}
               />
               <TextField
                 fullWidth
                 margin='normal'
-                name='new_password2'
+                name='confirmPassword'
                 //name='confirmPassword'
                 label='Confirmar Nueva Contraseña'
                 //value={passwordChange.confirmPassword}
                 //onChange={handleChangePasswordChange('confirmPassword')}
-                value={passwordChange.new_password2}
-                onChange={handleChangePasswordChange('new_password2')}
+                value={passwordChange.confirmPassword}
+                onChange={handleChangePasswordChange('confirmPassword')}
               />
               <Button
                 color='primary'

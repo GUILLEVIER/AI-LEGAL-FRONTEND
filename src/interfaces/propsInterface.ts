@@ -1,3 +1,5 @@
+// ARCHIVO QUE CONTIENE LAS INTERFACES DE LOS PROPS DE LOS COMPONENTES
+
 // Box Container App
 export interface BoxContainerAppProps {
   children: any

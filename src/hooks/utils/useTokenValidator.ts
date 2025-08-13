@@ -86,7 +86,7 @@ export const useTokenValidator = () => {
 
       return response.status === 200 && response.data.status === 'success'
     } catch (error) {
-      console.warn('Token verification failed:', error)
+      ErrorHandler.logError(error as AppError)
       return false
     }
   }, [])

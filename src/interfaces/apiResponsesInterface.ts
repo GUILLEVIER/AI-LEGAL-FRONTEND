@@ -1,18 +1,30 @@
-// Data model from API responses
+// ARCHIVO QUE CONTIENE TODAS LAS RESPUESTAS DE LA API
+// ESTO ES LO QUE DEVUELVE LA API, POR LO TANTO, LOS DATOS RECIBIDOS DESDE
+// EL BACKEND DEBEN COINCIDIR A ESTA ESTRUCTURA.
+
+// NO MODIFICAR
 // API - login - data
 export interface LoginResponse {
-  user: {
-    pk: number
-    username: string
-    email: string
-    first_name: string
-    last_name: string
-  }
+  user: UserProfile
   access: string
   refresh: string
 }
 
-// API - users - data
+// NO MODIFICAR
+// API - logout - data
+export interface LogoutResponse {
+  detail: string
+}
+
+// NO MODIFICAR
+// API - /token/refresh - data
+export interface RefreshResponse {
+  access: string
+  refresh: string
+}
+
+// UsersResponseMapper
+// API - usuarios - data
 export interface UsersResponse {
   count: number
   next: null
@@ -20,16 +32,19 @@ export interface UsersResponse {
   results: User[]
 }
 
+// UserMapper
 export interface User {
   id: number
   username: string
   email: string
   first_name: string
   last_name: string
-  empresa: Empresa | null
+  empresa: Company | null
+  grupos: string
 }
 
-export interface Empresa {
+// CompanyMapper
+export interface Company {
   id: number
   plan: number
   plan_nombre: string
@@ -40,30 +55,48 @@ export interface Empresa {
   fecha_creacion: string
 }
 
-export interface UserReponse {
+// UserResponseMapper
+export interface UserResponse {
   id: number
   name: string
   email: string
   first_name: string
   last_name: string
-  empresa: any
+  empresa: Company | null
 }
 
-// API - logout - data
-export interface LogoutResponse {
-  detail: string
-}
-
-// API - /token/refresh - data
-export interface RefreshResponse {
-  access: string
-  refresh: string
-}
-
-export interface UserProfileResponse {
+// UserProfileMapper
+export interface UserProfile {
   pk: number
   username: string
   email: string
   first_name: string
   last_name: string
+}
+
+// UsersGroupsResponseMapper
+// API - groups - data
+
+// UsersGroupsResponseMapper
+export interface UsersGroupsResponse {
+  id: number
+  name: string
+  permissions: Permission[]
+}
+
+// PermissionMapper
+export interface Permission {
+  codename: string
+  content_type: string
+  id: number
+  name: string
+}
+
+// CompaniesResponseMapper
+// API - /companies/v1/empresas/ - data
+export interface CompaniesResponse {
+  count: number
+  next: null
+  previous: null
+  results: Company[]
 }

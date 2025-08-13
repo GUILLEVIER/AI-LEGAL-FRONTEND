@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
-import { UserReponse } from '../interfaces/apiResponsesInterface'
+import { UserResponse } from '../interfaces/apiResponsesInterface'
 
 /**
  * Ejemplo de componente que usa el hook useApiWithAuth
  */
 export const ExampleComponentWithAuth: React.FC = () => {
   const { isLoading, error, getWithAuth } = useApiWithAuth()
-  const [userResponse, setUserResponse] = useState<UserReponse | null>(null)
+  const [userResponse, setUserResponse] = useState<UserResponse | null>(null)
 
   /**
    * Ejemplo 1: Cargar datos del usuario al montar el componente
    */
   useEffect(() => {
     const loadUserData = async (id: string) => {
-      const response = await getWithAuth<UserReponse>(`/users/v1/${id}`)
+      const response = await getWithAuth<UserResponse>(`/users/v1/${id}`)
       if (response && response.data.data) {
         setUserResponse(response.data.data)
       }

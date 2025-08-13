@@ -31,6 +31,7 @@ export function* logIn({ payload }: any) {
     const loginResponse: ApiResponse<ApiGenericResponse<LoginResponse>> =
       yield call([services, services.login], data)
     yield put({ type: LOG_IN_SUCCESS, payload: loginResponse })
+    // TODO: AGREGAR EL MAPPER DE USUARIO A ALMACENAR.
     if (loginResponse && loginResponse.data) {
       AuthManager.storeAuth(
         {

@@ -1,4 +1,4 @@
-import { GroupTypesInterface } from './dataInterface'
+// ARCHIVO QUE CONTIENE LAS INTERFACES DE LOS FORMULARIOS DE LAS VISTAS Y/O COMPONENTES
 
 // Login
 export interface LoginFormInterface {
@@ -14,7 +14,17 @@ export interface ManageUsersFormInterface {
   lastName: string
   userName: string
   email: string
-  empresa: string
-  groupTypes: GroupTypesInterface[]
-  groupType: string
+  password: string
+  company: {
+    name: string
+    id: number
+  }
+  group: string
+  showPassword: boolean
+}
+
+export interface PasswordChangeFormInterface {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
 }

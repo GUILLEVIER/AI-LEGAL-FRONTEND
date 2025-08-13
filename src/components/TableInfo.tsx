@@ -34,7 +34,7 @@ const TableInfo = ({ data, headData, resourceType, actionButtons }) => {
                   {resourceType === 'user' ? (
                     <>
                       <TableCell component='th' scope='row' align='center'>
-                        {data.username}
+                        {data.userName}
                       </TableCell>
                       <TableCell component='th' scope='row' align='center'>
                         {data.email}
