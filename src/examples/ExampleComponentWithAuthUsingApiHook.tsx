@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useUsersApi } from '../hooks/api/apiWithAuth/useUsersApi'
-import { UserReponse } from '../interfaces/apiResponsesInterface'
+import { UserResponse } from '../interfaces/apiResponsesInterface'
+import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
+import { UserResponseMapper } from '../interfaces/mappersInterface'
 
 /**
  * Ejemplo de componente que usa el hook useUsersApi
  */
 export const ExampleComponentWithAuthUsingApiHook: React.FC = () => {
-  const { isLoading, error, getUser } = useUsersApi()
-  const [userResponse, setUserResponse] = useState<UserReponse | null>(null)
+  const { isLoading, error } = useApiWithAuth()
+  const { getUser } = useUsersApi()
+  const [user, setUser] = useState<UserResponseMapper | null>(null)
+
+  const loadUserData = async (id: string) => {
+    const response = await getUser(id)
+    if (response && response.data.data) {
+      setUser(response.data.data)
+    }
+  }
 
   useEffect(() => {
-    const loadUserData = async (id: string) => {
-      const response = await getUser(id)
-      if (response && response.data.data) {
-        setUserResponse(response.data.data)
-      }
-    }
     loadUserData('2') // ID de ejemplo, puede ser dinámico
   }, [])
 
@@ -30,11 +34,11 @@ export const ExampleComponentWithAuthUsingApiHook: React.FC = () => {
       <h1>Ejemplo de API con Autenticación</h1>
       <section style={{ marginBottom: '30px' }}>
         <h2>Información del Usuario</h2>
-        {userResponse ? (
+        {user ? (
           <div>
-            <p>Nombre: {userResponse.first_name}</p>
-            <p>Email: {userResponse.email}</p>
-            <p>Apellido: {userResponse.last_name}</p>
+            <p>Nombre: {user.firstName}</p>
+            <p>Email: {user.email}</p>
+            <p>Apellido: {user.lastName}</p>
           </div>
         ) : (
           <p>No se encontraron datos del usuario</p>
