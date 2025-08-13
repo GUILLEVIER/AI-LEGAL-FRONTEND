@@ -107,23 +107,19 @@ export interface CompaniesResponse {
 
 // UploadedDocumentResponseMapper
 // API - /documents/v1/documentos-subidos/subir_documento/ - data
+// PROBADO
 export interface UploadDocumentResponse {
   id: number
   texto_extraido: string
   tipo: string
   nombre_original: string
+  archivo_url: string
+  fecha_subida: string
 }
 
 // UploadedDocumentsResponseMapper
 // API - /documents/v1/documentos-subidos/ - data
 // PROBADO
-export interface UploadedDocumentsResponse {
-  count: number
-  next: null
-  previous: null
-  results: UploadedDocument[]
-}
-
 // UploadedDocumentsResponseMapper
 // API - /documents/v1/documentos-subidos/ - data
 // PROBADO
@@ -146,17 +142,13 @@ export interface AvailableFieldsResponse {
   results: AvailableField[]
 }
 
+// CreateAvailableFieldResponseMapper
+// API - /documents/v1/campos-disponibles/ POST - data
 // PROBADO
 export interface AvailableField {
   id: number
   nombre: string
   tipo_dato: 'texto' | 'fecha' | 'numero'
-}
-
-// CreateAvailableFieldResponseMapper
-// API - /documents/v1/campos-disponibles/ POST - data
-export interface CreateAvailableFieldResponse {
-  results: AvailableField
 }
 
 // TemplatesResponseMapper
@@ -191,18 +183,15 @@ export interface TemplateField {
 // CreateTemplateResponseMapper
 // API - /documents/v1/plantillas-documentos/crear_plantilla/ - data
 export interface CreateTemplateResponse {
-  results: {
-    id: number
-    mensaje: string
-  }
+  id: number
 }
 
 // GenerateDocumentResponseMapper
 // API - /documents/v1/plantillas-documentos/{id}/generar_documento/ - data
+// PROBADO
 export interface GenerateDocumentResponse {
   id: number
   html_resultante: string
-  mensaje: string
 }
 
 // GeneratedDocumentsResponseMapper
@@ -215,7 +204,7 @@ export interface GeneratedDocumentsResponse {
   results: GeneratedDocument[]
 }
 
-// FALTA PROBAR CON DATOS.
+// PROBADO
 export interface GeneratedDocument {
   id: number
   plantilla: number
@@ -225,12 +214,17 @@ export interface GeneratedDocument {
   fecha_generacion: string
   plantilla_nombre: string
   usuario_username: string
+  nombre: string
 }
 
 // FavoriteResponseMapper
 // API - /documents/v1/plantillas-favoritas/ - data
+// PROBADO
 export interface FavoriteResponse {
-  message: string
+  id: number
+  plantilla: Template
+  fecha_agregado: string
+  usuario: number
 }
 
 // MyFavoritesResponseMapper
@@ -253,10 +247,4 @@ export interface TemplateTypesResponse {
 export interface TemplateType {
   id: number
   nombre: string
-}
-
-// CreateTemplateTypeResponseMapper
-// API - /documents/v1/tipos-plantilla/ POST - data
-export interface CreateTemplateTypeResponse {
-  results: TemplateType
 }

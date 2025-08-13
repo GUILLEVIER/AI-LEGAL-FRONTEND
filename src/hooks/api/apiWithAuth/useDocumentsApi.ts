@@ -3,7 +3,6 @@ import {
   UploadedDocument,
   AvailableFieldsResponse,
   AvailableField,
-  CreateAvailableFieldResponse,
   Template,
   CreateTemplateResponse,
   GenerateDocumentResponse,
@@ -13,8 +12,6 @@ import {
   MyFavoritesResponse,
   TemplateTypesResponse,
   TemplateType,
-  CreateTemplateTypeResponse,
-  UploadedDocumentsResponse,
 } from '../../../interfaces/apiResponsesInterface'
 import { useApiWithAuth } from '../../utils/useApiWithAuth'
 
@@ -41,6 +38,7 @@ export const useDocumentsApi = () => {
   const { getWithAuth, postWithAuth, deleteWithAuth } = useApiWithAuth()
 
   // Documentos subidos
+  // PROBADO
   const uploadDocument = async (file: File) => {
     const formData = new FormData()
     console.log('archivo: ', file)
@@ -55,7 +53,7 @@ export const useDocumentsApi = () => {
 
   // PROBADO
   const getUploadedDocuments = async () => {
-    const response = await getWithAuth<UploadedDocumentsResponse>(
+    const response = await getWithAuth<UploadedDocument[]>(
       '/documents/v1/documentos-subidos/'
     )
     return response
@@ -70,8 +68,9 @@ export const useDocumentsApi = () => {
     return response
   }
 
+  // PROBADO
   const createAvailableField = async (field: Omit<AvailableField, 'id'>) => {
-    const response = await postWithAuth<CreateAvailableFieldResponse>(
+    const response = await postWithAuth<AvailableField>(
       '/documents/v1/campos-disponibles/',
       field
     )
@@ -87,16 +86,9 @@ export const useDocumentsApi = () => {
     return response
   }
 
+  // PROBADO
   const createTemplate = async (templateData: CreateTemplateData) => {
     const response = await postWithAuth<CreateTemplateResponse>(
-      '/documents/v1/plantillas-documentos/crear_plantilla/',
-      templateData
-    )
-    return response
-  }
-
-  const duplicateTemplate = async (templateData: CreateTemplateData) => {
-    const response = await postWithAuth<Template>(
       '/documents/v1/plantillas-documentos/crear_plantilla/',
       templateData
     )
@@ -111,6 +103,7 @@ export const useDocumentsApi = () => {
     return response
   }
 
+  // PROBADO
   const generateDocument = async (
     templateId: number,
     data: Record<string, any>
@@ -127,7 +120,7 @@ export const useDocumentsApi = () => {
   }
 
   // Documentos generados
-  // FALTA PROBAR CON DATOS
+  // PROBADO
   const getGeneratedDocuments = async () => {
     const response = await getWithAuth<GeneratedDocumentsResponse>(
       '/documents/v1/documentos-generados/'
@@ -138,7 +131,7 @@ export const useDocumentsApi = () => {
     return response
   }
 
-  // FALTA PROBAR CON DATOS
+  // PROBADO
   const getGeneratedDocument = async (id: number) => {
     const response = await getWithAuth<GeneratedDocument>(
       `/documents/v1/documentos-generados/${id}/`
@@ -147,6 +140,7 @@ export const useDocumentsApi = () => {
   }
 
   // Favoritos
+  // PROBADO
   const addFavorite = async (templateId: number) => {
     const response = await postWithAuth<FavoriteResponse>(
       '/documents/v1/plantillas-favoritas/agregar_favorito/',
@@ -155,6 +149,7 @@ export const useDocumentsApi = () => {
     return response
   }
 
+  // PROBADO
   const removeFavorite = async (templateId: number) => {
     const response = await deleteWithAuth<FavoriteResponse>(
       '/documents/v1/plantillas-favoritas/quitar_favorito/',
@@ -166,7 +161,7 @@ export const useDocumentsApi = () => {
     return response
   }
 
-  // FALTA PROBAR CON DATOS
+  // PROBADO
   const getMyFavorites = async () => {
     const response = await getWithAuth<Template[]>(
       '/documents/v1/plantillas-favoritas/mis_favoritos/'
@@ -183,14 +178,6 @@ export const useDocumentsApi = () => {
     return response
   }
 
-  const createTemplateType = async (type: Omit<TemplateType, 'id'>) => {
-    const response = await postWithAuth<CreateTemplateTypeResponse>(
-      '/documents/v1/tipos-plantilla/',
-      type
-    )
-    return response
-  }
-
   return {
     uploadDocument,
     getUploadedDocuments,
@@ -198,7 +185,6 @@ export const useDocumentsApi = () => {
     createAvailableField,
     getTemplates,
     createTemplate,
-    duplicateTemplate,
     getTemplate,
     generateDocument,
     getGeneratedDocuments,
@@ -207,6 +193,5 @@ export const useDocumentsApi = () => {
     removeFavorite,
     getMyFavorites,
     getTemplateTypes,
-    createTemplateType,
   }
 }

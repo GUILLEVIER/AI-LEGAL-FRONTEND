@@ -7,7 +7,12 @@ import {
   Template,
   GeneratedDocument,
   TemplateType,
+  UploadDocumentResponse,
+  CreateTemplateResponse,
+  GenerateDocumentResponse,
+  FavoriteResponse,
 } from '../interfaces/apiResponsesInterface'
+import { CreateTemplateData } from '../hooks/api/apiWithAuth/useDocumentsApi'
 
 /**
  * Ejemplo de componente que usa el hook useDocumentsApi
@@ -31,6 +36,41 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [myFavorites, setMyFavorites] = useState<Template[]>([])
   const [templateTypes, setTemplateTypes] = useState<TemplateType[]>([])
 
+  // Estados adicionales para métodos POST
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [uploadResult, setUploadResult] =
+    useState<UploadDocumentResponse | null>(null)
+  const [newField, setNewField] = useState({
+    nombre: '',
+    tipo_dato: 'texto' as 'texto' | 'fecha' | 'numero',
+  })
+  const [fieldCreateResult, setFieldCreateResult] =
+    useState<AvailableField | null>(null)
+  const [newTemplate, setNewTemplate] = useState<CreateTemplateData>({
+    nombre: '',
+    descripcion: '',
+    html_con_campos: '',
+    tipo_id: undefined,
+  })
+  const [templateCreateResult, setTemplateCreateResult] =
+    useState<CreateTemplateResponse | null>(null)
+  const [generateDoc, setGenerateDoc] = useState<{
+    templateId?: number
+    dataJson: string
+  }>({
+    templateId: undefined,
+    dataJson: '',
+  })
+  const [documentGenerateResult, setDocumentGenerateResult] =
+    useState<GenerateDocumentResponse | null>(null)
+  const [favoriteTemplateId, setFavoriteTemplateId] = useState<
+    number | undefined
+  >(undefined)
+  const [favoriteResult, setFavoriteResult] = useState<FavoriteResponse | null>(
+    null
+  )
+  const [newTemplateType, setNewTemplateType] = useState({ nombre: '' })
+
   // Estados para controlar la carga de cada operación
   const [loadingStates, setLoadingStates] = useState({
     uploadedDocs: false,
@@ -41,6 +81,14 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
     singleGeneratedDoc: false,
     favorites: false,
     templateTypes: false,
+    // Estados adicionales para métodos POST
+    uploadDoc: false,
+    createField: false,
+    createTemplate: false,
+    generateDoc: false,
+    addFavorite: false,
+    removeFavorite: false,
+    createTemplateType: false,
   })
 
   const {
@@ -52,6 +100,13 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
     getGeneratedDocument,
     getMyFavorites,
     getTemplateTypes,
+    // Métodos POST
+    uploadDocument,
+    createAvailableField,
+    createTemplate,
+    generateDocument,
+    addFavorite,
+    removeFavorite,
   } = useDocumentsApi()
 
   // Función para actualizar estado de carga
@@ -64,11 +119,9 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
     setLoading('uploadedDocs', true)
     try {
       const response = await getUploadedDocuments()
-      if (response?.data?.data?.results) {
+      if (response?.data?.data) {
         setUploadedDocuments(
-          Array.isArray(response.data.data.results)
-            ? response.data.data.results
-            : []
+          Array.isArray(response.data.data) ? response.data.data : []
         )
       }
       console.log('Uploaded Documents Response:', response)
@@ -185,6 +238,122 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
       console.error('Error getting template types:', err)
     } finally {
       setLoading('templateTypes', false)
+    }
+  }
+
+  // Handlers para métodos POST
+  const handleUploadDocument = async () => {
+    if (!selectedFile) return
+    setLoading('uploadDoc', true)
+    try {
+      const response = await uploadDocument(selectedFile)
+      if (response?.data?.data) {
+        setUploadResult(response.data.data)
+      }
+      console.log('Upload Document Response:', response)
+    } catch (err) {
+      console.error('Error uploading document:', err)
+    } finally {
+      setLoading('uploadDoc', false)
+    }
+  }
+
+  const handleCreateAvailableField = async () => {
+    setLoading('createField', true)
+    try {
+      const response = await createAvailableField(newField)
+      if (response?.data?.data) {
+        setFieldCreateResult(response.data.data)
+        // Limpiar formulario
+        setNewField({ nombre: '', tipo_dato: 'texto' })
+      }
+      console.log('Create Available Field Response:', response)
+    } catch (err) {
+      console.error('Error creating available field:', err)
+    } finally {
+      setLoading('createField', false)
+    }
+  }
+
+  const handleCreateTemplate = async () => {
+    setLoading('createTemplate', true)
+    try {
+      const response = await createTemplate(newTemplate)
+      if (response?.data?.data) {
+        setTemplateCreateResult(response.data.data)
+        // Limpiar formulario
+        setNewTemplate({
+          nombre: '',
+          descripcion: '',
+          html_con_campos: '',
+          tipo_id: undefined,
+        })
+      }
+      console.log('Create Template Response:', response)
+    } catch (err) {
+      console.error('Error creating template:', err)
+    } finally {
+      setLoading('createTemplate', false)
+    }
+  }
+
+  const handleGenerateDocument = async () => {
+    if (!generateDoc.templateId || !generateDoc.dataJson) return
+    setLoading('generateDoc', true)
+    try {
+      let parsedData: Record<string, any>
+      try {
+        parsedData = JSON.parse(generateDoc.dataJson)
+      } catch (parseError) {
+        console.error('Error parsing JSON:', parseError)
+        alert('El formato JSON no es válido')
+        return
+      }
+
+      const response = await generateDocument(
+        generateDoc.templateId,
+        parsedData
+      )
+      if (response?.data?.data) {
+        setDocumentGenerateResult(response.data.data)
+      }
+      console.log('Generate Document Response:', response)
+    } catch (err) {
+      console.error('Error generating document:', err)
+    } finally {
+      setLoading('generateDoc', false)
+    }
+  }
+
+  const handleAddFavorite = async () => {
+    if (!favoriteTemplateId) return
+    setLoading('addFavorite', true)
+    try {
+      const response = await addFavorite(favoriteTemplateId)
+      if (response?.data?.data) {
+        setFavoriteResult(response.data.data)
+      }
+      console.log('Add Favorite Response:', response)
+    } catch (err) {
+      console.error('Error adding favorite:', err)
+    } finally {
+      setLoading('addFavorite', false)
+    }
+  }
+
+  const handleRemoveFavorite = async () => {
+    if (!favoriteTemplateId) return
+    setLoading('removeFavorite', true)
+    try {
+      const response = await removeFavorite(favoriteTemplateId)
+      if (response?.data?.data) {
+        setFavoriteResult(response.data.data)
+      }
+      console.log('Remove Favorite Response:', response)
+    } catch (err) {
+      console.error('Error removing favorite:', err)
+    } finally {
+      setLoading('removeFavorite', false)
     }
   }
 
@@ -443,14 +612,14 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
             borderRadius: '5px',
           }}
         >
-          <h3>6. Documento Generado Individual (ID: 1)</h3>
+          <h3>6. Documento Generado Individual (ID: 3)</h3>
           <button
-            onClick={() => handleGetGeneratedDocument(1)}
+            onClick={() => handleGetGeneratedDocument(3)}
             disabled={loadingStates.singleGeneratedDoc}
           >
             {loadingStates.singleGeneratedDoc
               ? 'Cargando...'
-              : 'Obtener Documento Generado ID 1'}
+              : 'Obtener Documento Generado ID 3'}
           </button>
           {singleGeneratedDocument && (
             <div
@@ -571,6 +740,420 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
       </div>
 
       <h1>Ejemplo de useDocumentsApi - Métodos POSTS</h1>
+
+      {/* Estados adicionales para métodos POST */}
+      <div style={{ display: 'grid', gap: '20px', marginTop: '20px' }}>
+        {/* Upload Document */}
+        <div
+          style={{
+            border: '1px solid #ccc',
+            padding: '15px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3>1. Subir Documento</h3>
+          <input
+            type='file'
+            accept='.pdf,.jpg,.jpeg,.png,.txt'
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) setSelectedFile(file)
+            }}
+            style={{ marginBottom: '10px' }}
+          />
+          {selectedFile && <p>Archivo seleccionado: {selectedFile.name}</p>}
+          <button
+            onClick={handleUploadDocument}
+            disabled={loadingStates.uploadDoc || !selectedFile}
+            style={{ marginLeft: '10px' }}
+          >
+            {loadingStates.uploadDoc ? 'Subiendo...' : 'Subir Documento'}
+          </button>
+          {uploadResult && (
+            <div
+              style={{
+                backgroundColor: '#e8f5e8',
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '3px',
+              }}
+            >
+              <p>
+                <strong>Documento subido exitosamente!</strong>
+              </p>
+              <p>
+                <strong>ID:</strong> {uploadResult.id}
+              </p>
+              <p>
+                <strong>Tipo:</strong> {uploadResult.tipo}
+              </p>
+              <p>
+                <strong>Nombre:</strong> {uploadResult.nombre_original}
+              </p>
+              <p>
+                <strong>URL del archivo:</strong> {uploadResult.archivo_url}
+              </p>
+              <p>
+                <strong>Fecha de subida:</strong> {uploadResult.fecha_subida}
+              </p>
+              {uploadResult.texto_extraido && (
+                <p>
+                  <strong>Texto extraído:</strong>{' '}
+                  {uploadResult.texto_extraido.substring(0, 100)}...
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Create Available Field */}
+        <div
+          style={{
+            border: '1px solid #ccc',
+            padding: '15px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3>2. Crear Campo Disponible</h3>
+          <div style={{ display: 'grid', gap: '10px', marginBottom: '15px' }}>
+            <input
+              type='text'
+              placeholder='Nombre del campo'
+              value={newField.nombre}
+              onChange={(e) =>
+                setNewField((prev) => ({ ...prev, nombre: e.target.value }))
+              }
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            />
+            <select
+              value={newField.tipo_dato}
+              onChange={(e) =>
+                setNewField((prev) => ({
+                  ...prev,
+                  tipo_dato: e.target.value as 'texto' | 'fecha' | 'numero',
+                }))
+              }
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            >
+              <option value='texto'>Texto</option>
+              <option value='fecha'>Fecha</option>
+              <option value='numero'>Número</option>
+            </select>
+          </div>
+          <button
+            onClick={handleCreateAvailableField}
+            disabled={loadingStates.createField || !newField.nombre}
+          >
+            {loadingStates.createField ? 'Creando...' : 'Crear Campo'}
+          </button>
+          {fieldCreateResult && (
+            <div
+              style={{
+                backgroundColor: '#e8f5e8',
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '3px',
+              }}
+            >
+              <p>
+                <strong>Campo creado exitosamente!</strong>
+              </p>
+              <p>
+                <strong>ID:</strong> {fieldCreateResult.id}
+              </p>
+              <p>
+                <strong>Nombre:</strong> {fieldCreateResult.nombre}
+              </p>
+              <p>
+                <strong>Tipo:</strong> {fieldCreateResult.tipo_dato}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Create Template */}
+        <div
+          style={{
+            border: '1px solid #ccc',
+            padding: '15px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3>3. Crear Plantilla</h3>
+          <div style={{ display: 'grid', gap: '10px', marginBottom: '15px' }}>
+            <input
+              type='text'
+              placeholder='Nombre de la plantilla'
+              value={newTemplate.nombre}
+              onChange={(e) =>
+                setNewTemplate((prev) => ({ ...prev, nombre: e.target.value }))
+              }
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            />
+            <textarea
+              placeholder='Descripción (opcional)'
+              value={newTemplate.descripcion}
+              onChange={(e) =>
+                setNewTemplate((prev) => ({
+                  ...prev,
+                  descripcion: e.target.value,
+                }))
+              }
+              rows={3}
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            />
+            <textarea
+              placeholder='HTML con campos (ej: <p>Hola {{nombre}}</p>)'
+              value={newTemplate.html_con_campos}
+              onChange={(e) =>
+                setNewTemplate((prev) => ({
+                  ...prev,
+                  html_con_campos: e.target.value,
+                }))
+              }
+              rows={4}
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            />
+            <select
+              value={newTemplate.tipo_id || ''}
+              onChange={(e) =>
+                setNewTemplate((prev) => ({
+                  ...prev,
+                  tipo_id: e.target.value ? Number(e.target.value) : undefined,
+                }))
+              }
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            >
+              <option value=''>Seleccionar tipo (opcional)</option>
+              {templateTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            onClick={handleCreateTemplate}
+            disabled={
+              loadingStates.createTemplate ||
+              !newTemplate.nombre ||
+              !newTemplate.html_con_campos
+            }
+          >
+            {loadingStates.createTemplate ? 'Creando...' : 'Crear Plantilla'}
+          </button>
+          {templateCreateResult && (
+            <div
+              style={{
+                backgroundColor: '#e8f5e8',
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '3px',
+              }}
+            >
+              <p>
+                <strong>Plantilla creada exitosamente!</strong>
+              </p>
+              <p>
+                <strong>ID:</strong> {templateCreateResult.id}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Generate Document */}
+        <div
+          style={{
+            border: '1px solid #ccc',
+            padding: '15px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3>4. Generar Documento</h3>
+          <div style={{ display: 'grid', gap: '10px', marginBottom: '15px' }}>
+            <select
+              value={generateDoc.templateId || ''}
+              onChange={(e) =>
+                setGenerateDoc((prev) => ({
+                  ...prev,
+                  templateId: e.target.value
+                    ? Number(e.target.value)
+                    : undefined,
+                }))
+              }
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            >
+              <option value=''>Seleccionar plantilla</option>
+              {templates.map((template) => (
+                <option key={template.id} value={template.id}>
+                  {template.nombre} (ID: {template.id})
+                </option>
+              ))}
+            </select>
+            <textarea
+              placeholder='Datos JSON (ej: {"nombre": "Juan", "fecha": "2024-01-01"})'
+              value={generateDoc.dataJson}
+              onChange={(e) =>
+                setGenerateDoc((prev) => ({
+                  ...prev,
+                  dataJson: e.target.value,
+                }))
+              }
+              rows={4}
+              style={{
+                padding: '8px',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+              }}
+            />
+          </div>
+          <button
+            onClick={handleGenerateDocument}
+            disabled={
+              loadingStates.generateDoc ||
+              !generateDoc.templateId ||
+              !generateDoc.dataJson
+            }
+          >
+            {loadingStates.generateDoc ? 'Generando...' : 'Generar Documento'}
+          </button>
+          {documentGenerateResult && (
+            <div
+              style={{
+                backgroundColor: '#e8f5e8',
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '3px',
+              }}
+            >
+              <p>
+                <strong>Documento generado exitosamente!</strong>
+              </p>
+              <p>
+                <strong>ID:</strong> {documentGenerateResult.id}
+              </p>
+              <details style={{ marginTop: '10px' }}>
+                <summary>Ver HTML generado</summary>
+                <div
+                  style={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '10px',
+                    marginTop: '5px',
+                    maxHeight: '200px',
+                    overflow: 'auto',
+                  }}
+                >
+                  <pre style={{ whiteSpace: 'pre-wrap', fontSize: '12px' }}>
+                    {documentGenerateResult.html_resultante}
+                  </pre>
+                </div>
+              </details>
+            </div>
+          )}
+        </div>
+
+        {/* Add to Favorites */}
+        <div
+          style={{
+            border: '1px solid #ccc',
+            padding: '15px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3>5. Agregar a Favoritos</h3>
+          <select
+            value={favoriteTemplateId || ''}
+            onChange={(e) =>
+              setFavoriteTemplateId(
+                e.target.value ? Number(e.target.value) : undefined
+              )
+            }
+            style={{
+              padding: '8px',
+              border: '1px solid #ccc',
+              borderRadius: '3px',
+              marginBottom: '10px',
+            }}
+          >
+            <option value=''>Seleccionar plantilla para favoritos</option>
+            {templates.map((template) => (
+              <option key={template.id} value={template.id}>
+                {template.nombre} (ID: {template.id})
+              </option>
+            ))}
+          </select>
+          <br />
+          <button
+            onClick={handleAddFavorite}
+            disabled={loadingStates.addFavorite || !favoriteTemplateId}
+            style={{ marginRight: '10px' }}
+          >
+            {loadingStates.addFavorite ? 'Agregando...' : 'Agregar a Favoritos'}
+          </button>
+          <button
+            onClick={handleRemoveFavorite}
+            disabled={loadingStates.removeFavorite || !favoriteTemplateId}
+          >
+            {loadingStates.removeFavorite
+              ? 'Removiendo...'
+              : 'Remover de Favoritos'}
+          </button>
+          {favoriteResult && (
+            <div
+              style={{
+                backgroundColor: '#e8f5e8',
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '3px',
+              }}
+            >
+              <p>
+                <strong>Operación de favoritos exitosa!</strong>
+              </p>
+              <p>
+                <strong>ID:</strong> {favoriteResult.id}
+              </p>
+              <p>
+                <strong>Plantilla:</strong> {favoriteResult.plantilla.id}
+              </p>
+              <p>
+                <strong>Fecha Agregado:</strong> {favoriteResult.fecha_agregado}
+              </p>
+              <p>
+                <strong>Usuario:</strong> {favoriteResult.usuario}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Instrucciones */}
       <div
