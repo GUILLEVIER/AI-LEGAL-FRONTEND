@@ -5,6 +5,7 @@ import {
   TokenValidationExample,
   AppWithAuthExample,
   AppWithAuthUsingApiHookExample,
+  AppWithAuthUsingDocumentsApiExample,
 } from '../views'
 
 const routes = [
@@ -35,6 +36,10 @@ const routes = [
   {
     path: '/examples/api-with-auth-using-hook',
     element: <AppWithAuthUsingApiHookExample />,
+  },
+  {
+    path: '/examples/documents',
+    element: <AppWithAuthUsingDocumentsApiExample />,
   },
 ]
 

@@ -103,13 +103,15 @@ export class Services implements AuthService {
   /**
    * Realiza una solicitud DELETE a la API.
    * @param url - La URL del endpoint.
-   * @param headers - Encabezados adicionales para la solicitud.
+   * @param headers - Encabezados adicionales para la solicitud (opcional).
+   * @param data - Los datos a enviar en el cuerpo de la solicitud (opcional).
    * @returns Promesa con la respuesta de la API.
    */
   async delete<T = any>(
     url: string,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    data?: any
   ): Promise<ApiResponse<ApiGenericResponse<T>>> {
-    return this.httpClient.delete<T>(url, headers)
+    return this.httpClient.delete<T>(url, headers, data)
   }
 }

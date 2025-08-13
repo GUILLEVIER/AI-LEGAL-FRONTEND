@@ -100,3 +100,163 @@ export interface CompaniesResponse {
   previous: null
   results: Company[]
 }
+
+// REVISAR CON PRECAUCIÓN
+
+// Documents API Responses
+
+// UploadedDocumentResponseMapper
+// API - /documents/v1/documentos-subidos/subir_documento/ - data
+export interface UploadDocumentResponse {
+  id: number
+  texto_extraido: string
+  tipo: string
+  nombre_original: string
+}
+
+// UploadedDocumentsResponseMapper
+// API - /documents/v1/documentos-subidos/ - data
+// PROBADO
+export interface UploadedDocumentsResponse {
+  count: number
+  next: null
+  previous: null
+  results: UploadedDocument[]
+}
+
+// UploadedDocumentsResponseMapper
+// API - /documents/v1/documentos-subidos/ - data
+// PROBADO
+export interface UploadedDocument {
+  id: number
+  usuario: number
+  nombre_original: string
+  tipo: 'pdf' | 'imagen' | 'texto'
+  archivo_url: string
+  fecha_subida: string
+}
+
+// AvailableFieldsResponseMapper
+// API - /documents/v1/campos-disponibles/ - data
+// PROBADO
+export interface AvailableFieldsResponse {
+  count: number
+  next: null
+  previous: null
+  results: AvailableField[]
+}
+
+// PROBADO
+export interface AvailableField {
+  id: number
+  nombre: string
+  tipo_dato: 'texto' | 'fecha' | 'numero'
+}
+
+// CreateAvailableFieldResponseMapper
+// API - /documents/v1/campos-disponibles/ POST - data
+export interface CreateAvailableFieldResponse {
+  results: AvailableField
+}
+
+// TemplatesResponseMapper
+// API - /documents/v1/plantillas-documentos/ - data
+// PROBADO
+export interface Template {
+  id: number
+  nombre: string
+  descripcion: string
+  html_con_campos: string
+  tipo?: TemplateType
+  tipo_info?: {
+    id: number
+    nombre: string
+  }
+  fecha_creacion: string
+  campos_asociados: TemplateField[]
+  es_favorito?: boolean
+  fecha_agregado_favorito?: string // NO VISUALIZO EL USO
+  usuario: number
+}
+
+// PROBADO
+export interface TemplateField {
+  id: number
+  campo: number
+  nombre_variable: string
+  campo_nombre: string
+  campo_tipo: string
+}
+
+// CreateTemplateResponseMapper
+// API - /documents/v1/plantillas-documentos/crear_plantilla/ - data
+export interface CreateTemplateResponse {
+  results: {
+    id: number
+    mensaje: string
+  }
+}
+
+// GenerateDocumentResponseMapper
+// API - /documents/v1/plantillas-documentos/{id}/generar_documento/ - data
+export interface GenerateDocumentResponse {
+  id: number
+  html_resultante: string
+  mensaje: string
+}
+
+// GeneratedDocumentsResponseMapper
+// API - /documents/v1/documentos-generados/ - data
+// PROBADO
+export interface GeneratedDocumentsResponse {
+  count: number
+  next: null
+  previous: null
+  results: GeneratedDocument[]
+}
+
+// FALTA PROBAR CON DATOS.
+export interface GeneratedDocument {
+  id: number
+  plantilla: number
+  usuario: number
+  datos_rellenados: Record<string, any>
+  html_resultante: string
+  fecha_generacion: string
+  plantilla_nombre: string
+  usuario_username: string
+}
+
+// FavoriteResponseMapper
+// API - /documents/v1/plantillas-favoritas/ - data
+export interface FavoriteResponse {
+  message: string
+}
+
+// MyFavoritesResponseMapper
+// API - /documents/v1/plantillas-favoritas/mis_favoritos/ - data
+export interface MyFavoritesResponse {
+  data: Template[]
+}
+
+// TemplateTypesResponseMapper
+// API - /documents/v1/tipos-plantilla/ - data
+// PROBADO
+export interface TemplateTypesResponse {
+  count: number
+  next: null
+  previous: null
+  results: TemplateType[]
+}
+
+// PROBADO
+export interface TemplateType {
+  id: number
+  nombre: string
+}
+
+// CreateTemplateTypeResponseMapper
+// API - /documents/v1/tipos-plantilla/ POST - data
+export interface CreateTemplateTypeResponse {
+  results: TemplateType
+}

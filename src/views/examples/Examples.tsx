@@ -24,6 +24,11 @@ const Examples: React.FC = () => {
               <a href='/examples/api-with-auth'>API con Autenticación</a>
             </li>
           </strong>
+          <strong>
+            <li>
+              <a href='/examples/documents'>API de Documentos</a>
+            </li>
+          </strong>
           {/* Agregar más ejemplos aquí */}
         </ul>
         <p>

@@ -100,11 +100,12 @@ export const useApiWithAuth = () => {
   const deleteWithAuth = useCallback(
     async <T = any>(
       url: string,
-      headers?: Record<string, string>
+      headers?: Record<string, string>,
+      data?: any
     ): Promise<ApiResponse<ApiGenericResponse<T>> | null> => {
       return executeWithAuth(() => {
         const services = ApiFactory.getServices()
-        return services.delete<T>(url, headers)
+        return services.delete<T>(url, headers, data)
       })
     },
     [executeWithAuth]

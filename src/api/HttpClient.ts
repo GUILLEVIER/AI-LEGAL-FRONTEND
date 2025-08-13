@@ -30,7 +30,13 @@ export class HttpClient {
         if (token) {
           config.headers['Authorization'] = `Bearer ${token}`
         }
-        config.headers['Content-Type'] = 'application/json'
+
+        // Solo establecer Content-Type si no es FormData
+        // Axios maneja automáticamente el Content-Type para FormData
+        if (!(config.data instanceof FormData)) {
+          config.headers['Content-Type'] = 'application/json'
+        }
+
         return config
       },
       (error: AxiosError) => {
@@ -116,11 +122,13 @@ export class HttpClient {
 
   async delete<T = any>(
     url: string,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    data?: any
   ): Promise<ApiResponse<ApiGenericResponse<T>>> {
     try {
       const response = await this.api.delete<ApiGenericResponse<T>>(url, {
         headers,
+        data,
       })
       return {
         data: response.data,
