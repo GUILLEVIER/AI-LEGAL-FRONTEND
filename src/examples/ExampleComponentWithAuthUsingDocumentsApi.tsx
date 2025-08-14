@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDocumentsApi } from '../hooks/api/apiWithAuth/useDocumentsApi'
-import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
 import {
   UploadedDocument,
   AvailableField,
@@ -19,8 +18,6 @@ import { CreateTemplateData } from '../hooks/api/apiWithAuth/useDocumentsApi'
  * Prueba todos los métodos GET para verificar la conexión a la API
  */
 export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
-  const { isLoading, error } = useApiWithAuth()
-
   // Estados para cada método GET
   const [uploadedDocuments, setUploadedDocuments] = useState<
     UploadedDocument[]
@@ -69,7 +66,6 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [favoriteResult, setFavoriteResult] = useState<FavoriteResponse | null>(
     null
   )
-  const [newTemplateType, setNewTemplateType] = useState({ nombre: '' })
 
   // Estados para controlar la carga de cada operación
   const [loadingStates, setLoadingStates] = useState({
@@ -92,6 +88,8 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   })
 
   const {
+    isLoading,
+    error,
     getUploadedDocuments,
     getAvailableFields,
     getTemplates,

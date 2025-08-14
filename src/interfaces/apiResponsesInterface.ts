@@ -227,12 +227,6 @@ export interface FavoriteResponse {
   usuario: number
 }
 
-// MyFavoritesResponseMapper
-// API - /documents/v1/plantillas-favoritas/mis_favoritos/ - data
-export interface MyFavoritesResponse {
-  data: Template[]
-}
-
 // TemplateTypesResponseMapper
 // API - /documents/v1/tipos-plantilla/ - data
 // PROBADO

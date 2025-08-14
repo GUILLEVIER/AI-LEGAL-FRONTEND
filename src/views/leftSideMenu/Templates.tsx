@@ -1,24 +1,57 @@
 import React from 'react'
 import { useTemplate } from '../../hooks/views/leftSideMenu/useTemplate'
-import { Box, Button, Typography, Alert, Chip, Divider } from '@mui/material'
+import { Box, Button, Typography, Alert, Chip } from '@mui/material'
 import { BoxContainerApp, ContainerApp } from '../../layouts'
+import { HtmlPreview } from '../../components'
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp'
-import DocumentUpload from '../../components/DocumentUpload'
-import TemplateList from '../../components/TemplateList'
-import { TemplateItems } from '../../data/TemplateItems'
 import { paletteColors } from '../../utils/paletteColors'
+import {
+  CheckCircleOutline,
+  DeleteForeverSharp,
+  ErrorOutline,
+  UploadFileOutlined,
+} from '@mui/icons-material'
+import { List, ListItem, ListItemText, IconButton, Paper } from '@mui/material'
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 
 const Templates: React.FC = () => {
   const {
-    files,
-    isUploading,
+    isLoading,
     uploadFiles,
-    deleteFile,
+    handleDeleteFile,
     clearFiles,
     successfulUploads,
     failedUploads,
     handleFilesUploaded,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragReject,
+    fileRejections,
+    htmlContent,
+    acceptedFileTypes,
+    maxFiles,
+    maxSize,
+    formatFileSize,
+    uploadedFiles,
+    getStatusColor,
+    handlePreviewFile,
+    handleRemoveFile,
+    previewFile,
+    setPreviewFile,
+    setHtmlContent,
   } = useTemplate()
+
+  const getStatusIcon = (status?: string) => {
+    switch (status) {
+      case 'success':
+        return <CheckCircleOutline sx={{ color: 'success.main' }} />
+      case 'error':
+        return <ErrorOutline sx={{ color: 'error.main' }} />
+      default:
+        return null
+    }
+  }
 
   return (
     <>
@@ -73,7 +106,7 @@ const Templates: React.FC = () => {
               </Typography>
             </Box>
             {/* Información de estado */}
-            {files.length > 0 && (
+            {uploadedFiles.length > 0 && (
               <Box
                 sx={{
                   my: 2,
@@ -100,23 +133,230 @@ const Templates: React.FC = () => {
                   color='secondary'
                   startIcon={<DeleteForeverSharpIcon />}
                   onClick={clearFiles}
-                  disabled={files.length === 0}
+                  disabled={uploadedFiles.length === 0}
                 >
                   Limpiar Todo
                 </Button>
               </Box>
             )}
-            {/* Componente de subida de documentos react-dropzone */}
-            <DocumentUpload
-              onFilesUploaded={handleFilesUploaded}
-              acceptedFileTypes={['.pdf', '.doc', '.docx', '.png', '.jpg']}
-              maxFiles={1}
-              maxSize={10485760} // 10MB
-              disabled={isUploading}
-            />
-
+            <Box sx={{ width: '100%' }}>
+              {/* Zona de arrastrar y soltar */}
+              <Paper
+                {...getRootProps()}
+                elevation={isDragActive ? 8 : 2}
+                sx={{
+                  p: 4,
+                  textAlign: 'center',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  border: isDragActive
+                    ? `2px dashed ${paletteColors.colorPrimary}`
+                    : isDragReject
+                    ? '2px dashed #f44336'
+                    : '2px dashed #e0e0e0',
+                  borderRadius: 2,
+                  backgroundColor: isDragActive
+                    ? 'action.hover'
+                    : isDragReject
+                    ? 'error.light'
+                    : 'background.paper',
+                  transition: 'all 0.4s ease',
+                  opacity: isLoading ? 0.6 : 1,
+                  '&:hover': {
+                    backgroundColor: isLoading ? 'inherit' : 'action.hover',
+                    borderColor: isLoading
+                      ? 'inherit'
+                      : paletteColors.colorPrimary,
+                    transform: isLoading ? 'none' : 'translateY(-2px)',
+                    boxShadow: isLoading ? 'inherit' : 4,
+                  },
+                }}
+              >
+                <input {...getInputProps()} />
+                <Box sx={{ mb: 2 }}>
+                  <UploadFileOutlined
+                    sx={{
+                      fontSize: 48,
+                      color: isDragActive
+                        ? 'primary.main'
+                        : isDragReject
+                        ? paletteColors.colorWhite
+                        : 'text.secondary',
+                      mb: 2,
+                    }}
+                  />
+                </Box>
+                {isDragActive ? (
+                  <Typography variant='h6' color='primary'>
+                    ¡Suelta los archivos aquí!
+                  </Typography>
+                ) : isDragReject ? (
+                  <Typography variant='h6' color={paletteColors.colorWhite}>
+                    Algunos archivos no son válidos
+                  </Typography>
+                ) : (
+                  <Box>
+                    <Typography variant='h6' gutterBottom>
+                      Arrastra archivos aquí o haz clic para seleccionar
+                    </Typography>
+                    <Typography
+                      variant='body2'
+                      color='text.secondary'
+                      sx={{ mb: 2 }}
+                    >
+                      Tipos de archivo permitidos:{' '}
+                      {acceptedFileTypes.join(', ')}
+                    </Typography>
+                    <Typography variant='caption' color='text.secondary'>
+                      Tamaño máximo: {formatFileSize(maxSize)} | Máximo{' '}
+                      {maxFiles} archivos
+                    </Typography>
+                  </Box>
+                )}
+              </Paper>
+              {/* Errores de validación */}
+              {fileRejections.length > 0 && (
+                <Box sx={{ my: 2 }}>
+                  {fileRejections.map(({ file, errors }) => (
+                    <Paper
+                      key={file.name}
+                      sx={{ p: 2, my: 2, backgroundColor: 'error.light' }}
+                    >
+                      <Typography
+                        variant='subtitle2'
+                        color={paletteColors.colorWhite}
+                      >
+                        {file.name}
+                      </Typography>
+                      {errors.map((error) => (
+                        <Typography
+                          key={error.code}
+                          variant='caption'
+                          color={paletteColors.colorWhite}
+                          display='block'
+                        >
+                          {error.message}
+                        </Typography>
+                      ))}
+                    </Paper>
+                  ))}
+                </Box>
+              )}
+              {/* Lista de archivos subidos */}
+              {uploadedFiles.length > 0 && (
+                <>
+                  <Box>
+                    <Typography
+                      gutterBottom
+                      sx={{ fontWeight: 'bold', my: 2 }}
+                      variant='subtitle1'
+                    >
+                      Archivos subidos ({uploadedFiles.length})
+                    </Typography>
+                    <Paper sx={{ maxHeight: 300, overflow: 'auto' }}>
+                      <List dense>
+                        {uploadedFiles.map((file) => (
+                          <ListItem
+                            key={file.id}
+                            sx={{
+                              borderBottom: '1px solid',
+                              borderBottomColor: 'divider',
+                              '&:last-child': { borderBottom: 'none' },
+                            }}
+                          >
+                            <Box sx={{ mr: 2 }}>
+                              {getStatusIcon(file.status)}
+                            </Box>
+                            <ListItemText
+                              primary={file.name}
+                              secondary={
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                  }}
+                                >
+                                  <Typography variant='caption'>
+                                    {formatFileSize(file.size || 0)}
+                                  </Typography>
+                                  <Chip
+                                    size='small'
+                                    label={file.status || 'uploading'}
+                                    color={getStatusColor(file.status) as any}
+                                    sx={{ height: 20, fontSize: '0.75rem' }}
+                                  />
+                                </Box>
+                              }
+                            />
+                            <IconButton
+                              edge='end'
+                              aria-label='preview'
+                              onClick={() => handlePreviewFile(file)}
+                              size='small'
+                              disabled={file.status !== 'success'}
+                            >
+                              <VisibilityTwoToneIcon />
+                            </IconButton>
+                            <IconButton
+                              edge='end'
+                              aria-label='delete'
+                              onClick={() => handleRemoveFile(file.id!)}
+                              size='small'
+                            >
+                              <DeleteForeverSharp />
+                            </IconButton>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Paper>
+                  </Box>
+                  <Box>
+                    <Typography
+                      gutterBottom
+                      sx={{ fontWeight: 'bold', my: 2 }}
+                      variant='subtitle1'
+                    >
+                      Previsualización del Archivo Procesado
+                    </Typography>
+                    {previewFile && htmlContent ? (
+                      <HtmlPreview
+                        htmlContent={htmlContent}
+                        fileName={previewFile.name}
+                        onClose={() => {
+                          setPreviewFile(null)
+                          setHtmlContent('')
+                        }}
+                      />
+                    ) : (
+                      <Paper
+                        sx={{
+                          p: 4,
+                          textAlign: 'center',
+                          backgroundColor: 'grey.50',
+                          border: `2px dashed #e0e0e0`,
+                          borderRadius: 2,
+                        }}
+                      >
+                        <VisibilityTwoToneIcon
+                          sx={{
+                            fontSize: 48,
+                            color: 'text.secondary',
+                            mb: 2,
+                          }}
+                        />
+                        <Typography variant='body1' color='text.secondary'>
+                          Selecciona el icono de previsualización en un archivo
+                          procesado exitosamente para ver el contenido HTML
+                          generado.
+                        </Typography>
+                      </Paper>
+                    )}
+                  </Box>
+                </>
+              )}
+            </Box>
             {/* Alerta de estado de subida */}
-            {isUploading && (
+            {isLoading && (
               <Alert severity='info' sx={{ my: 2 }}>
                 Subiendo archivos... Por favor espera.
               </Alert>

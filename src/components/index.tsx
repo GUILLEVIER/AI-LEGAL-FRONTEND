@@ -5,6 +5,7 @@ import UserProfileMenu from './UserProfileMenu'
 import Header from './Header'
 import DialogModalConfirmDelete from './DialogModalConfirmDelete'
 import TableInfo from './TableInfo'
+import HtmlPreview from './HtmlPreview'
 
 export {
   DialogModal,
@@ -14,4 +15,5 @@ export {
   Header,
   DialogModalConfirmDelete,
   TableInfo,
+  HtmlPreview,
 }

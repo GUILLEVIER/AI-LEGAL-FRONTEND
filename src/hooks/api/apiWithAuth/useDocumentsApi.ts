@@ -9,9 +9,7 @@ import {
   GeneratedDocumentsResponse,
   GeneratedDocument,
   FavoriteResponse,
-  MyFavoritesResponse,
   TemplateTypesResponse,
-  TemplateType,
 } from '../../../interfaces/apiResponsesInterface'
 import { useApiWithAuth } from '../../utils/useApiWithAuth'
 
@@ -35,7 +33,8 @@ export interface CreateTemplateData {
  * Aquí se llamarán las funciones para manejar documentos en la API.
  */
 export const useDocumentsApi = () => {
-  const { getWithAuth, postWithAuth, deleteWithAuth } = useApiWithAuth()
+  const { isLoading, error, getWithAuth, postWithAuth, deleteWithAuth } =
+    useApiWithAuth()
 
   // Documentos subidos
   // PROBADO
@@ -179,6 +178,8 @@ export const useDocumentsApi = () => {
   }
 
   return {
+    isLoading,
+    error,
     uploadDocument,
     getUploadedDocuments,
     getAvailableFields,

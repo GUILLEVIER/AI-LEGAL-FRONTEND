@@ -14,12 +14,14 @@ export const ExampleComponentWithAuth: React.FC = () => {
    */
   useEffect(() => {
     const loadUserData = async (id: string) => {
-      const response = await getWithAuth<UserResponse>(`/users/v1/${id}`)
+      const response = await getWithAuth<UserResponse>(
+        `/users/v1/usuarios/${id}`
+      )
       if (response && response.data.data) {
         setUserResponse(response.data.data)
       }
     }
-    loadUserData('2') // ID de ejemplo, puede ser dinámico
+    loadUserData('1') // ID de ejemplo, puede ser dinámico
   }, [getWithAuth])
 
   return (
