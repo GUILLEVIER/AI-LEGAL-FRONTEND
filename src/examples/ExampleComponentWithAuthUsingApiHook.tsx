@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useUsersApi } from '../hooks/api/apiWithAuth/useUsersApi'
-import { UserResponse } from '../interfaces/apiResponsesInterface'
-import { useApiWithAuth } from '../hooks/utils/useApiWithAuth'
 import { UserResponseMapper } from '../interfaces/mappersInterface'
 
 /**
  * Ejemplo de componente que usa el hook useUsersApi
  */
 export const ExampleComponentWithAuthUsingApiHook: React.FC = () => {
-  const { isLoading, error } = useApiWithAuth()
-  const { getUser } = useUsersApi()
+  const { isLoading, error, getUser } = useUsersApi()
   const [user, setUser] = useState<UserResponseMapper | null>(null)
 
   const loadUserData = async (id: string) => {

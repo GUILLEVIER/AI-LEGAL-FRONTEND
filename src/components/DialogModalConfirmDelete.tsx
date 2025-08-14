@@ -1,11 +1,13 @@
 import { DialogModalConfirmDeleteProps } from '../interfaces/propsInterface'
+import { paletteColors } from '../utils/paletteColors'
 import DialogModal from './DialogModal'
-import { Box, Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 
 const DialogModalConfirmDelete = ({
   handleClose,
   handleConfirm,
   open,
+  disabled = false,
 }: DialogModalConfirmDeleteProps) => {
   return (
     <DialogModal
@@ -21,8 +23,17 @@ const DialogModalConfirmDelete = ({
             onClick={handleConfirm}
             size='large'
             variant='contained'
+            disabled={disabled}
           >
-            Confirmar eliminación
+            {disabled ? (
+              <CircularProgress
+                sx={{ color: paletteColors.colorPrimary }}
+                thickness={4}
+                value={100}
+              />
+            ) : (
+              'Confirmar eliminación'
+            )}
           </Button>
           <Button
             color='warning'

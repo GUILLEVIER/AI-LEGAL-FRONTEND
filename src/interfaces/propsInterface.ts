@@ -42,6 +42,7 @@ export interface DialogModalConfirmDeleteProps {
   handleClose: any
   handleConfirm: any
   open: any
+  disabled: boolean
 }
 
 // Document Upload

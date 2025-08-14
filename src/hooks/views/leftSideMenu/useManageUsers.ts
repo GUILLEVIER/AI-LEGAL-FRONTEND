@@ -9,113 +9,126 @@ import {
   UserMapper,
   UsersGroupsResponseMapper,
 } from '../../../interfaces/mappersInterface'
-import { useApiWithAuth } from '../../utils/useApiWithAuth'
 import { useCompaniesApi } from '../../api/apiWithAuth/useCompaniesApi'
+import {
+  showToastifyError,
+  showToastifySuccess,
+} from '../../../utils/showToastify'
 
 export const useManageUsers = () => {
-  // HOOKS
-  const { isLoading, error } = useApiWithAuth()
-  const { getUsers, deleteUser, getUsersGroups, updateUser, createUser } =
-    useUsersApi()
+  // USE STATE AND HOOKS
+  // isLoading PUEDE SER USADO EN BOTONES DE ACCIÓN.
+  const {
+    isLoading,
+    error,
+    getUsers,
+    deleteUser,
+    getUsersGroups,
+    updateUser,
+    createUser,
+  } = useUsersApi()
   const { getCompanies } = useCompaniesApi()
 
-  // USE STATE
   const [values, setValues] = useState<ManageUsersFormInterface>(
     resetValuesManageUserForm
   )
   const [users, setUsers] = useState<UserMapper[]>([])
   const [groups, setGroups] = useState<UsersGroupsResponseMapper[]>([])
   const [companies, setCompanies] = useState<CompanyMapper[]>([])
-  const [filteredUsers, setFilteredUsers] = useState<UserMapper[]>(users)
+  const [filteredUsers, setFilteredUsers] = useState<UserMapper[]>([])
   const [open, setOpen] = useState(false)
   const [filter, setFilter] = useState('')
   const [isViewMode, setIsViewMode] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<UserMapper | null>(null)
+  //const [selectedUser, setSelectedUser] = useState<UserMapper | null>(null)
   const [openDeleteModalUser, setOpenModalDeleteUser] = useState(false)
+  // loading PUEDE SER USADO EN CARGA MULTIPLES DE DATOS.
+  const [loading, setLoading] = useState<boolean>(false)
+
+  console.log('useManageUsers isLoading:', isLoading)
+  console.log('useManageUsers error:', error)
 
   // CALLS API
+  const firstLoad = async () => {
+    setLoading(true)
+    await Promise.all([loadUsersData(), loadGroupsData(), loadCompaniesData()])
+    setLoading(false)
+  }
+
   const loadUsersData = async () => {
-    try {
-      const response = await getUsers()
-      if (response?.data?.data?.results) {
-        setUsers(response.data.data.results)
-        setFilteredUsers(response.data.data.results)
-      }
-    } catch (error) {
-      ErrorHandler.logError(error as AppError)
-      console.error('Error loading users:', error)
+    const response = await getUsers()
+    if (response?.data?.data?.results) {
+      setUsers(response.data.data.results)
+      setFilteredUsers(response.data.data.results)
     }
   }
 
   const loadGroupsData = async () => {
-    try {
-      const response = await getUsersGroups()
-      if (response?.data?.data) {
-        setGroups(response.data.data)
-      }
-    } catch (error) {
-      ErrorHandler.logError(error as AppError)
-      console.error('Error loading groups:', error)
+    const response = await getUsersGroups()
+    if (response?.data?.data) {
+      setGroups(response.data.data)
     }
   }
 
   const loadCompaniesData = async () => {
-    try {
-      const response = await getCompanies()
-      if (response?.data?.data?.results) {
-        setCompanies(response.data.data.results)
-      }
-    } catch (error) {
-      ErrorHandler.logError(error as AppError)
-      console.error('Error loading companies:', error)
+    const response = await getCompanies()
+    if (response?.data?.data?.results) {
+      setCompanies(response.data.data.results)
     }
   }
 
+  useEffect(() => {
+    if (error) {
+      ErrorHandler.logError(error as AppError)
+      showToastifyError(error.details.errors[0])
+    }
+  }, [error])
+
   // FIRST LOAD
   useEffect(() => {
-    loadUsersData()
-    loadGroupsData()
-    loadCompaniesData()
+    firstLoad()
   }, [])
 
   // METHODS
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (isEditMode && selectedUser) {
-      try {
-        const response = await updateUser(selectedUser.id.toString(), values)
-        if (response) {
-          loadUsersData()
-          setOpen(false)
-          setIsEditMode(false)
-          setSelectedUser(null)
-          setValues(resetValuesManageUserForm)
-        }
-      } catch (error) {
-        ErrorHandler.logError(error as AppError)
-        console.error('Error updating user:', error)
+    if (isEditMode) {
+      const response = await updateUser(values.userId.toString(), values)
+      if (response) {
+        showToastifySuccess('Usuario actualizado con éxito')
+        loadUsersData()
+        setOpen(false)
+        setIsEditMode(false)
+        setValues(resetValuesManageUserForm)
       }
     } else {
-      try {
-        const response = await createUser(values)
-        if (response) {
-          loadUsersData()
-          setOpen(false)
-          setValues(resetValuesManageUserForm)
-        }
-      } catch (error) {
-        ErrorHandler.logError(error as AppError)
-        console.error('Error creating user:', error)
+      const response = await createUser(values)
+      if (response) {
+        showToastifySuccess('Usuario creado con éxito')
+        loadUsersData()
+        setOpen(false)
+        setValues(resetValuesManageUserForm)
       }
     }
+  }
+
+  const handleConfirmDeleteUser = async () => {
+    const response = await deleteUser(values.userId.toString())
+    if (response) {
+      showToastifySuccess('Usuario eliminado con éxito')
+      setUsers((prev) => prev.filter((user) => user.id !== values.userId))
+      setFilteredUsers((prev) =>
+        prev.filter((user) => user.id !== values.userId)
+      )
+    }
+    setOpenModalDeleteUser(false)
+    setValues(resetValuesManageUserForm)
   }
 
   const handleCloseModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(false)
     setIsViewMode(false)
     setIsEditMode(false)
-    setSelectedUser(null)
     setValues(resetValuesManageUserForm)
   }
 
@@ -172,12 +185,10 @@ export const useManageUsers = () => {
       return setValues({ ...values, [prop]: event.target.value })
     }
 
-  const handleViewUserDetails = (user: UserMapper) => {
-    setSelectedUser(user)
-    setIsViewMode(true)
-    setIsEditMode(false)
+  const assignValues = (user: UserMapper) => {
     setValues({
       ...values,
+      userId: user.id,
       userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -188,30 +199,24 @@ export const useManageUsers = () => {
       },
       group: user.group || 'Sin grupo',
     })
+  }
+
+  const handleViewUserDetails = (user: UserMapper) => {
+    setIsViewMode(true)
+    setIsEditMode(false)
+    assignValues(user)
     setOpen(true)
   }
 
   const handleEditUser = (user: UserMapper) => {
-    setSelectedUser(user)
     setIsEditMode(true)
     setIsViewMode(false)
-    setValues({
-      ...values,
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      company: {
-        name: user.company?.name || 'Sin empresa',
-        id: user.company?.id || 0,
-      },
-      group: user.group || 'Sin grupo',
-    })
+    assignValues(user)
     setOpen(true)
   }
 
   const handleDeleteUser = (user: UserMapper) => {
-    setSelectedUser(user)
+    assignValues(user)
     setOpenModalDeleteUser(true)
   }
 
@@ -219,58 +224,33 @@ export const useManageUsers = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     setOpenModalDeleteUser(false)
-    setSelectedUser(null)
-  }
-
-  const handleConfirmDeleteUser = async () => {
-    if (selectedUser) {
-      try {
-        const response = await deleteUser(selectedUser.id.toString())
-        if (response) {
-          setUsers((prev) => prev.filter((user) => user.id !== selectedUser.id))
-          setFilteredUsers((prev) =>
-            prev.filter((user) => user.id !== selectedUser.id)
-          )
-        }
-        setOpenModalDeleteUser(false)
-        setSelectedUser(null)
-      } catch (error) {
-        ErrorHandler.logError(error as AppError)
-        console.error('Error deleting user:', error)
-      }
-    }
+    setValues(resetValuesManageUserForm)
   }
 
   return {
-    isLoading,
-    error,
-    open,
-    setOpen,
-    handleSubmit,
-    handleCloseModal,
-    users,
-    filteredUsers,
-    setFilteredUsers,
-    handleClickDeleteFilter,
-    handleChangeFilter,
-    filter,
-    values,
-    handleChange,
-    isViewMode,
-    setIsViewMode,
-    isEditMode,
-    setIsEditMode,
-    selectedUser,
-    handleViewUserDetails,
-    handleEditUser,
-    handleCloseModalDeleteUser,
-    openDeleteModalUser,
-    handleConfirmDeleteUser,
-    setOpenModalDeleteUser,
-    handleDeleteUser,
-    groups,
     companies,
+    filter,
+    filteredUsers,
+    groups,
+    handleChange,
+    handleChangeFilter,
+    handleClickDeleteFilter,
     handleClickShowPassword,
+    handleCloseModal,
+    handleCloseModalDeleteUser,
+    handleConfirmDeleteUser,
+    handleDeleteUser,
+    handleEditUser,
     handleMouseDownPassword,
+    handleSubmit,
+    handleViewUserDetails,
+    isEditMode,
+    isLoading, // PARA BOTONES
+    isViewMode,
+    open,
+    openDeleteModalUser,
+    setOpen,
+    values,
+    loading, // PARA CARGAS MULTIPLES
   }
 }

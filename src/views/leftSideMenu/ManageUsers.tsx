@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -13,6 +14,7 @@ import { useManageUsers } from '../../hooks/views/leftSideMenu/useManageUsers'
 import {
   DialogModal,
   DialogModalConfirmDelete,
+  LoadingModal,
   TableInfo,
 } from '../../components'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
@@ -27,38 +29,39 @@ import {
 } from '../../interfaces/mappersInterface'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
+import { paletteColors } from '../../utils/paletteColors'
 
 const ManageUsers: React.FC = () => {
   const {
-    open,
-    handleSubmit,
-    handleCloseModal,
-    users,
-    filteredUsers,
-    setFilteredUsers,
-    setOpen,
-    isLoading,
-    handleClickDeleteFilter,
-    handleChangeFilter,
+    companies,
     filter,
+    filteredUsers,
+    groups,
     handleChange,
-    values,
-    isViewMode,
-    isEditMode,
-    handleViewUserDetails,
-    handleEditUser,
+    handleChangeFilter,
+    handleClickDeleteFilter,
+    handleClickShowPassword,
+    handleCloseModal,
     handleCloseModalDeleteUser,
-    openDeleteModalUser,
     handleConfirmDeleteUser,
     handleDeleteUser,
-    groups,
-    companies,
-    handleClickShowPassword,
+    handleEditUser,
     handleMouseDownPassword,
+    handleSubmit,
+    handleViewUserDetails,
+    isEditMode,
+    isLoading,
+    isViewMode,
+    open,
+    openDeleteModalUser,
+    setOpen,
+    values,
+    loading,
   } = useManageUsers()
 
   return (
     <>
+      {loading ? <LoadingModal /> : <></>}
       <Typography component='h1' variant='h5'>
         Gestión de Usuarios
       </Typography>
@@ -318,7 +321,15 @@ const ManageUsers: React.FC = () => {
                     type='submit'
                     variant='contained'
                   >
-                    Crear Usuario
+                    {isLoading ? (
+                      <CircularProgress
+                        sx={{ color: paletteColors.colorPrimary }}
+                        thickness={4}
+                        value={100}
+                      />
+                    ) : (
+                      'Crear Usuario'
+                    )}
                   </Button>
                 </>
               )}
@@ -331,7 +342,15 @@ const ManageUsers: React.FC = () => {
                   type='submit'
                   variant='contained'
                 >
-                  Guardar Cambios
+                  {isLoading ? (
+                    <CircularProgress
+                      sx={{ color: paletteColors.colorPrimary }}
+                      thickness={4}
+                      value={100}
+                    />
+                  ) : (
+                    'Guardar Cambios'
+                  )}
                 </Button>
               )}
             </Box>
@@ -357,6 +376,7 @@ const ManageUsers: React.FC = () => {
           handleClose={handleCloseModalDeleteUser}
           handleConfirm={handleConfirmDeleteUser}
           open={openDeleteModalUser}
+          disabled={isLoading}
         />
       </ContainerApp>
     </>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   UserResponse,
   UsersGroupsResponse,
@@ -17,8 +18,14 @@ import { useApiWithAuth } from '../../utils/useApiWithAuth'
  * Aqui se llamaran las funciones para manejar a los usuarios en la API.
  */
 export const useUsersApi = () => {
-  const { getWithAuth, postWithAuth, putWithAuth, deleteWithAuth } =
-    useApiWithAuth()
+  const {
+    isLoading,
+    error,
+    getWithAuth,
+    postWithAuth,
+    putWithAuth,
+    deleteWithAuth,
+  } = useApiWithAuth()
 
   const getUser = async (id: string) => {
     const response = await getWithAuth<UserResponse>(`/users/v1/usuarios/${id}`)
@@ -107,6 +114,8 @@ export const useUsersApi = () => {
   }
 
   return {
+    isLoading,
+    error,
     getUser,
     getUsers,
     createUser,

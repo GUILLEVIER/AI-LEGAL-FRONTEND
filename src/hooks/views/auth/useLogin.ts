@@ -34,7 +34,7 @@ export const useLogin = () => {
     sessionStatus(state)
   )
 
-  // USE EFFECT
+  // USE EFFECT USING REDUX
   useEffect(() => {
     if (status === 'FETCHED') {
       if (result.first_name && result.last_name) {
@@ -108,17 +108,18 @@ export const useLogin = () => {
     }
     dispatch(logIn({ data, extra }))
   }
+
   return {
-    handleSubmit,
     handleChange,
     handleClickShowPassword,
-    handleMouseDownPassword,
-    setOpen,
     handleCloseModal,
-    setEmailToPasswordRecover,
-    values,
-    setValues,
+    handleMouseDownPassword,
+    handleSubmit,
     open,
+    setEmailToPasswordRecover,
+    setOpen,
+    setValues,
     status,
+    values,
   }
 }

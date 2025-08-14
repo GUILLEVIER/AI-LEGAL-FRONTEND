@@ -18,20 +18,21 @@ import { DialogModal } from '../../components'
 import { ContainerApp, BoxContainerApp } from '../../layouts'
 import { StyledContainer, StyledCard } from '../../assets/styles/style'
 import { useLogin } from '../../hooks/views/auth/useLogin'
+import { paletteColors } from '../../utils/paletteColors'
 
 const Login: React.FC = () => {
   const {
-    handleSubmit,
     handleChange,
     handleClickShowPassword,
-    handleMouseDownPassword,
-    setOpen,
     handleCloseModal,
-    setEmailToPasswordRecover,
-    values,
-    setValues,
+    handleMouseDownPassword,
+    handleSubmit,
     open,
+    setEmailToPasswordRecover,
+    setOpen,
+    setValues,
     status,
+    values,
   } = useLogin()
 
   return (
@@ -113,7 +114,7 @@ const Login: React.FC = () => {
               >
                 {status === 'FETCHING' ? (
                   <CircularProgress
-                    sx={{ color: '#FFFFFF' }}
+                    sx={{ color: paletteColors.colorPrimary }}
                     thickness={4}
                     value={100}
                   />

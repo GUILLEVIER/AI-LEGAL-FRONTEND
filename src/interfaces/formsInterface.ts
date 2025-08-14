@@ -10,6 +10,7 @@ export interface LoginFormInterface {
 
 // Manage Users
 export interface ManageUsersFormInterface {
+  userId: number
   firstName: string
   lastName: string
   userName: string
