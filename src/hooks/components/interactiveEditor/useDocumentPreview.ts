@@ -75,7 +75,7 @@ export const useDocumentPreview = ({
    * Generate placeholder text from variable name
    */
   const getPlaceholderText = useCallback((variableName: string): string => {
-    return `Enter ${variableName.replace(/_/g, ' ')}`
+    return `Ingresa ${variableName.replace(/_/g, ' ')}`
   }, [])
 
   return {
