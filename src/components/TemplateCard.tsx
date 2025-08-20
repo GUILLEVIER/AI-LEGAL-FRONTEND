@@ -20,8 +20,9 @@ import {
   PictureAsPdfOutlined,
   DescriptionOutlined,
 } from '@mui/icons-material'
-import { useState } from 'react'
+import { useTemplateCard } from '../hooks/components/useTemplateCard'
 
+// INTERFACE TENTADORA
 interface Template {
   id: string
   name: string
@@ -32,6 +33,7 @@ interface Template {
   description?: string
 }
 
+// INTERFACE TENTADORA
 interface TemplateCardProps {
   template: Template
   onEdit?: (template: Template) => void
@@ -55,39 +57,18 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   onDownload,
   onPreview,
 }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
-
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
-
+  const {
+    anchorEl,
+    formatDate,
+    formatFileSize,
+    handleMenuOpen,
+    handleMenuClose,
+  } = useTemplateCard()
   const getFileIcon = (type: string) => {
     if (type.includes('pdf')) {
       return <PictureAsPdfOutlined sx={{ fontSize: 32, color: '#d32f2f' }} />
     }
     return <DescriptionOutlined sx={{ fontSize: 32, color: '#1976d2' }} />
-  }
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date)
   }
 
   return (

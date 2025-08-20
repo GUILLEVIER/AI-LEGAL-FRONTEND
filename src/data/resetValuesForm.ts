@@ -7,6 +7,7 @@ import {
 import { LoginFormInterface } from '../interfaces/formsInterface'
 
 export const resetValuesManageUserForm: ManageUsersFormInterface = {
+  userId: 0,
   firstName: '',
   lastName: '',
   userName: '',

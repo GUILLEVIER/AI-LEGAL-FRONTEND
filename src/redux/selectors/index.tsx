@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { SessionState } from '../../legal'
+import { PreviewDocumentState, SessionState } from '../../legal'
 
 // Session
 export const sessionErrors = (state: SessionState) =>
@@ -7,3 +7,7 @@ export const sessionErrors = (state: SessionState) =>
 export const sessionResult = (state: SessionState) => get(state, 'session.user')
 export const sessionStatus = (state: SessionState) =>
   get(state, 'session.fetchStatus')
+
+// Preview Document
+export const previewDocumentResult = (state: PreviewDocumentState) =>
+  get(state, 'previewDocument.document')

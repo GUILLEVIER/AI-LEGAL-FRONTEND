@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Grid,
   Box,
@@ -11,24 +11,8 @@ import {
 } from '@mui/material'
 import { SearchOutlined } from '@mui/icons-material'
 import TemplateCard from './TemplateCard'
-
-interface Template {
-  id: string
-  name: string
-  type: string
-  size: number
-  uploadDate: Date
-  status: 'active' | 'inactive'
-  description?: string
-}
-
-interface TemplateListProps {
-  templates: Template[]
-  onEdit?: (template: Template) => void
-  onDelete?: (templateId: string) => void
-  onDownload?: (template: Template) => void
-  onPreview?: (template: Template) => void
-}
+import { useTemplateList } from '../hooks/components/useTemplateList'
+import { TemplateListProps } from '../interfaces/propsInterface'
 
 /**
  * Sistema de filtros (búsqueda, tipo, estado).
@@ -44,50 +28,29 @@ const TemplateList: React.FC<TemplateListProps> = ({
   onDownload,
   onPreview,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filterType, setFilterType] = useState('all')
-  const [filterStatus, setFilterStatus] = useState('all')
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 9
-
-  // Filtros
-  const filteredTemplates = templates.filter((template) => {
-    const matchesSearch = template.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-    const matchesType =
-      filterType === 'all' || template.type.includes(filterType)
-    const matchesStatus =
-      filterStatus === 'all' || template.status === filterStatus
-
-    return matchesSearch && matchesType && matchesStatus
-  })
-
-  // Paginación
-  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedTemplates = filteredTemplates.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  )
-
-  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setCurrentPage(value)
-  }
-
-  const getUniqueTypes = () => {
-    const types = templates.map((template) => template.type)
-    return [...new Set(types)]
-  }
+  const {
+    searchTerm,
+    filterType,
+    filterStatus,
+    currentPage,
+    itemsPerPage,
+    filteredTemplates,
+    getPaginatedTemplates,
+    handlePageChange,
+    getUniqueTypes,
+    setSearchTerm,
+    setFilterType,
+    setFilterStatus,
+    setCurrentPage,
+  } = useTemplateList()
 
   return (
-    <Box>
+    <Box sx={{ my: 2 }}>
       {/* Controles de filtro y búsqueda */}
       <Paper sx={{ p: 3, mb: 3 }}>
         <Typography variant='h6' gutterBottom>
           Plantillas guardadas ({templates.length})
         </Typography>
-
         <Grid container spacing={2} alignItems='center'>
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
@@ -122,7 +85,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
               size='small'
             >
               <MenuItem value='all'>Todos los tipos</MenuItem>
-              {getUniqueTypes().map((type) => (
+              {getUniqueTypes(templates).map((type) => (
                 <MenuItem key={type} value={type}>
                   {type.includes('pdf') ? 'PDF' : 'Documento'}
                 </MenuItem>
@@ -151,7 +114,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
       </Paper>
 
       {/* Lista de plantillas */}
-      {filteredTemplates.length === 0 ? (
+      {filteredTemplates(templates).length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant='h6' color='text.secondary' gutterBottom>
             {templates.length === 0
@@ -167,7 +130,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
       ) : (
         <>
           <Grid container spacing={3}>
-            {paginatedTemplates.map((template) => (
+            {getPaginatedTemplates(templates).paginated.map((template) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={template.id}>
                 <TemplateCard
                   template={template}
@@ -181,10 +144,10 @@ const TemplateList: React.FC<TemplateListProps> = ({
           </Grid>
 
           {/* Paginación */}
-          {totalPages > 1 && (
+          {getPaginatedTemplates(templates).totalPages > 1 && (
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
               <Pagination
-                count={totalPages}
+                count={getPaginatedTemplates(templates).totalPages}
                 page={currentPage}
                 onChange={handlePageChange}
                 color='primary'

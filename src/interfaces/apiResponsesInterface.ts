@@ -127,7 +127,7 @@ export interface UploadedDocument {
   id: number
   usuario: number
   nombre_original: string
-  tipo: 'pdf' | 'imagen' | 'texto'
+  tipo: string
   archivo_url: string
   fecha_subida: string
 }
@@ -148,7 +148,7 @@ export interface AvailableFieldsResponse {
 export interface AvailableField {
   id: number
   nombre: string
-  tipo_dato: 'texto' | 'fecha' | 'numero'
+  tipo_dato: string
 }
 
 // TemplatesResponseMapper

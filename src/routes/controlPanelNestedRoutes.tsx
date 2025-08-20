@@ -7,6 +7,7 @@ import {
   Profile,
   Templates,
 } from '../views'
+import InteractiveEditor from '../views/InteractiveEditor'
 
 const controlPanelNestedRoutes = [
   {
@@ -36,6 +37,10 @@ const controlPanelNestedRoutes = [
   {
     path: 'manage-users',
     element: <ManageUsers />,
+  },
+  {
+    path: 'interactive-editor/:documentId',
+    element: <InteractiveEditor />,
   },
 ]
 

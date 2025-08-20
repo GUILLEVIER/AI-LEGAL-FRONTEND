@@ -12,6 +12,10 @@ import {
   FavoriteResponse,
 } from '../interfaces/apiResponsesInterface'
 import { CreateTemplateData } from '../hooks/api/apiWithAuth/useDocumentsApi'
+import {
+  AvailableFieldMapper,
+  TemplateTypeMapper,
+} from '../interfaces/mappersInterface'
 
 /**
  * Ejemplo de componente que usa el hook useDocumentsApi
@@ -22,7 +26,9 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [uploadedDocuments, setUploadedDocuments] = useState<
     UploadedDocument[]
   >([])
-  const [availableFields, setAvailableFields] = useState<AvailableField[]>([])
+  const [availableFields, setAvailableFields] = useState<
+    AvailableFieldMapper[]
+  >([])
   const [templates, setTemplates] = useState<Template[]>([])
   const [singleTemplate, setSingleTemplate] = useState<Template | null>(null)
   const [generatedDocuments, setGeneratedDocuments] = useState<
@@ -31,7 +37,7 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [singleGeneratedDocument, setSingleGeneratedDocument] =
     useState<GeneratedDocument | null>(null)
   const [myFavorites, setMyFavorites] = useState<Template[]>([])
-  const [templateTypes, setTemplateTypes] = useState<TemplateType[]>([])
+  const [templateTypes, setTemplateTypes] = useState<TemplateTypeMapper[]>([])
 
   // Estados adicionales para métodos POST
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -447,10 +453,10 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
                     <strong>ID:</strong> {field.id}
                   </p>
                   <p>
-                    <strong>Nombre:</strong> {field.nombre}
+                    <strong>Nombre:</strong> {field.name}
                   </p>
                   <p>
-                    <strong>Tipo:</strong> {field.tipo_dato}
+                    <strong>Tipo:</strong> {field.dataType}
                   </p>
                 </div>
               ))}
@@ -728,7 +734,7 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
                     <strong>ID:</strong> {type.id}
                   </p>
                   <p>
-                    <strong>Nombre:</strong> {type.nombre}
+                    <strong>Nombre:</strong> {type.name}
                   </p>
                 </div>
               ))}
@@ -949,7 +955,7 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
               <option value=''>Seleccionar tipo (opcional)</option>
               {templateTypes.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {type.nombre}
+                  {type.name} (ID: {type.id})
                 </option>
               ))}
             </select>

@@ -62,3 +62,23 @@ export interface HtmlPreviewProps {
   fileName?: string
   onClose?: () => void
 }
+
+// Template
+export interface Template {
+  id: string
+  name: string
+  type: string
+  size: number
+  uploadDate: Date
+  status: 'active' | 'inactive'
+  description?: string
+}
+
+// Template List props
+export interface TemplateListProps {
+  templates: Template[]
+  onEdit?: (template: Template) => void
+  onDelete?: (templateId: string) => void
+  onDownload?: (template: Template) => void
+  onPreview?: (template: Template) => void
+}

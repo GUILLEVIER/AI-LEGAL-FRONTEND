@@ -11,6 +11,12 @@ import {
   FavoriteResponse,
   TemplateTypesResponse,
 } from '../../../interfaces/apiResponsesInterface'
+import {
+  AvailableFieldMapper,
+  AvailableFieldsResponseMapper,
+  TemplateTypesResponseMapper,
+} from '../../../interfaces/mappersInterface'
+import { DocumentsMapper } from '../../../mapper/DocumentsMapper'
 import { useApiWithAuth } from '../../utils/useApiWithAuth'
 
 // REVISAR CON PRECAUCIÓN
@@ -58,13 +64,33 @@ export const useDocumentsApi = () => {
     return response
   }
 
+  const removeUploadedDocument = async (id: number) => {
+    const response = await deleteWithAuth<UploadDocumentResponse>(
+      `/documents/v1/documentos-subidos/${id}/`
+    )
+    return response
+  }
+
   // Campos disponibles
   // PROBADO
   const getAvailableFields = async () => {
     const response = await getWithAuth<AvailableFieldsResponse>(
       '/documents/v1/campos-disponibles/'
     )
-    return response
+    if (response && response.data && response.data.data) {
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          data: DocumentsMapper.fromApiGetAvailableFields(response.data.data),
+        },
+      } as {
+        data: {
+          data: AvailableFieldsResponseMapper
+        }
+      }
+    }
+    return null
   }
 
   // PROBADO
@@ -174,7 +200,20 @@ export const useDocumentsApi = () => {
     const response = await getWithAuth<TemplateTypesResponse>(
       '/documents/v1/tipos-plantilla/'
     )
-    return response
+    if (response && response.data && response.data.data) {
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          data: DocumentsMapper.fromApiGetTemplateTypes(response.data.data),
+        },
+      } as {
+        data: {
+          data: TemplateTypesResponseMapper
+        }
+      }
+    }
+    return null
   }
 
   return {
@@ -194,5 +233,6 @@ export const useDocumentsApi = () => {
     removeFavorite,
     getMyFavorites,
     getTemplateTypes,
+    removeUploadedDocument,
   }
 }
