@@ -50,6 +50,7 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [fieldCreateResult, setFieldCreateResult] =
     useState<AvailableField | null>(null)
   const [newTemplate, setNewTemplate] = useState<CreateTemplateData>({
+    tipo: '',
     nombre: '',
     descripcion: '',
     html_con_campos: '',
@@ -287,6 +288,7 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
         setTemplateCreateResult(response.data.data)
         // Limpiar formulario
         setNewTemplate({
+          tipo: '',
           nombre: '',
           descripcion: '',
           html_con_campos: '',

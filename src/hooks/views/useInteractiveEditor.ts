@@ -248,6 +248,7 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
 
     setLoading(true)
     const response = await createTemplate({
+      tipo: templateType,
       nombre: templateName,
       descripcion: templateDescription,
       html_con_campos: htmlContent,
@@ -269,6 +270,7 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
    * Reset the form to initial state
    */
   const resetForm = useCallback((): void => {
+    setTemplateType('')
     setTemplateName('')
     setTemplateDescription('')
     setHtmlContent('')
