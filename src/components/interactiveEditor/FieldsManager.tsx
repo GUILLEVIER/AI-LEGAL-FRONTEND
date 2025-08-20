@@ -222,7 +222,7 @@ const FieldsManager: React.FC<FieldsManagerProps> = ({
                       secondary={
                         <Box>
                           <Typography variant='caption' color='text.secondary'>
-                            Field: {getFieldNameById(assignedField.fieldId)}
+                            Campo: {getFieldNameById(assignedField.fieldId)}
                           </Typography>
                           <br />
                           <Typography variant='caption' color='text.secondary'>

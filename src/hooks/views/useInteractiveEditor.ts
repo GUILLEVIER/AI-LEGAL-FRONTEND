@@ -262,6 +262,7 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
       )
       resetForm()
     }
+    setLoading(false)
   }, [templateName, templateDescription, htmlContent, assignedFields])
 
   /**

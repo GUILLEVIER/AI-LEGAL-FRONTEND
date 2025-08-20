@@ -223,7 +223,7 @@ const InteractiveEditor: React.FC = () => {
                   loading || !templateName.trim() || !htmlContent.trim()
                 }
               >
-                {loading ? <CircularProgress size={20} /> : 'Guardar Plantilla'}
+                {loading ? <CircularProgress size={20} /> : 'Crear Plantilla'}
               </Button>
               <Button variant='outlined' onClick={resetForm} disabled={loading}>
                 Reiniciar
