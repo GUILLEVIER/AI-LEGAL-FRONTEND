@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import {
   AssignedField,
-  TemplateData,
   VALIDATION_RULES,
   UseInteractiveEditorReturn,
 } from '../../interfaces/interactiveEditorInterface'
@@ -248,7 +247,9 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
 
     setLoading(true)
     const response = await createTemplate({
-      tipo: templateType,
+      tipo: {
+        nombre: templateType,
+      },
       nombre: templateName,
       descripcion: templateDescription,
       html_con_campos: htmlContent,

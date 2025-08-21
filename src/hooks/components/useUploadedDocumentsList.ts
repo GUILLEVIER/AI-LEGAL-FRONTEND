@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { useDocumentsApi } from '../../hooks/api/apiWithAuth/useDocumentsApi'
+import { useDocumentsApi } from '../api/apiWithAuth/useDocumentsApi'
 import { UploadedDocument } from '../../interfaces/apiResponsesInterface'
+import { deletePreviewDocument, savePreviewDocument } from '../../redux/actions'
+import { useDispatch } from 'react-redux'
 
-export const useUploadedDocuments = () => {
+export const useUploadedDocumentsList = () => {
   // USE STATE AND HOOKS
   const { getUploadedDocuments, removeUploadedDocument } = useDocumentsApi()
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -17,6 +19,25 @@ export const useUploadedDocuments = () => {
   const [loading, setLoading] = useState(false)
   const itemsPerPage = 9
   const navigate = useNavigate()
+
+  // REDUX
+  const dispatchPD = useDispatch()
+
+  // USE EFFECT
+  useEffect(() => {
+    if (previewDoc) {
+      dispatchPD(
+        savePreviewDocument({
+          id: previewDoc.id.toString(),
+          preview: previewDoc.html || '',
+          type: 'document',
+          name: previewDoc.nombre_original || '',
+        })
+      )
+    } else {
+      dispatchPD(deletePreviewDocument(null))
+    }
+  }, [previewDoc])
 
   // USE EFFECT
   useEffect(() => {
@@ -39,11 +60,11 @@ export const useUploadedDocuments = () => {
   }, [])
 
   // Eliminar documento
-  const handleDeleteDocument = async (id: number) => {
+  const handleDeleteDocument = async (documentId: number) => {
     setLoading(true)
     try {
-      await removeUploadedDocument(id)
-      setDocuments((prev) => prev.filter((doc) => doc.id !== id))
+      await removeUploadedDocument(documentId)
+      setDocuments((prev) => prev.filter((doc) => doc.id !== documentId))
     } catch (err) {
       // Podrías mostrar un error aquí si lo deseas
     } finally {
@@ -56,34 +77,12 @@ export const useUploadedDocuments = () => {
     setPreviewDoc(doc)
     setPreviewLoading(true)
     setPreviewOpen(true)
-    // Simulación: Si el documento es texto, se obtiene el contenido, si es PDF/imagen se muestra un mensaje
-    try {
-      if (doc.tipo === 'texto') {
-        const response = await fetch(doc.archivo_url)
-        const text = await response.text()
-        setPreviewHtml(`<pre>${text}</pre>`)
-      } else if (doc.tipo === 'pdf') {
-        setPreviewHtml(
-          '<div>Previsualización de PDF no soportada. <a href="' +
-            doc.archivo_url +
-            '" target="_blank">Abrir PDF</a></div>'
-        )
-      } else if (doc.tipo === 'imagen') {
-        setPreviewHtml(
-          '<img src="' +
-            doc.archivo_url +
-            '" alt="Imagen" style="max-width:100%;max-height:400px;" />'
-        )
-      } else {
-        setPreviewHtml(
-          '<div>No se puede previsualizar este tipo de archivo.</div>'
-        )
-      }
-    } catch (err) {
-      setPreviewHtml('<div>Error al cargar la previsualización.</div>')
-    } finally {
-      setPreviewLoading(false)
-    }
+    setPreviewHtml(
+      '<div style="overflow-wrap: break-word;">' +
+        (doc.html || '<p>No hay vista previa disponible.</p>') +
+        '</div>'
+    )
+    setPreviewLoading(false)
   }
 
   const handleClosePreview = () => {
@@ -93,21 +92,23 @@ export const useUploadedDocuments = () => {
   }
 
   // Filtros
-  const filteredDocuments = documents.filter((doc) => {
-    const matchesSearch = doc.nombre_original
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-    const matchesType = filterType === 'all' || doc.tipo === filterType
-    return matchesSearch && matchesType
-  })
+  const filteredDocuments = (documents: UploadedDocument[]) =>
+    documents.filter((doc) => {
+      const matchesSearch = doc.nombre_original
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+      const matchesType = filterType === 'all' || doc.tipo === filterType
+      return matchesSearch && matchesType
+    })
 
   // Paginación
-  const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const paginatedDocuments = filteredDocuments.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  )
+  const getPaginatedDocuments = (documents: UploadedDocument[]) => {
+    const filtered = filteredDocuments(documents)
+    const totalPages = Math.ceil(filtered.length / itemsPerPage)
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const paginated = filtered.slice(startIndex, startIndex + itemsPerPage)
+    return { paginated, totalPages }
+  }
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
@@ -124,11 +125,10 @@ export const useUploadedDocuments = () => {
     searchTerm,
     setSearchTerm,
     filterType,
+    getPaginatedDocuments,
     setFilterType,
     currentPage,
     setCurrentPage,
-    paginatedDocuments,
-    totalPages,
     handlePageChange,
     getUniqueTypes,
     filteredDocuments,

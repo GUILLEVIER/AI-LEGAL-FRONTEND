@@ -83,7 +83,6 @@ const InteractiveEditor: React.FC = () => {
     handleConfirmFieldCreation,
     resetForm,
   } = useInteractiveEditor()
-
   return (
     <>
       <Typography component='h1' variant='h4' sx={{ mb: 3 }}>

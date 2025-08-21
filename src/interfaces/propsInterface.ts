@@ -1,5 +1,11 @@
 // ARCHIVO QUE CONTIENE LAS INTERFACES DE LOS PROPS DE LOS COMPONENTES
 
+import {
+  Template,
+  TemplateField,
+  UploadedDocument,
+} from './apiResponsesInterface'
+
 // Box Container App
 export interface BoxContainerAppProps {
   children: any
@@ -54,6 +60,8 @@ export interface UploadedFile {
   file?: File
   name?: string
   size?: number
+  type?: string
+  fields?: TemplateField[]
 }
 
 // Html Preview Props
@@ -63,22 +71,18 @@ export interface HtmlPreviewProps {
   onClose?: () => void
 }
 
-// Template
-export interface Template {
-  id: string
-  name: string
-  type: string
-  size: number
-  uploadDate: Date
-  status: 'active' | 'inactive'
-  description?: string
-}
-
-// Template List props
-export interface TemplateListProps {
-  templates: Template[]
+// Template Card Props
+export interface TemplateCardProps {
+  template: Template
   onEdit?: (template: Template) => void
   onDelete?: (templateId: string) => void
   onDownload?: (template: Template) => void
   onPreview?: (template: Template) => void
+  onToggleFavorite?: (templateId: number) => void
+}
+
+export interface DocumentUploadProps {
+  document: UploadedDocument
+  onPreview: (document: UploadedDocument) => void
+  onDelete: (documentId: number) => void
 }

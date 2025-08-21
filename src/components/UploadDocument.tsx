@@ -56,7 +56,7 @@ const UploadDocument: React.FC = () => {
   }
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: 2, width: '100%' }}>
       <Typography
         gutterBottom
         sx={{ fontWeight: 'bold', my: 2 }}

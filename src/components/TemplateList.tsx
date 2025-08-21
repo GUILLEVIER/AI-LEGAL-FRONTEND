@@ -11,8 +11,9 @@ import {
 } from '@mui/material'
 import { SearchOutlined } from '@mui/icons-material'
 import TemplateCard from './TemplateCard'
+import DialogModalPreview from './DialogModalPreview'
 import { useTemplateList } from '../hooks/components/useTemplateList'
-import { TemplateListProps } from '../interfaces/propsInterface'
+import { Template } from '../interfaces/apiResponsesInterface'
 
 /**
  * Sistema de filtros (búsqueda, tipo, estado).
@@ -21,38 +22,43 @@ import { TemplateListProps } from '../interfaces/propsInterface'
  * Estado vacío cuando no hay plantillas.
  * Contador de resultados.
  */
-const TemplateList: React.FC<TemplateListProps> = ({
-  templates,
-  onEdit,
-  onDelete,
-  onDownload,
-  onPreview,
-}) => {
+const TemplateList: React.FC = ({}) => {
   const {
-    searchTerm,
-    filterType,
-    filterStatus,
     currentPage,
-    itemsPerPage,
     filteredTemplates,
+    filterType,
     getPaginatedTemplates,
     handlePageChange,
-    getUniqueTypes,
-    setSearchTerm,
-    setFilterType,
-    setFilterStatus,
+    itemsPerPage,
+    loading,
+    searchTerm,
     setCurrentPage,
+    setFilterType,
+    setSearchTerm,
+    setTemplateTypes,
+    templates,
+    templateTypes,
+    handleEditTemplate,
+    handleDeleteTemplate,
+    handleDownloadTemplate,
+    handlePreviewTemplate,
+    handleClosePreview,
+    handleToggleFavorite,
+    previewOpen,
+    previewTemplate,
+    previewLoading,
+    navigate,
   } = useTemplateList()
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: 2, width: '100%' }}>
       {/* Controles de filtro y búsqueda */}
       <Paper sx={{ p: 3, mb: 3 }}>
         <Typography variant='h6' gutterBottom>
           Plantillas guardadas ({templates.length})
         </Typography>
         <Grid container spacing={2} alignItems='center'>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               placeholder='Buscar plantillas...'
@@ -76,7 +82,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
             <TextField
               fullWidth
               select
-              label='Tipo de archivo'
+              label='Tipo de plantilla'
               value={filterType}
               onChange={(e) => {
                 setFilterType(e.target.value)
@@ -85,62 +91,47 @@ const TemplateList: React.FC<TemplateListProps> = ({
               size='small'
             >
               <MenuItem value='all'>Todos los tipos</MenuItem>
-              {getUniqueTypes(templates).map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type.includes('pdf') ? 'PDF' : 'Documento'}
+              {templateTypes.map((type) => (
+                <MenuItem key={type.id} value={type.name}>
+                  {type.name}
                 </MenuItem>
               ))}
-            </TextField>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <TextField
-              fullWidth
-              select
-              label='Estado'
-              value={filterStatus}
-              onChange={(e) => {
-                setFilterStatus(e.target.value)
-                setCurrentPage(1)
-              }}
-              size='small'
-            >
-              <MenuItem value='all'>Todos los estados</MenuItem>
-              <MenuItem value='active'>Activo</MenuItem>
-              <MenuItem value='inactive'>Inactivo</MenuItem>
             </TextField>
           </Grid>
         </Grid>
       </Paper>
 
       {/* Lista de plantillas */}
-      {filteredTemplates(templates).length === 0 ? (
+      {filteredTemplates.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant='h6' color='text.secondary' gutterBottom>
             {templates.length === 0
-              ? 'No hay plantillas guardadas'
+              ? 'No hay plantillas creadas'
               : 'No se encontraron plantillas con los filtros aplicados'}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
             {templates.length === 0
-              ? 'Sube tu primera plantilla usando el área de carga superior'
+              ? 'Crea tu primera plantilla usando el creador de plantillas'
               : 'Intenta ajustar los filtros de búsqueda'}
           </Typography>
         </Paper>
       ) : (
         <>
           <Grid container spacing={3}>
-            {getPaginatedTemplates(templates).paginated.map((template) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={template.id}>
-                <TemplateCard
-                  template={template}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                  onDownload={onDownload}
-                  onPreview={onPreview}
-                />
-              </Grid>
-            ))}
+            {getPaginatedTemplates(templates).paginated.map(
+              (template: Template) => (
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={template.id}>
+                  <TemplateCard
+                    template={template}
+                    onEdit={handleEditTemplate}
+                    onDelete={handleDeleteTemplate}
+                    onDownload={handleDownloadTemplate}
+                    onPreview={handlePreviewTemplate}
+                    onToggleFavorite={handleToggleFavorite}
+                  />
+                </Grid>
+              )
+            )}
           </Grid>
 
           {/* Paginación */}
@@ -158,6 +149,21 @@ const TemplateList: React.FC<TemplateListProps> = ({
           )}
         </>
       )}
+
+      {/* Modal de previsualización */}
+      <DialogModalPreview
+        open={previewOpen}
+        onClose={handleClosePreview}
+        title={previewTemplate?.nombre || 'Vista previa'}
+        subtitle={previewTemplate?.tipo_info?.nombre}
+        htmlContent={previewTemplate?.html_con_campos || ''}
+        isLoading={previewLoading}
+        showInteractiveEditorButton={true}
+        onNavigateToEditor={() =>
+          navigate(`/control-panel/interactive-editor/${previewTemplate?.id}`)
+        }
+        type='template'
+      />
     </Box>
   )
 }

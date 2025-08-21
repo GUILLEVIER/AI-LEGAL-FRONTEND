@@ -24,7 +24,9 @@ import { useApiWithAuth } from '../../utils/useApiWithAuth'
  * Interface for creating template data
  */
 export interface CreateTemplateData {
-  tipo: string
+  tipo: {
+    nombre: string
+  }
   nombre: string
   descripcion?: string
   html_con_campos: string

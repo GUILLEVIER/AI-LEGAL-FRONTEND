@@ -2,19 +2,14 @@ import React from 'react'
 import { useTemplate } from '../../hooks/views/leftSideMenu/useTemplate'
 import { Box, Button, Typography } from '@mui/material'
 import { BoxContainerApp, ContainerApp } from '../../layouts'
-import { TemplateList, UploadDocument } from '../../components'
-import { TemplateItems } from '../../data/TemplateItems'
-import UploadedDocuments from '../../components/UploadedDocuments'
+import {
+  TemplateList,
+  UploadDocument,
+  UploadedDocumentsList,
+} from '../../components'
 
 const Templates: React.FC = () => {
-  const {
-    selectedButton,
-    setSelectedButton,
-    handleEditTemplate,
-    handleDeleteTemplate,
-    handleDownloadTemplate,
-    handlePreviewTemplate,
-  } = useTemplate()
+  const { selectedButton, setSelectedButton } = useTemplate()
   return (
     <>
       <Typography component='h1' variant='h5'>
@@ -88,19 +83,8 @@ const Templates: React.FC = () => {
             </Button>
           </Box>
           {selectedButton.createTemplate && <UploadDocument />}
-          {selectedButton.existingTemplates && (
-            <p>LISTA DE PLANTILLAS</p>
-            /*
-            <TemplateList
-              templates={TemplateItems}
-              onEdit={handleEditTemplate}
-              onDelete={handleDeleteTemplate}
-              onDownload={handleDownloadTemplate}
-              onPreview={handlePreviewTemplate}
-            />
-            */
-          )}
-          {selectedButton.uploadedDocuments && <UploadedDocuments />}
+          {selectedButton.existingTemplates && <TemplateList />}
+          {selectedButton.uploadedDocuments && <UploadedDocumentsList />}
           {/* {selectedButton.generatedDocuments && <GeneratedDocuments />} */}
         </BoxContainerApp>
       </ContainerApp>

@@ -130,6 +130,7 @@ export interface UploadedDocument {
   tipo: string
   archivo_url: string
   fecha_subida: string
+  html: string
 }
 
 // AvailableFieldsResponseMapper
