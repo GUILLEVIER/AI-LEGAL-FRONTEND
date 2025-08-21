@@ -50,7 +50,9 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
   const [fieldCreateResult, setFieldCreateResult] =
     useState<AvailableField | null>(null)
   const [newTemplate, setNewTemplate] = useState<CreateTemplateData>({
-    tipo: '',
+    tipo: {
+      nombre: '',
+    },
     nombre: '',
     descripcion: '',
     html_con_campos: '',
@@ -288,7 +290,9 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
         setTemplateCreateResult(response.data.data)
         // Limpiar formulario
         setNewTemplate({
-          tipo: '',
+          tipo: {
+            nombre: '',
+          },
           nombre: '',
           descripcion: '',
           html_con_campos: '',
@@ -802,10 +806,10 @@ export const ExampleComponentWithAuthUsingDocumentsApi: React.FC = () => {
               <p>
                 <strong>Fecha de subida:</strong> {uploadResult.fecha_subida}
               </p>
-              {uploadResult.texto_extraido && (
+              {uploadResult.html && (
                 <p>
                   <strong>Texto extraído:</strong>{' '}
-                  {uploadResult.texto_extraido.substring(0, 100)}...
+                  {uploadResult.html.substring(0, 100)}...
                 </p>
               )}
             </div>

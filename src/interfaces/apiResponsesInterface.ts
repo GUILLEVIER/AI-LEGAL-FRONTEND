@@ -110,7 +110,7 @@ export interface CompaniesResponse {
 // PROBADO
 export interface UploadDocumentResponse {
   id: number
-  texto_extraido: string
+  html: string
   tipo: string
   nombre_original: string
   archivo_url: string

@@ -138,10 +138,7 @@ export const useDocumentsApi = () => {
   ) => {
     const response = await postWithAuth<GenerateDocumentResponse>(
       `/documents/v1/plantillas-documentos/${templateId}/generar_documento/`,
-      {
-        plantilla_id: templateId,
-        datos: data,
-      }
+      data
     )
     console.log(response)
     return response

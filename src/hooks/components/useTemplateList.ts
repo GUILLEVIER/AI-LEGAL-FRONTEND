@@ -40,6 +40,7 @@ export const useTemplateList = () => {
           type: 'template',
           name: previewTemplate.nombre || '',
           fields: previewTemplate.campos_asociados || [],
+          responseId: previewTemplate.id,
         })
       )
     } else {

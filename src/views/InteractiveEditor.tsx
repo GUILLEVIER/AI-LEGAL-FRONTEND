@@ -19,6 +19,7 @@ import DialogModal from '../components/DialogModal'
 import DocumentEditor from '../components/interactiveEditor/DocumentEditor'
 import DocumentPreview from '../components/interactiveEditor/DocumentPreview'
 import HelpGuide from '../components/interactiveEditor/HelpGuide'
+import InformationSection from '../components/InformationSection'
 import { useInteractiveEditor } from '../hooks/views/useInteractiveEditor'
 import FieldsManager from '../components/interactiveEditor/FieldsManager'
 
@@ -168,67 +169,23 @@ const InteractiveEditor: React.FC = () => {
             </Grid>
           </Grid>
           {/* Template Information Section */}
-          <Paper elevation={1} sx={{ p: 3, my: 3, minWidth: '50%' }}>
-            <Typography variant='h6' sx={{ mb: 2 }}>
-              Información de la Plantilla
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <TextField
-                  fullWidth
-                  label='Nombre de la Plantilla'
-                  value={templateName}
-                  onChange={(e) => setTemplateName(e.target.value)}
-                  variant='outlined'
-                  placeholder='Ingrese el nombre de la plantilla'
-                  required
-                />
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <TextField
-                  fullWidth
-                  label='Descripción de la Plantilla'
-                  value={templateDescription}
-                  onChange={(e) => setTemplateDescription(e.target.value)}
-                  variant='outlined'
-                  placeholder='Ingrese la descripción de la plantilla'
-                  multiline
-                  rows={1}
-                />
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <FormControl fullWidth>
-                  <InputLabel>Tipo de Plantilla</InputLabel>
-                  <Select
-                    value={templateType}
-                    onChange={(e) => setTemplateType(e.target.value)}
-                    label='Tipo de Plantilla'
-                  >
-                    {templateTypes.map((type) => (
-                      <MenuItem key={type.id} value={type.name}>
-                        {type.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-              <Button
-                variant='contained'
-                startIcon={<Save />}
-                onClick={handleSaveTemplate}
-                disabled={
-                  loading || !templateName.trim() || !htmlContent.trim()
-                }
-              >
-                {loading ? <CircularProgress size={20} /> : 'Crear Plantilla'}
-              </Button>
-              <Button variant='outlined' onClick={resetForm} disabled={loading}>
-                Reiniciar
-              </Button>
-            </Box>
-          </Paper>
+          <InformationSection
+            type='template'
+            templateName={templateName}
+            setTemplateName={setTemplateName}
+            templateDescription={templateDescription}
+            setTemplateDescription={setTemplateDescription}
+            templateType={templateType}
+            setTemplateType={setTemplateType}
+            templateTypes={templateTypes.map((type) => ({
+              id: type.id,
+              nombre: type.name,
+            }))}
+            onSaveTemplate={handleSaveTemplate}
+            onResetTemplate={resetForm}
+            loading={loading}
+            disabled={!htmlContent.trim()}
+          />
           <DialogModal
             open={isFieldModalOpen}
             handleClose={handleCloseFieldModal}

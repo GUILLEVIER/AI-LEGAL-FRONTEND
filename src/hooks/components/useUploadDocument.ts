@@ -109,7 +109,7 @@ export const useUploadDocument = () => {
             f.id === newUploadedFile.id
               ? {
                   ...f,
-                  preview: response.data.data.texto_extraido,
+                  preview: response.data.data.html,
                   responseId: response.data.data.id,
                   status: 'success' as const,
                 }

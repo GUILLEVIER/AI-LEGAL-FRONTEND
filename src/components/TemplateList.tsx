@@ -160,7 +160,7 @@ const TemplateList: React.FC = ({}) => {
         isLoading={previewLoading}
         showInteractiveEditorButton={true}
         onNavigateToEditor={() =>
-          navigate(`/control-panel/interactive-editor/${previewTemplate?.id}`)
+          navigate(`/control-panel/document-generator/${previewTemplate?.id}`)
         }
         type='template'
       />

@@ -13,6 +13,8 @@ import LawsAndRulings from './leftSideMenu/LawsAndRulings'
 import ManageUsers from './leftSideMenu/ManageUsers'
 import AppWithAuthUsingApiHookExample from './examples/AppWithAuthUsingApiHookExample'
 import AppWithAuthUsingDocumentsApiExample from './examples/AppWithAuthUsingDocumentsApiExample'
+import InteractiveEditor from './InteractiveEditor'
+import DocumentGenerator from './DocumentGenerator'
 
 export {
   Login,
@@ -30,4 +32,6 @@ export {
   ManageUsers,
   AppWithAuthUsingApiHookExample,
   AppWithAuthUsingDocumentsApiExample,
+  InteractiveEditor,
+  DocumentGenerator,
 }

@@ -11,6 +11,7 @@ import UploadDocument from './UploadDocument'
 import TemplateList from './TemplateList'
 import DocumentUploadCard from './DocumentUploadCard'
 import UploadedDocumentsList from './UploadedDocumentsList'
+import InformationSection from './InformationSection'
 
 export {
   DialogModal,
@@ -26,4 +27,5 @@ export {
   TemplateList,
   DocumentUploadCard,
   UploadedDocumentsList,
+  InformationSection,
 }

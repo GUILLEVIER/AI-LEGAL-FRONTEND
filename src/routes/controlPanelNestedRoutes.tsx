@@ -6,6 +6,7 @@ import {
   ManageUsers,
   Profile,
   Templates,
+  DocumentGenerator,
 } from '../views'
 import InteractiveEditor from '../views/InteractiveEditor'
 
@@ -39,8 +40,20 @@ const controlPanelNestedRoutes = [
     element: <ManageUsers />,
   },
   {
+    path: 'interactive-editor',
+    element: <InteractiveEditor />,
+  },
+  {
     path: 'interactive-editor/:documentId',
     element: <InteractiveEditor />,
+  },
+  {
+    path: 'document-generator',
+    element: <DocumentGenerator />,
+  },
+  {
+    path: 'document-generator/:templateId',
+    element: <DocumentGenerator />,
   },
 ]
 
