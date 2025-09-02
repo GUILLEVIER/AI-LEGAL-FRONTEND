@@ -9,7 +9,7 @@ const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = false }) => {
   const renderMenuItems = () => {
     return leftSideMenuItems.map((group) => (
       <div key={group.id} className='menu-group'>
-        {drawerOpen && group.type === 'group' && (
+        {group.type === 'group' && (
           <div className='group-label'>{group.label}</div>
         )}
         <ul className='menu-list'>
@@ -22,8 +22,32 @@ const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = false }) => {
                 onClick={() => handleItemClick(item)}
                 title={!drawerOpen ? item.label : undefined}
               >
-                <span className='menu-icon'>{item.icon}</span>
-                {drawerOpen && <span className='menu-label'>{item.label}</span>}
+                {drawerOpen ? (
+                  <>
+                    <span className='menu-icon'>{item.icon}</span>
+                    <span className='menu-label'>{item.label}</span>
+                  </>
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      height: '100%',
+                      padding: 0,
+                      fontSize: '0.8rem',
+                    }}
+                  >
+                    <span style={{ fontSize: '1.2rem', margin: 0 }}>
+                      {item.icon}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', margin: 0 }}>
+                      {item.label}
+                    </span>
+                  </div>
+                )}
               </button>
             </li>
           ))}

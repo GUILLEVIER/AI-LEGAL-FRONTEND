@@ -62,7 +62,7 @@ const DocumentGenerator: React.FC = () => {
   if (!initializationComplete) {
     return (
       <>
-        <Typography component='h1' variant='h4' sx={{ mb: 3 }}>
+        <Typography component='h1' variant='h4' sx={{ my: 3 }}>
           Generador de Documentos
         </Typography>
         <ContainerApp maxWidth='xl'>
@@ -88,7 +88,7 @@ const DocumentGenerator: React.FC = () => {
 
   return (
     <>
-      <Typography component='h1' variant='h4' sx={{ mb: 3 }}>
+      <Typography component='h1' variant='h4' sx={{ my: 3 }}>
         Generador de Documentos
       </Typography>
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import { userProfileMenu } from '../data/userProfileMenu'
 import { useUserProfileMenu } from '../hooks/components/useUserProfileMenu'
 
 const UserProfileMenu: React.FC = () => {
@@ -9,6 +8,7 @@ const UserProfileMenu: React.FC = () => {
     toggleProfileMenu,
     handleMenuItemClick,
     userProfileMenuItems,
+    userProfileMenu,
   } = useUserProfileMenu()
 
   return (
@@ -27,7 +27,7 @@ const UserProfileMenu: React.FC = () => {
               <div className='user-avatar-large'>{userProfileMenu.avatar}</div>
               <div className='user-details'>
                 <h4>{userProfileMenu.name}</h4>
-                <p>{userProfileMenu.role}</p>
+                <p>{userProfileMenu.email}</p>
               </div>
             </div>
             <div className='dropdown-divider'></div>

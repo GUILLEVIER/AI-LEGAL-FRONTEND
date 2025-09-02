@@ -10,31 +10,31 @@ export const leftSideMenuItems: MenuItem[] = [
       {
         id: 'favorites',
         label: 'Favoritos',
-        icon: '📊',
+        icon: '⭐',
         type: 'item',
       },
       {
         id: 'templates',
         label: 'Plantillas',
-        icon: '📝',
+        icon: '📄',
         type: 'item',
       },
       {
         id: 'generation-with-ia',
         label: 'Generación con IA',
-        icon: '📝',
+        icon: '🤖',
         type: 'item',
       },
       {
         id: 'case-analysis',
         label: 'Análisis de casos',
-        icon: '📝',
+        icon: '🔍',
         type: 'item',
       },
       {
         id: 'laws-and-rulings',
         label: 'Leyes y sentencias',
-        icon: '📝',
+        icon: '⚖️',
         type: 'item',
       },
     ],
@@ -48,19 +48,19 @@ export const leftSideMenuItems: MenuItem[] = [
       {
         id: 'reports',
         label: 'Reportes',
-        icon: 'Tt',
+        icon: '📊',
         type: 'item',
       },
       {
         id: 'recent',
         label: 'Recientes',
-        icon: '🎨',
+        icon: '🕒',
         type: 'item',
       },
       {
         id: 'my-activities',
         label: 'Mis Actividades',
-        icon: '🌑',
+        icon: '📋',
         type: 'item',
       },
       {
@@ -80,7 +80,7 @@ export const leftSideMenuItems: MenuItem[] = [
       {
         id: 'help',
         label: 'Ayuda',
-        icon: '📚',
+        icon: '❓',
         type: 'item',
       },
     ],

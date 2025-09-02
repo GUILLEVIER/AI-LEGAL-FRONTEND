@@ -55,7 +55,14 @@ export function* logOut() {
     ])
     yield put({ type: LOG_OUT_SUCCESS, payload: logOutResponse })
   } catch (error) {
-    yield put({ type: LOG_OUT_ERROR, payload: error })
+    console.warn(
+      '⚠️ Error en logout del servidor, limpiando sesión local:',
+      error
+    )
+    yield put({
+      type: LOG_OUT_SUCCESS,
+      payload: {},
+    })
   }
 }
 

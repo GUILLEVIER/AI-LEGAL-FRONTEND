@@ -144,18 +144,21 @@ span {
   overflow: hidden;
   z-index: 1000;
   &.closed {
-    width: 3.75rem;
+    width: 5rem;
     .logo-text {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .group-label {
       opacity: 0;
       visibility: hidden;
     }
     .menu-label {
       opacity: 0;
       visibility: hidden;
+    }
+    .group-label {
+      font-size: 0.625rem !important;
+      padding: 0 !important;
+      text-align: center !important;
+      margin: auto !important;
+      margin-bottom: 8px !important;
     }
   }
   .drawer-header {
@@ -255,8 +258,8 @@ span {
                 }
               }
               .menu-icon {
-                font-size: 20px;
-                min-width: 20px;
+                font-size: 1.2rem;
+                min-width: 1.2rem;
                 text-align: center;
                 display: flex;
                 align-items: center;
@@ -498,11 +501,11 @@ span {
   .main-content {
     flex-grow: 1;
     width: calc(100% - 260px);
+    margin-left: 260px;
     margin-top: 88px;
-    padding: 24px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     &.drawer-closed {
-      margin-left: 3.75rem;
+      margin-left: 5rem;
     }
   }
 }

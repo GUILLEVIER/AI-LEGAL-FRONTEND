@@ -86,7 +86,7 @@ const InteractiveEditor: React.FC = () => {
   } = useInteractiveEditor()
   return (
     <>
-      <Typography component='h1' variant='h4' sx={{ mb: 3 }}>
+      <Typography component='h1' variant='h4' sx={{ my: 3 }}>
         Editor Interactivo
       </Typography>
 

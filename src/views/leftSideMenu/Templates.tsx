@@ -12,10 +12,10 @@ const Templates: React.FC = () => {
   const { selectedButton, setSelectedButton } = useTemplate()
   return (
     <>
-      <Typography component='h1' variant='h5'>
+      <Typography component='h1' variant='h5' sx={{ my: 2 }}>
         Gestión de Plantillas
       </Typography>
-      <ContainerApp maxWidth='lg'>
+      <ContainerApp maxWidth='xl'>
         <BoxContainerApp>
           <Box
             sx={{

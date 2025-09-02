@@ -26,10 +26,10 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Typography component='h1' variant='h5'>
+      <Typography component='h1' variant='h5' sx={{ my: 2 }}>
         Perfil de Usuario
       </Typography>
-      <ContainerApp>
+      <ContainerApp maxWidth='xl'>
         <BoxContainerApp>
           <Typography
             gutterBottom
@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
             name='name'
             onChange={() => {}}
             required
-            value={user.first_name.toString().toUpperCase()}
+            value={user.first_name?.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
@@ -58,7 +58,7 @@ const Profile: React.FC = () => {
             name='lastName'
             onChange={() => {}}
             required
-            value={user.last_name.toString().toUpperCase()}
+            value={user.last_name?.toString().toUpperCase()}
           />
           <TextField
             disabled={true}
