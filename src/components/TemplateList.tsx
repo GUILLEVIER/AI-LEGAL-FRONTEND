@@ -14,6 +14,7 @@ import TemplateCard from './TemplateCard'
 import DialogModalPreview from './DialogModalPreview'
 import { useTemplateList } from '@/hooks/components/useTemplateList'
 import { Template } from '@/interfaces/apiResponsesInterface'
+import TemplateTable from '@/components/TemplateTable'
 
 /**
  * Sistema de filtros (búsqueda, tipo, estado).
@@ -117,6 +118,7 @@ const TemplateList: React.FC = ({}) => {
         </Paper>
       ) : (
         <>
+          {/* Grid de plantillas
           <Grid container spacing={3}>
             {getPaginatedTemplates(templates).paginated.map(
               (template: Template) => (
@@ -133,6 +135,15 @@ const TemplateList: React.FC = ({}) => {
               )
             )}
           </Grid>
+          */}
+          <TemplateTable
+            data={getPaginatedTemplates(templates).paginated}
+            navigate={navigate}
+            handleEditTemplate={handleEditTemplate}
+            handleDeleteTemplate={handleDeleteTemplate}
+            handlePreviewTemplate={handlePreviewTemplate}
+            handleToggleFavorite={handleToggleFavorite}
+          />
 
           {/* Paginación */}
           {getPaginatedTemplates(templates).totalPages > 1 && (

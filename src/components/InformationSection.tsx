@@ -69,7 +69,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Card sx={{ flex: 1, minWidth: 300 }}>
+        <Card sx={{ flex: 1 }}>
           <CardContent>
             {isTemplateMode && (
               <Grid container spacing={2}>
@@ -82,7 +82,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                     variant='outlined'
                     placeholder='Ingrese el nombre de la plantilla'
                     required
-                    disabled={disabled || loading}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -94,12 +94,12 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                     variant='outlined'
                     placeholder='Ingrese la descripción de la plantilla'
                     multiline
-                    rows={6}
-                    disabled={disabled || loading}
+                    rows={3}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <FormControl fullWidth disabled={disabled || loading}>
+                  <FormControl fullWidth disabled={loading}>
                     <InputLabel>Tipo de Plantilla</InputLabel>
                     <Select
                       value={templateType}
@@ -115,7 +115,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                   </FormControl>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <FormControl fullWidth disabled={disabled || loading}>
+                  <FormControl fullWidth disabled={loading}>
                     <InputLabel>Tipo de Categoría</InputLabel>
                     <Select
                       value={templateCategory}
@@ -134,7 +134,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                   </FormControl>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <FormControl fullWidth disabled={disabled || loading}>
+                  <FormControl fullWidth disabled={loading}>
                     <InputLabel>Tipo de Clasificación</InputLabel>
                     <Select
                       value={templateClassification}
@@ -168,20 +168,22 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                     variant='outlined'
                     placeholder='Ingrese el nombre del documento a generar'
                     required
-                    disabled={disabled || loading}
+                    disabled={loading}
                   />
                 </Grid>
               </Grid>
             )}
 
-            <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+            >
               {isTemplateMode && (
                 <>
                   <Button
                     variant='contained'
                     startIcon={<Save />}
                     onClick={onSaveTemplate}
-                    disabled={loading || disabled || !templateName.trim()}
+                    disabled={loading}
                   >
                     {loading ? (
                       <CircularProgress size={20} />
@@ -193,7 +195,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                     variant='outlined'
                     startIcon={<Refresh />}
                     onClick={onResetTemplate}
-                    disabled={loading || disabled}
+                    disabled={loading}
                   >
                     Reiniciar
                   </Button>
@@ -205,7 +207,7 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                   <Button
                     variant='contained'
                     onClick={onGenerateDocument}
-                    disabled={loading || disabled || !documentName.trim()}
+                    disabled={loading}
                   >
                     {loading ? (
                       <CircularProgress size={20} />

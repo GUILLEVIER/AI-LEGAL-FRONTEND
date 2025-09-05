@@ -223,13 +223,9 @@ export const useDocumentGenerator = () => {
       */
 
       const response = await generateDocument(selectedTemplate.id, {
-        tipo: {
-          nombre: 'Escrito',
-        },
+        plantilla_id: selectedTemplate.id,
         nombre: documentName,
-        descripcion: 'Desde FrontEnd',
-        html_con_campos: selectedTemplate.html_con_campos,
-        usuario: 2,
+        datos: previewData,
       })
       if (response?.data?.data) {
         showToastifySuccess('Documento generado exitosamente')
@@ -275,7 +271,6 @@ export const useDocumentGenerator = () => {
 
     // Loading states
     isLoading,
-    error,
     loadingTemplate,
     loadingGenerate,
 

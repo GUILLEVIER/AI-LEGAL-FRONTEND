@@ -173,7 +173,7 @@ const FieldsManager: React.FC<FieldsManagerProps> = ({
         </CardContent>
       </Card>
       {/* Assigned Fields Section */}
-      <Card sx={{ flex: 1, minWidth: 300 }}>
+      <Card sx={{ flex: 1 }}>
         <CardContent>
           <Typography variant='h6' component='h3' sx={{ mb: 2 }}>
             Campos asignados ({assignedFields.length})

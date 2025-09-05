@@ -40,30 +40,64 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   })
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      {/* Preview Data Input Section */}
+      {hasFields && (
+        <>
+          <Typography variant='h6'>Datos de vista previa</Typography>
+          <Typography variant='body2' color='text.secondary'>
+            Rellena los campos a continuación con valores reales para ver una
+            vista previa del documento a generar.
+          </Typography>
+          <Card>
+            <CardContent>
+              <Grid container spacing={2}>
+                {assignedFields.map((field: AssignedField) => (
+                  <Grid size={{ xs: 12, sm: 6 }} key={field.variableName}>
+                    <TextField
+                      fullWidth
+                      label={getFormattedLabel(field.variableName)}
+                      value={previewData[field.variableName] || ''}
+                      onChange={(e) =>
+                        handlePreviewDataChange(
+                          field.variableName,
+                          e.target.value
+                        )
+                      }
+                      variant='outlined'
+                      size='small'
+                      placeholder={getPlaceholderText(field.variableName)}
+                    />
+                  </Grid>
+                ))}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Button
+                    variant='outlined'
+                    size='small'
+                    onClick={resetPreviewData}
+                  >
+                    Restablecer valores
+                  </Button>
+                </Box>
+              </Grid>
+            </CardContent>
+          </Card>
+        </>
+      )}
       {/* Document Preview Section */}
+      <Typography variant='h6'>Vista previa del documento</Typography>
+      <Typography variant='body2' color='text.secondary'>
+        Visualización previa del documento generado con los datos
+        proporcionados.
+      </Typography>
       <Card>
         <CardContent>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mb: 2,
-            }}
-          >
-            <Typography
-              variant='h6'
-              component='h3'
-              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-            >
-              <Visibility />
-              Vista previa del documento
-            </Typography>
-          </Box>
-
-          <Divider sx={{ mb: 2 }} />
-
           {/* Preview Content */}
           <Box
             dangerouslySetInnerHTML={{
@@ -82,53 +116,6 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
           )}
         </CardContent>
       </Card>
-      {/* Preview Data Input Section */}
-      {hasFields && (
-        <Card>
-          <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 2,
-              }}
-            >
-              <Typography variant='h6' component='h3'>
-                Datos de vista previa
-              </Typography>
-              <Button
-                variant='outlined'
-                size='small'
-                onClick={resetPreviewData}
-              >
-                Restablecer valores
-              </Button>
-            </Box>
-
-            <Grid container spacing={2}>
-              {assignedFields.map((field: AssignedField) => (
-                <Grid size={{ xs: 12, sm: 6 }} key={field.variableName}>
-                  <TextField
-                    fullWidth
-                    label={getFormattedLabel(field.variableName)}
-                    value={previewData[field.variableName] || ''}
-                    onChange={(e) =>
-                      handlePreviewDataChange(
-                        field.variableName,
-                        e.target.value
-                      )
-                    }
-                    variant='outlined'
-                    size='small'
-                    placeholder={getPlaceholderText(field.variableName)}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
     </Box>
   )
 }

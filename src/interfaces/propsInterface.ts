@@ -83,6 +83,15 @@ export interface TemplateCardProps {
   onToggleFavorite?: (templateId: number) => void
 }
 
+export interface TemplateTableProps {
+  data: Template[]
+  navigate: (path: string) => void
+  handleEditTemplate: (template: Template) => void
+  handleDeleteTemplate: (templateId: number) => void
+  handlePreviewTemplate: (template: Template) => void
+  handleToggleFavorite: (templateId: number) => void
+}
+
 export interface DocumentUploadProps {
   document: UploadedDocument
   onPreview: (document: UploadedDocument) => void

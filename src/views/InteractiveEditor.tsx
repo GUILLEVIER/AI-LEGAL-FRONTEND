@@ -120,7 +120,44 @@ const InteractiveEditor: React.FC = () => {
             </Grid>
             */}
             {/* Center Column - Document Editor */}
-            <Grid size={{ xs: 12 }}>
+            {/* Right Column - Fields Management */}
+            <Grid size={{ xs: 3 }}>
+              <Typography variant='h6' sx={{ mb: 1 }}>
+                Gestión de Campos
+              </Typography>
+              <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
+                Gestiona los campos disponibles y sus asignaciones.
+              </Typography>
+              <FieldsManager
+                availableFields={availableFields}
+                assignedFields={assignedFields}
+                unassignedFields={unassignedFields}
+                onCreateField={() => setIsFieldModalOpen(true)}
+                onRemoveAssignedField={handleRemoveAssignedField}
+                isLoading={loading}
+              />
+              {/* Template Information Section */}
+              <InformationSection
+                type='template'
+                templateName={templateName}
+                setTemplateName={setTemplateName}
+                templateDescription={templateDescription}
+                setTemplateDescription={setTemplateDescription}
+                templateType={templateType}
+                setTemplateType={setTemplateType}
+                templateTypes={templateTypes}
+                templateCategories={templateCategories}
+                templateCategory={templateCategory}
+                setTemplateCategory={setTemplateCategory}
+                templateClassifications={templateClassifications}
+                templateClassification={templateClassification}
+                setTemplateClassification={setTemplateClassification}
+                onSaveTemplate={handleSaveTemplate}
+                onResetTemplate={resetForm}
+                loading={loading}
+              />
+            </Grid>
+            <Grid size={{ xs: 9 }}>
               <Box sx={{ mb: 2 }}>
                 <Typography variant='h6' sx={{ mb: 1 }}>
                   Editor de Documentos
@@ -155,46 +192,6 @@ const InteractiveEditor: React.FC = () => {
                   )}
                 </Box>
               </Box>
-            </Grid>
-            {/* Right Column - Fields Management */}
-            <Grid size={{ xs: 12, lg: 6 }}>
-              <Typography variant='h6' sx={{ mb: 1 }}>
-                Gestión de Campos
-              </Typography>
-              <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-                Gestiona los campos disponibles y sus asignaciones.
-              </Typography>
-              <FieldsManager
-                availableFields={availableFields}
-                assignedFields={assignedFields}
-                unassignedFields={unassignedFields}
-                onCreateField={() => setIsFieldModalOpen(true)}
-                onRemoveAssignedField={handleRemoveAssignedField}
-                isLoading={loading}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, lg: 6 }}>
-              {/* Template Information Section */}
-              <InformationSection
-                type='template'
-                templateName={templateName}
-                setTemplateName={setTemplateName}
-                templateDescription={templateDescription}
-                setTemplateDescription={setTemplateDescription}
-                templateType={templateType}
-                setTemplateType={setTemplateType}
-                templateTypes={templateTypes}
-                templateCategories={templateCategories}
-                templateCategory={templateCategory}
-                setTemplateCategory={setTemplateCategory}
-                templateClassifications={templateClassifications}
-                templateClassification={templateClassification}
-                setTemplateClassification={setTemplateClassification}
-                onSaveTemplate={handleSaveTemplate}
-                onResetTemplate={resetForm}
-                loading={loading}
-                disabled={!htmlContent.trim()}
-              />
             </Grid>
           </Grid>
           {/*

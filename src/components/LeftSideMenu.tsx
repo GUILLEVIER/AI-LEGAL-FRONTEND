@@ -40,10 +40,10 @@ const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = false }) => {
                       fontSize: '0.8rem',
                     }}
                   >
-                    <span style={{ fontSize: '1.2rem', margin: 0 }}>
+                    <span style={{ fontSize: '1.6rem', margin: 0 }}>
                       {item.icon}
                     </span>
-                    <span style={{ fontSize: '0.75rem', margin: 0 }}>
+                    <span style={{ fontSize: '0.6rem', margin: 0 }}>
                       {item.label}
                     </span>
                   </div>

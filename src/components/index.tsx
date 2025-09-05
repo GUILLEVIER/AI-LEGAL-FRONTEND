@@ -17,6 +17,7 @@ import TemplateList from './TemplateList'
 import UploadDocument from './UploadDocument'
 import UploadedDocumentsList from './UploadedDocumentsList'
 import UserProfileMenu from './UserProfileMenu'
+import TemplateTable from './TemplateTable'
 
 export {
   DialogModal,
@@ -38,4 +39,5 @@ export {
   UploadDocument,
   UploadedDocumentsList,
   UserProfileMenu,
+  TemplateTable,
 }

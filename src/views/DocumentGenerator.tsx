@@ -41,7 +41,6 @@ const DocumentGenerator: React.FC = () => {
 
     // Loading states
     isLoading,
-    error,
     loadingTemplate,
     loadingGenerate,
 
@@ -150,13 +149,28 @@ const DocumentGenerator: React.FC = () => {
             </Card>
           )}
 
-          {/* Template Info Card - Show when template is loaded from Redux or URL */}
-          {selectedTemplate && !shouldShowTemplateSelector && (
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 12, lg: 6 }}>
-                <Paper elevation={1} sx={{ p: 3, my: 3 }}>
-                  <Typography variant='h6' sx={{ mb: 2 }}>
-                    Plantilla: {selectedTemplate.nombre}
+          {/* Document Preview and Generation */}
+          {selectedTemplate && !loadingTemplate && (
+            <Grid container spacing={3}>
+              {/* Document Information and Actions */}
+              <Grid size={{ xs: 3 }}>
+                <Typography variant='h6' sx={{ mb: 1 }}>
+                  Información de la Plantilla
+                </Typography>
+                <Typography
+                  variant='body2'
+                  sx={{ mb: 1 }}
+                  color='text.secondary'
+                >
+                  Detalle de la plantilla seleccionada.
+                </Typography>
+                <Paper elevation={1} sx={{ p: 3, mb: 1 }}>
+                  <Typography
+                    variant='body2'
+                    color='text.secondary'
+                    sx={{ mb: 1 }}
+                  >
+                    <strong>Plantilla:</strong> {selectedTemplate.nombre}
                   </Typography>
                   <Typography
                     variant='body2'
@@ -181,9 +195,6 @@ const DocumentGenerator: React.FC = () => {
                       0}
                   </Typography>
                 </Paper>
-              </Grid>
-              {/* Document Information and Actions */}
-              <Grid size={{ xs: 12, lg: 6 }}>
                 <InformationSection
                   type='document'
                   documentName={documentName}
@@ -194,35 +205,8 @@ const DocumentGenerator: React.FC = () => {
                   disabled={!selectedTemplate}
                 />
               </Grid>
-            </Grid>
-          )}
-
-          {/* Loading state */}
-          {(isLoading || loadingTemplate) && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', my: 3 }}>
-              <CircularProgress />
-            </Box>
-          )}
-
-          {/* Error state */}
-          {error && (
-            <Alert severity='error' sx={{ mb: 3 }}>
-              {error.message || 'Error al cargar los datos'}
-            </Alert>
-          )}
-
-          {/* Document Preview and Generation */}
-          {selectedTemplate && !loadingTemplate && (
-            <Grid container spacing={3}>
               {/* Document Preview */}
-              <Grid size={{ xs: 12, lg: 12 }}>
-                <Typography
-                  variant='h6'
-                  sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
-                >
-                  <Visibility />
-                  Completar Campos y Previsualizar Documento
-                </Typography>
+              <Grid size={{ xs: 9 }}>
                 <DocumentPreview
                   htmlContent={selectedTemplate.html_con_campos}
                   assignedFields={getAssignedFields()}

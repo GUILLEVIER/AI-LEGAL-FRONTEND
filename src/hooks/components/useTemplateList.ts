@@ -108,7 +108,7 @@ export const useTemplateList = () => {
     // Aquí iría la lógica para editar la plantilla
   }
 
-  const handleDeleteTemplate = (templateId: string) => {
+  const handleDeleteTemplate = (templateId: number) => {
     console.log('Eliminando plantilla:', templateId)
     // Aquí iría la lógica para eliminar la plantilla
   }

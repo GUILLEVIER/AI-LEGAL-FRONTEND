@@ -287,11 +287,20 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
    */
   const handleSaveTemplate = useCallback(async (): Promise<void> => {
     if (!templateName.trim() || !htmlContent.trim()) {
-      alert('El nombre de la plantilla y el contenido son obligatorios')
+      showToastifyError(
+        'El nombre de la plantilla y el contenido son obligatorios'
+      )
+      return
+    }
+    if (!templateCategory || !templateClassification || !templateType) {
+      showToastifyError(
+        'Por favor seleccione el tipo, categoría y clasificación de la plantilla'
+      )
       return
     }
 
     setLoading(true)
+    console.log(templateType, templateCategory, templateClassification)
     const response = await createTemplate({
       tipo_id: templateType,
       categoria_id: templateCategory,
@@ -319,6 +328,8 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
   const resetForm = useCallback((): void => {
     setTemplateType('')
     setTemplateName('')
+    setTemplateCategory('')
+    setTemplateClassification('')
     setTemplateDescription('')
     setHtmlContent('')
     setAssignedFields([])
@@ -425,6 +436,15 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
   const handleConfirmFieldCreation = useCallback(async () => {
     await handleCreateField()
   }, [handleCreateField])
+
+  console.log(
+    templateCategory,
+    templateClassification,
+    templateType,
+    templateTypes,
+    templateCategories,
+    templateClassifications
+  )
 
   return {
     // Template state
