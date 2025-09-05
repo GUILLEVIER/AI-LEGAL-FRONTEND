@@ -1,37 +1,27 @@
 import Login from './auth/Login'
 import SignIn from './auth/SignIn'
-import ControlPanel from './ControlPanel'
-import Examples from './examples/Examples'
-import TokenValidationExample from './examples/TokenValidationExample'
-import AppWithAuthExample from './examples/AppWithAuthExample'
-import Profile from './userProfileMenu/Profile'
-import Favorites from './leftSideMenu/Favorites'
-import Templates from './leftSideMenu/Templates'
-import GenerationWithIa from './leftSideMenu/GenerationWithIa'
 import CaseAnalysis from './leftSideMenu/CaseAnalysis'
+import Favorites from './leftSideMenu/Favorites'
+import GenerationWithIa from './leftSideMenu/GenerationWithIa'
 import LawsAndRulings from './leftSideMenu/LawsAndRulings'
 import ManageUsers from './leftSideMenu/ManageUsers'
-import AppWithAuthUsingApiHookExample from './examples/AppWithAuthUsingApiHookExample'
-import AppWithAuthUsingDocumentsApiExample from './examples/AppWithAuthUsingDocumentsApiExample'
-import InteractiveEditor from './InteractiveEditor'
+import Templates from './leftSideMenu/Templates'
+import Profile from './userProfileMenu/Profile'
+import ControlPanel from './ControlPanel'
 import DocumentGenerator from './DocumentGenerator'
+import InteractiveEditor from './InteractiveEditor'
 
 export {
   Login,
   SignIn,
-  ControlPanel,
-  Examples,
-  TokenValidationExample,
-  AppWithAuthExample,
-  Profile,
-  Favorites,
-  Templates,
-  GenerationWithIa,
   CaseAnalysis,
+  Favorites,
+  GenerationWithIa,
   LawsAndRulings,
   ManageUsers,
-  AppWithAuthUsingApiHookExample,
-  AppWithAuthUsingDocumentsApiExample,
-  InteractiveEditor,
+  Templates,
+  Profile,
+  ControlPanel,
   DocumentGenerator,
+  InteractiveEditor,
 }

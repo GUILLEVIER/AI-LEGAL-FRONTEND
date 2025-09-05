@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import { Typography } from '@mui/material'
+import React from 'react'
 
 const GenerationWithIa: React.FC = () => {
   return (
-    <div>
-      <h1>Generación con IA</h1>
-    </div>
+    <>
+      <Typography component='h1' variant='h5' sx={{ my: 2 }}>
+        Generación con IA
+      </Typography>
+    </>
   )
 }
 

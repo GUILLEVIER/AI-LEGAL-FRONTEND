@@ -10,15 +10,9 @@ import {
   Divider,
 } from '@mui/material'
 import { Visibility } from '@mui/icons-material'
-import { AssignedField } from '../../interfaces/interactiveEditorInterface'
-import { useDocumentPreview } from '../../hooks/components/interactiveEditor/useDocumentPreview'
-
-interface DocumentPreviewProps {
-  htmlContent: string
-  assignedFields: AssignedField[]
-  previewData: Record<string, string>
-  onPreviewDataChange: (data: Record<string, string>) => void
-}
+import { AssignedField } from '@/interfaces/interactiveEditorInterface'
+import { useDocumentPreview } from '@/hooks/components/useDocumentPreview'
+import { DocumentPreviewProps } from '@/interfaces/propsInterface'
 
 /**
  * Component for previewing the document with field values

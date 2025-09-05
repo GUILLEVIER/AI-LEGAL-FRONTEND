@@ -1,12 +1,4 @@
-import {
-  Login,
-  SignIn,
-  Examples,
-  TokenValidationExample,
-  AppWithAuthExample,
-  AppWithAuthUsingApiHookExample,
-  AppWithAuthUsingDocumentsApiExample,
-} from '../views'
+import { Login, SignIn } from '@/views'
 
 const routes = [
   {
@@ -20,26 +12,6 @@ const routes = [
   {
     path: '/sign-in',
     element: <SignIn />,
-  },
-  {
-    path: '/examples',
-    element: <Examples />,
-  },
-  {
-    path: '/examples/token-validation',
-    element: <TokenValidationExample />,
-  },
-  {
-    path: '/examples/api-with-auth',
-    element: <AppWithAuthExample />,
-  },
-  {
-    path: '/examples/api-with-auth-using-hook',
-    element: <AppWithAuthUsingApiHookExample />,
-  },
-  {
-    path: '/examples/documents',
-    element: <AppWithAuthUsingDocumentsApiExample />,
   },
 ]
 

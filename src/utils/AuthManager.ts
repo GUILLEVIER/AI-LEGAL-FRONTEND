@@ -7,7 +7,7 @@
  * - Verificación de estado de autenticación
  */
 
-import { AuthData } from '../interfaces/configInterface'
+import { AuthData } from '@/interfaces/configInterface'
 
 export enum ClearReason {
   USER_LOGOUT = 'USER_LOGOUT',

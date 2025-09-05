@@ -1,5 +1,5 @@
-import { DialogModalConfirmDeleteProps } from '../interfaces/propsInterface'
-import { paletteColors } from '../utils/paletteColors'
+import { DialogModalConfirmDeleteProps } from '@/interfaces/propsInterface'
+import { paletteColors } from '@/utils/paletteColors'
 import DialogModal from './DialogModal'
 import { Box, Button, CircularProgress } from '@mui/material'
 

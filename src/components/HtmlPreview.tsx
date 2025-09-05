@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Paper, Typography, IconButton } from '@mui/material'
-import { paletteColors } from '../utils/paletteColors'
-import { HtmlPreviewProps } from '../interfaces/propsInterface'
+import { paletteColors } from '@/utils/paletteColors'
+import { HtmlPreviewProps } from '@/interfaces/propsInterface'
 
 const HtmlPreview: React.FC<HtmlPreviewProps> = ({
   htmlContent,

@@ -14,18 +14,9 @@ import {
   Divider,
 } from '@mui/material'
 import { Add, Delete } from '@mui/icons-material'
-import { AssignedField } from '../../interfaces/interactiveEditorInterface'
-import { useFieldsManager } from '../../hooks/components/interactiveEditor/useFieldsManager'
-import { AvailableFieldMapper } from '../../interfaces/mappersInterface'
-
-interface FieldsManagerProps {
-  availableFields: AvailableFieldMapper[]
-  assignedFields: AssignedField[]
-  unassignedFields: AvailableFieldMapper[]
-  onCreateField: () => void
-  onRemoveAssignedField: (index: number) => void
-  isLoading?: boolean
-}
+import { AssignedField } from '@/interfaces/interactiveEditorInterface'
+import { FieldsManagerProps } from '@/interfaces/propsInterface'
+import { useFieldsManager } from '@/hooks/components/useFieldsManager'
 
 /**
  * Component for managing available and assigned fields
@@ -66,12 +57,11 @@ const FieldsManager: React.FC<FieldsManagerProps> = ({
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'row',
-        gap: 3,
+        flexDirection: 'column',
         justifyContent: 'center',
       }}
     >
-      {/* Available Fields Section */}
+      {/* Available Fields Section
       <Card sx={{ flex: 1, minWidth: 300, maxWidth: 400 }}>
         <CardContent>
           <Box
@@ -128,8 +118,11 @@ const FieldsManager: React.FC<FieldsManagerProps> = ({
           )}
         </CardContent>
       </Card>
+       */}
 
       {/* Unassigned Fields Section */}
+      {/*
+      
       <Card sx={{ flex: 1, minWidth: 300, maxWidth: 400 }}>
         <CardContent>
           <Box
@@ -179,9 +172,8 @@ const FieldsManager: React.FC<FieldsManagerProps> = ({
           )}
         </CardContent>
       </Card>
-
       {/* Assigned Fields Section */}
-      <Card sx={{ flex: 1, minWidth: 300, maxWidth: 400 }}>
+      <Card sx={{ flex: 1, minWidth: 300 }}>
         <CardContent>
           <Typography variant='h6' component='h3' sx={{ mb: 2 }}>
             Campos asignados ({assignedFields.length})

@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { PreviewDocumentState, SessionState } from '../../legal'
+import { PreviewDocumentState, SessionState } from '@/legal'
 
 // Session
 export const sessionErrors = (state: SessionState) =>

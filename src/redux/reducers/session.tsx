@@ -4,9 +4,9 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT_ERROR,
   LOG_OUT_SUCCESS,
-} from '../../consts/types'
-import { SessionState } from '../../legal'
-import { AuthManager, ClearReason } from '../../utils/AuthManager'
+} from '@/consts/types'
+import { SessionState } from '@/legal'
+import { AuthManager, ClearReason } from '@/utils/AuthManager'
 
 const initialState: SessionState = {
   errors: [],

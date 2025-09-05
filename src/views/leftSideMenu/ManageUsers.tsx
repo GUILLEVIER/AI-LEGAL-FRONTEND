@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Box,
   Button,
@@ -9,14 +9,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { BoxContainerApp, ContainerApp } from '../../layouts'
-import { useManageUsers } from '../../hooks/views/leftSideMenu/useManageUsers'
+import { BoxContainerApp, ContainerApp } from '@/layouts'
+import { useManageUsers } from '@/hooks/views/leftSideMenu/useManageUsers'
 import {
   DialogModal,
   DialogModalConfirmDelete,
   LoadingModal,
   TableInfo,
-} from '../../components'
+} from '@/components'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
@@ -26,10 +26,10 @@ import {
   UsersGroupsResponseMapper,
   UserMapper,
   CompanyMapper,
-} from '../../interfaces/mappersInterface'
+} from '@/interfaces/mappersInterface'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
-import { paletteColors } from '../../utils/paletteColors'
+import { paletteColors } from '@/utils/paletteColors'
 
 const ManageUsers: React.FC = () => {
   const {
@@ -163,158 +163,182 @@ const ManageUsers: React.FC = () => {
             ]}
           />
         </BoxContainerApp>
-        <DialogModal
-          dialogModalActions={
-            <Box>
-              <Button
-                color='warning'
-                onClick={handleCloseModal}
-                size='large'
-                variant='contained'
+        {open && (
+          <DialogModal
+            dialogModalActions={
+              <Box>
+                <Button
+                  color='warning'
+                  onClick={handleCloseModal}
+                  size='large'
+                  variant='contained'
+                >
+                  Cancelar
+                </Button>
+              </Box>
+            }
+            dialogModalContent={
+              <Box
+                autoComplete='off'
+                component='form'
+                onSubmit={handleSubmit}
+                sx={{ mt: 1, pb: 0 }}
               >
-                Cancelar
-              </Button>
-            </Box>
-          }
-          dialogModalContent={
-            <Box
-              autoComplete='off'
-              component='form'
-              onSubmit={handleSubmit}
-              sx={{ mt: 1, pb: 0 }}
-            >
-              <Typography
-                gutterBottom
-                sx={{ fontWeight: 'bold', mt: 2 }}
-                variant='subtitle1'
-              >
-                Datos Básicos
-              </Typography>
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='userName'
-                label='Nombre de Usuario'
-                margin='normal'
-                name='userName'
-                onChange={handleChange('userName')}
-                required
-                value={values.userName}
-              />
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='firstName'
-                label='Nombre'
-                margin='normal'
-                name='firstName'
-                onChange={handleChange('firstName')}
-                required
-                value={values.firstName}
-              />
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='lastName'
-                label='Apellido'
-                margin='normal'
-                name='lastName'
-                onChange={handleChange('lastName')}
-                required
-                value={values.lastName}
-              />
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='email'
-                label='Correo Electrónico'
-                margin='normal'
-                name='email'
-                onChange={handleChange('email')}
-                placeholder='correo@ejemplo.com'
-                required
-                value={values.email}
-              />
-              <Typography
-                gutterBottom
-                sx={{ fontWeight: 'bold', mt: 2 }}
-                variant='subtitle1'
-              >
-                Datos Específicos
-              </Typography>
-              <TextField
-                disabled={isViewMode && !isEditMode}
-                fullWidth
-                id='company'
-                label='Nombre Empresa'
-                margin='normal'
-                name='company'
-                onChange={handleChange('company')}
-                required
-                select
-                value={values.company.id}
-              >
-                <MenuItem key={0} value={0}>
-                  SIN EMPRESA
-                </MenuItem>
-                {companies.map((company: CompanyMapper) => (
-                  <MenuItem key={company.id} value={company.id}>
-                    {company.name.toUpperCase()}
+                <Typography
+                  gutterBottom
+                  sx={{ fontWeight: 'bold', mt: 2 }}
+                  variant='subtitle1'
+                >
+                  Datos Básicos
+                </Typography>
+                <TextField
+                  disabled={isViewMode && !isEditMode}
+                  fullWidth
+                  id='userName'
+                  label='Nombre de Usuario'
+                  margin='normal'
+                  name='userName'
+                  onChange={handleChange('userName')}
+                  required
+                  value={values.userName}
+                />
+                <TextField
+                  disabled={isViewMode && !isEditMode}
+                  fullWidth
+                  id='firstName'
+                  label='Nombre'
+                  margin='normal'
+                  name='firstName'
+                  onChange={handleChange('firstName')}
+                  required
+                  value={values.firstName}
+                />
+                <TextField
+                  disabled={isViewMode && !isEditMode}
+                  fullWidth
+                  id='lastName'
+                  label='Apellido'
+                  margin='normal'
+                  name='lastName'
+                  onChange={handleChange('lastName')}
+                  required
+                  value={values.lastName}
+                />
+                <TextField
+                  disabled={isViewMode && !isEditMode}
+                  fullWidth
+                  id='email'
+                  label='Correo Electrónico'
+                  margin='normal'
+                  name='email'
+                  onChange={handleChange('email')}
+                  placeholder='correo@ejemplo.com'
+                  required
+                  value={values.email}
+                />
+                <Typography
+                  gutterBottom
+                  sx={{ fontWeight: 'bold', mt: 2 }}
+                  variant='subtitle1'
+                >
+                  Datos Específicos
+                </Typography>
+                <TextField
+                  disabled={isViewMode && !isEditMode}
+                  fullWidth
+                  id='company'
+                  label='Nombre Empresa'
+                  margin='normal'
+                  name='company'
+                  onChange={handleChange('company')}
+                  required
+                  select
+                  value={values.company.id}
+                >
+                  <MenuItem key={0} value={0}>
+                    SIN EMPRESA
                   </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                disabled={isViewMode || isEditMode}
-                fullWidth
-                id='group'
-                label='Tipo de Usuario'
-                margin='normal'
-                name='group'
-                onChange={handleChange('group')}
-                required
-                select
-                value={values.group}
-              >
-                <MenuItem value='Sin grupo'>SIN GRUPO</MenuItem>
-                {groups.map((group: UsersGroupsResponseMapper, id: number) => (
-                  <MenuItem key={id} value={group.name}>
-                    {group.name.toUpperCase()}
+                  {companies.map((company: CompanyMapper) => (
+                    <MenuItem key={company.id} value={company.id}>
+                      {company.name.toUpperCase()}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  disabled={isViewMode}
+                  fullWidth
+                  id='group'
+                  label='Tipo de Usuario'
+                  margin='normal'
+                  name='group'
+                  onChange={handleChange('group')}
+                  required
+                  select
+                  value={values.group.id}
+                >
+                  <MenuItem key={0} value={0}>
+                    SIN GRUPO
                   </MenuItem>
-                ))}
-              </TextField>
-              {!isEditMode && !isViewMode && (
-                <>
-                  <TextField
-                    fullWidth
-                    id='password'
-                    label='Contraseña'
-                    margin='normal'
-                    name='password'
-                    onChange={handleChange('password')}
-                    required
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position='end'>
-                          <IconButton
-                            aria-label='toggle password visibility'
-                            edge='end'
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {values.showPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                  {groups.map((group: UsersGroupsResponseMapper) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      {group.name.toUpperCase()}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                {!isEditMode && !isViewMode && (
+                  <>
+                    <TextField
+                      fullWidth
+                      id='password'
+                      label='Contraseña'
+                      margin='normal'
+                      name='password'
+                      onChange={handleChange('password')}
+                      required
+                      type={values.showPassword ? 'text' : 'password'}
+                      value={values.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position='end'>
+                            <IconButton
+                              aria-label='toggle password visibility'
+                              edge='end'
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {values.showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    <Button
+                      color='primary'
+                      disabled={isLoading}
+                      fullWidth
+                      size='large'
+                      type='submit'
+                      variant='contained'
+                    >
+                      {isLoading ? (
+                        <CircularProgress
+                          sx={{ color: paletteColors.colorPrimary }}
+                          thickness={4}
+                          value={100}
+                        />
+                      ) : (
+                        'Crear Usuario'
+                      )}
+                    </Button>
+                  </>
+                )}
+                {isEditMode && (
                   <Button
-                    color='primary'
+                    color='secondary'
                     disabled={isLoading}
                     fullWidth
                     size='large'
@@ -328,50 +352,30 @@ const ManageUsers: React.FC = () => {
                         value={100}
                       />
                     ) : (
-                      'Crear Usuario'
+                      'Guardar Cambios'
                     )}
                   </Button>
-                </>
-              )}
-              {isEditMode && (
-                <Button
-                  color='secondary'
-                  disabled={isLoading}
-                  fullWidth
-                  size='large'
-                  type='submit'
-                  variant='contained'
-                >
-                  {isLoading ? (
-                    <CircularProgress
-                      sx={{ color: paletteColors.colorPrimary }}
-                      thickness={4}
-                      value={100}
-                    />
-                  ) : (
-                    'Guardar Cambios'
-                  )}
-                </Button>
-              )}
-            </Box>
-          }
-          dialogModalContentText={
-            isEditMode
-              ? 'Edita los datos del usuario.'
-              : isViewMode
-              ? 'Información del usuario seleccionado.'
-              : 'Ingresa los datos del usuario.'
-          }
-          dialogModalTitle={
-            isEditMode
-              ? 'Editar Usuario'
-              : isViewMode
-              ? 'Detalles del Usuario'
-              : 'Crear Usuario'
-          }
-          handleClose={handleCloseModal}
-          open={open}
-        ></DialogModal>
+                )}
+              </Box>
+            }
+            dialogModalContentText={
+              isEditMode
+                ? 'Edita los datos del usuario.'
+                : isViewMode
+                ? 'Información del usuario seleccionado.'
+                : 'Ingresa los datos del usuario.'
+            }
+            dialogModalTitle={
+              isEditMode
+                ? 'Editar Usuario'
+                : isViewMode
+                ? 'Detalles del Usuario'
+                : 'Crear Usuario'
+            }
+            handleClose={handleCloseModal}
+            open={open}
+          ></DialogModal>
+        )}
         <DialogModalConfirmDelete
           handleClose={handleCloseModalDeleteUser}
           handleConfirm={handleConfirmDeleteUser}

@@ -19,24 +19,6 @@ import {
 import { DocumentsMapper } from '../../../mapper/DocumentsMapper'
 import { useApiWithAuth } from '../../utils/useApiWithAuth'
 
-// REVISAR CON PRECAUCIÓN
-/**
- * Interface for creating template data
- */
-export interface CreateTemplateData {
-  tipo: {
-    nombre: string
-  }
-  nombre: string
-  descripcion?: string
-  html_con_campos: string
-  tipo_id?: number
-  campos?: Array<{
-    campo_id: number
-    nombre_variable: string
-  }>
-}
-
 /**
  * API calls for document management
  * Aquí se llamarán las funciones para manejar documentos en la API.
@@ -115,7 +97,7 @@ export const useDocumentsApi = () => {
   }
 
   // PROBADO
-  const createTemplate = async (templateData: CreateTemplateData) => {
+  const createTemplate = async (templateData: any) => {
     const response = await postWithAuth<CreateTemplateResponse>(
       '/documents/v1/plantillas-documentos/crear_plantilla/',
       templateData

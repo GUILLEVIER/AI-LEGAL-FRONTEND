@@ -1,4 +1,4 @@
-import { UserUpdateRequest } from '../interfaces/apiRequestsInteface'
+import { UserUpdateRequest } from '@/interfaces/apiRequestsInteface'
 import {
   Company,
   User,
@@ -6,14 +6,14 @@ import {
   UserResponse,
   UsersGroupsResponse,
   Permission,
-} from '../interfaces/apiResponsesInterface'
-import { ManageUsersFormInterface } from '../interfaces/formsInterface'
+} from '@/interfaces/apiResponsesInterface'
+import { ManageUsersFormInterface } from '@/interfaces/formsInterface'
 import {
   UserMapper,
   UsersResponseMapper,
   UserResponseMapper,
   UsersGroupsResponseMapper,
-} from '../interfaces/mappersInterface'
+} from '@/interfaces/mappersInterface'
 
 export const UsersMapper = {
   /**
@@ -28,6 +28,7 @@ export const UsersMapper = {
     last_name: data.lastName,
     email: data.email,
     empresa: data.company.id !== 0 ? data.company.id : null, // Si la empresa es "Sin empresa", no enviamos el ID
+    grupos: data.group.id !== 0 ? [data.group.id] : null, // Si el grupo es "Sin grupo", no enviamos el ID
     password: data.password,
   }),
 
@@ -43,6 +44,7 @@ export const UsersMapper = {
     last_name: data.lastName,
     email: data.email,
     empresa: data.company.id !== 0 ? data.company.id : null, // Si la empresa es "Sin empresa", no enviamos el ID
+    grupos: data.group.id !== 0 ? [data.group.id] : null, // Si el grupo es "Sin grupo", no enviamos el ID
     password: data.password, // Para crear usuario usamos la password del formulario
   }),
 

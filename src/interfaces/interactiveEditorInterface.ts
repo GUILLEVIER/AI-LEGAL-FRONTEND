@@ -37,50 +37,6 @@ export interface EditorActions {
   generatePreviewHtml: () => string
 }
 
-// Field types for validation and UI
-export const FIELD_TYPES = {
-  TEXT: 'texto' as const,
-  DATE: 'fecha' as const,
-  NUMBER: 'numero' as const,
-} as const
-
-export type FieldType = (typeof FIELD_TYPES)[keyof typeof FIELD_TYPES]
-
-// Template status for future use
-export enum TemplateStatus {
-  DRAFT = 'draft',
-  PUBLISHED = 'published',
-  ARCHIVED = 'archived',
-}
-
-// Editor modes for different use cases
-export enum EditorMode {
-  CREATE = 'create',
-  EDIT = 'edit',
-  VIEW = 'view',
-}
-
-// Validation rules
-export const VALIDATION_RULES = {
-  TEMPLATE_NAME: {
-    MIN_LENGTH: 1,
-    MAX_LENGTH: 100,
-  },
-  FIELD_NAME: {
-    MIN_LENGTH: 1,
-    MAX_LENGTH: 50,
-  },
-  VARIABLE_NAME: {
-    MIN_LENGTH: 1,
-    MAX_LENGTH: 30,
-    PATTERN: /^[a-zA-Z][a-zA-Z0-9_]*$/,
-  },
-  SELECTED_TEXT: {
-    MIN_LENGTH: 1,
-    MAX_LENGTH: 500,
-  },
-} as const
-
 export interface UseInteractiveEditorReturn {
   // Template state
   templateName: string

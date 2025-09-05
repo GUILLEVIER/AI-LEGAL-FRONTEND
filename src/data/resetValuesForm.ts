@@ -17,7 +17,10 @@ export const resetValuesManageUserForm: ManageUsersFormInterface = {
     name: 'Sin empresa',
     id: 0,
   },
-  group: 'Sin grupo',
+  group: {
+    name: 'Sin grupo',
+    id: 0,
+  },
   showPassword: false,
 }
 

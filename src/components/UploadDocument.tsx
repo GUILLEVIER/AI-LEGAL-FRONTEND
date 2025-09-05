@@ -1,9 +1,9 @@
 import React from 'react'
-import { useUploadDocument } from '../hooks/components/useUploadDocument'
+import { useUploadDocument } from '@/hooks/components/useUploadDocument'
 import { Box, Button, Typography, Alert, Chip } from '@mui/material'
 import { HtmlPreview } from '.'
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp'
-import { paletteColors } from '../utils/paletteColors'
+import { paletteColors } from '@/utils/paletteColors'
 import {
   CheckCircleOutline,
   DeleteForeverSharp,

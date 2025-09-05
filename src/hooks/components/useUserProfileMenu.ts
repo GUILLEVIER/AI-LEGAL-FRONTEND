@@ -1,19 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import {
-  sessionErrors,
-  sessionResult,
-  sessionStatus,
-} from '../../redux/selectors'
-import { logOut } from '../../redux/actions'
+import { sessionErrors, sessionResult, sessionStatus } from '@/redux/selectors'
+import { logOut } from '@/redux/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  showToastifySuccess,
-  showToastifyError,
-} from '../../utils/showToastify'
+import { showToastifySuccess, showToastifyError } from '@/utils/showToastify'
 import { useNavigate } from 'react-router'
-import { SessionState } from '../../legal'
-import { userProfileMenuItems } from '../../data/userProfileMenuItems'
-import { UserProfile } from '../../interfaces/dataInterface'
+import { SessionState } from '@/legal'
+import { userProfileMenuItems } from '@/data/userProfileMenuItems'
+import { UserProfile } from '@/interfaces/dataInterface'
 
 export const useUserProfileMenu = () => {
   // USE STATES AND HOOKS

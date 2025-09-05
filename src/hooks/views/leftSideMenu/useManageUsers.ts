@@ -47,6 +47,8 @@ export const useManageUsers = () => {
 
   console.log('useManageUsers isLoading:', isLoading)
   console.log('useManageUsers error:', error)
+  console.log('useManageUsers values:', values)
+  console.log('useManageUsers groups:', groups)
 
   // CALLS API
   const firstLoad = async () => {
@@ -182,6 +184,17 @@ export const useManageUsers = () => {
           },
         })
       }
+      if (prop === 'group') {
+        return setValues({
+          ...values,
+          [prop]: {
+            id: Number(event.target.value),
+            name:
+              groups.find((group) => group.id === Number(event.target.value))
+                ?.name || 'Sin grupo',
+          },
+        })
+      }
       return setValues({ ...values, [prop]: event.target.value })
     }
 
@@ -197,7 +210,10 @@ export const useManageUsers = () => {
         name: user.company?.name || 'Sin empresa',
         id: user.company?.id || 0,
       },
-      group: user.group || 'Sin grupo',
+      group: {
+        name: user.group,
+        id: groups.find((group) => group.name === user.group)?.id || 0,
+      },
     })
   }
 

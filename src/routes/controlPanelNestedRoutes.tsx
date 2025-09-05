@@ -7,8 +7,8 @@ import {
   Profile,
   Templates,
   DocumentGenerator,
-} from '../views'
-import InteractiveEditor from '../views/InteractiveEditor'
+} from '@/views'
+import InteractiveEditor from '@/views/InteractiveEditor'
 
 const controlPanelNestedRoutes = [
   {

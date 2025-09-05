@@ -1,24 +1,20 @@
 import { useState, useCallback, useEffect } from 'react'
 import {
   AssignedField,
-  VALIDATION_RULES,
   UseInteractiveEditorReturn,
-} from '../../interfaces/interactiveEditorInterface'
+} from '@/interfaces/interactiveEditorInterface'
 import { useDocumentsApi } from '../api/apiWithAuth/useDocumentsApi'
 import {
   AvailableFieldMapper,
   TemplateTypeMapper,
-} from '../../interfaces/mappersInterface'
-import { ErrorHandler } from '../../utils/ErrorHandler'
-import {
-  showToastifySuccess,
-  showToastifyError,
-} from '../../utils/showToastify'
-import { AppError } from '../../interfaces/configInterface'
+} from '@/interfaces/mappersInterface'
+import { ErrorHandler } from '@/utils/ErrorHandler'
+import { showToastifySuccess, showToastifyError } from '@/utils/showToastify'
+import { AppError } from '@/interfaces/configInterface'
 import { useSelector } from 'react-redux'
-import { PreviewDocumentState } from '../../legal'
-import { previewDocumentResult } from '../../redux/selectors'
-import { UploadedFile } from '../../interfaces/propsInterface'
+import { PreviewDocumentState } from '@/legal'
+import { previewDocumentResult } from '@/redux/selectors'
+import { UploadedFile } from '@/interfaces/propsInterface'
 
 /**
  * Custom hook for managing interactive editor state and logic
@@ -71,6 +67,26 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
 
   // Local state for selection handling
   const [selectionTimeout, setSelectionTimeout] = useState<number | null>(null)
+
+  const VALIDATION_RULES = {
+    TEMPLATE_NAME: {
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 100,
+    },
+    FIELD_NAME: {
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 50,
+    },
+    VARIABLE_NAME: {
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 30,
+      PATTERN: /^[a-zA-Z][a-zA-Z0-9_]*$/,
+    },
+    SELECTED_TEXT: {
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 500,
+    },
+  }
 
   // Preview Document from REDUX
   const previewDocument: UploadedFile | null = useSelector(
@@ -247,9 +263,10 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
 
     setLoading(true)
     const response = await createTemplate({
-      tipo: {
-        nombre: templateType,
-      },
+      tipo_id:
+        templateTypes.find(
+          (type: TemplateTypeMapper) => type.name === templateType
+        )?.id || null,
       nombre: templateName,
       descripcion: templateDescription,
       html_con_campos: htmlContent,

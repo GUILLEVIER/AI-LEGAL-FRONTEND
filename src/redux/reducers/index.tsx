@@ -5,5 +5,4 @@ import previewDocument from './previewDocument'
 export default combineReducers({
   session,
   previewDocument,
-  // Add other reducers here as needed
 })

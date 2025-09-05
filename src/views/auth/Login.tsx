@@ -14,11 +14,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import React from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { DialogModal } from '../../components'
-import { ContainerApp, BoxContainerApp } from '../../layouts'
-import { StyledContainer, StyledCard } from '../../assets/styles/style'
-import { useLogin } from '../../hooks/views/auth/useLogin'
-import { paletteColors } from '../../utils/paletteColors'
+import { DialogModal } from '@/components'
+import { ContainerApp, BoxContainerApp } from '@/layouts'
+import { StyledContainer, StyledCard } from '@/assets/styles/style'
+import { useLogin } from '@/hooks/views/auth/useLogin'
+import { paletteColors } from '@/utils/paletteColors'
 
 const Login: React.FC = () => {
   const {

@@ -1,8 +1,8 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import React from 'react'
-import { ContainerApp, BoxContainerApp } from '../../layouts'
-import { StyledContainer, StyledCard } from '../../assets/styles/style'
-import { useSignIn } from '../../hooks/views/auth/useSignIn'
+import { ContainerApp, BoxContainerApp } from '@/layouts'
+import { StyledContainer, StyledCard } from '@/assets/styles/style'
+import { useSignIn } from '@/hooks/views/auth/useSignIn'
 
 const SignIn: React.FC = () => {
   const { form, error, handleChange, handleSubmit } = useSignIn()

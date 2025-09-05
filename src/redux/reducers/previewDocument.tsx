@@ -1,8 +1,5 @@
-import {
-  PREVIEW_DOCUMENT_DELETE,
-  PREVIEW_DOCUMENT_SAVE,
-} from '../../consts/types'
-import { PreviewDocumentState } from '../../legal'
+import { PREVIEW_DOCUMENT_DELETE, PREVIEW_DOCUMENT_SAVE } from '@/consts/types'
+import { PreviewDocumentState } from '@/legal'
 
 const initialState: PreviewDocumentState = {
   document: null,

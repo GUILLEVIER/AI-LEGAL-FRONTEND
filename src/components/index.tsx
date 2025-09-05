@@ -1,31 +1,41 @@
 import DialogModal from './DialogModal'
-import DialogModalPreview from './DialogModalPreview'
-import LoadingModal from './LoadingModal'
-import LeftMenu from './LeftSideMenu'
-import UserProfileMenu from './UserProfileMenu'
-import Header from './Header'
 import DialogModalConfirmDelete from './DialogModalConfirmDelete'
-import TableInfo from './TableInfo'
-import HtmlPreview from './HtmlPreview'
-import UploadDocument from './UploadDocument'
-import TemplateList from './TemplateList'
+import DialogModalPreview from './DialogModalPreview'
+import DocumentEditor from './DocumentEditor'
+import DocumentPreview from './DocumentPreview'
 import DocumentUploadCard from './DocumentUploadCard'
-import UploadedDocumentsList from './UploadedDocumentsList'
+import FieldsManager from './FieldsManager'
+import Header from './Header'
+import HelpGuide from './HelpGuide'
+import HtmlPreview from './HtmlPreview'
 import InformationSection from './InformationSection'
+import LeftSideMenu from './LeftSideMenu'
+import LoadingModal from './LoadingModal'
+import TableInfo from './TableInfo'
+import TemplateCard from './TemplateCard'
+import TemplateList from './TemplateList'
+import UploadDocument from './UploadDocument'
+import UploadedDocumentsList from './UploadedDocumentsList'
+import UserProfileMenu from './UserProfileMenu'
 
 export {
   DialogModal,
-  DialogModalPreview,
-  LoadingModal,
-  LeftMenu,
-  UploadDocument,
-  UserProfileMenu,
-  Header,
   DialogModalConfirmDelete,
-  TableInfo,
-  HtmlPreview,
-  TemplateList,
+  DialogModalPreview,
+  DocumentEditor,
+  DocumentPreview,
   DocumentUploadCard,
-  UploadedDocumentsList,
+  FieldsManager,
+  Header,
+  HelpGuide,
+  HtmlPreview,
   InformationSection,
+  LeftSideMenu,
+  LoadingModal,
+  TableInfo,
+  TemplateCard,
+  TemplateList,
+  UploadDocument,
+  UploadedDocumentsList,
+  UserProfileMenu,
 }

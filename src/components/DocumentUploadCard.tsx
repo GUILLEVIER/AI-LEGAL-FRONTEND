@@ -19,8 +19,8 @@ import {
   ImageOutlined,
   AttachFileOutlined,
 } from '@mui/icons-material'
-import { DocumentUploadProps } from '../interfaces/propsInterface'
-import { useTemplateCard } from '../hooks/components/useTemplateCard'
+import { DocumentUploadProps } from '@/interfaces/propsInterface'
+import { useTemplateCard } from '@/hooks/components/useTemplateCard'
 
 /**
  * Componente de tarjeta para documentos subidos

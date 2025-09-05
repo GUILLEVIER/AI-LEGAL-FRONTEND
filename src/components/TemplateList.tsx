@@ -12,8 +12,8 @@ import {
 import { SearchOutlined } from '@mui/icons-material'
 import TemplateCard from './TemplateCard'
 import DialogModalPreview from './DialogModalPreview'
-import { useTemplateList } from '../hooks/components/useTemplateList'
-import { Template } from '../interfaces/apiResponsesInterface'
+import { useTemplateList } from '@/hooks/components/useTemplateList'
+import { Template } from '@/interfaces/apiResponsesInterface'
 
 /**
  * Sistema de filtros (búsqueda, tipo, estado).

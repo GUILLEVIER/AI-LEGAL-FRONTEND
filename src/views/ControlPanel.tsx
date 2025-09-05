@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { LeftMenu, Header } from '../components'
+import React from 'react'
+import { Header, LeftSideMenu } from '@/components'
 import { Outlet } from 'react-router'
-import { useControlPanel } from '../hooks/views/useControlPanel'
+import { useControlPanel } from '@/hooks/views/useControlPanel'
 
 const ControlPanel: React.FC = () => {
   const { drawerOpen, handleDrawerToggle } = useControlPanel()
@@ -9,7 +9,7 @@ const ControlPanel: React.FC = () => {
   return (
     <div className='control-panel-layout'>
       <Header onDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} />
-      <LeftMenu drawerOpen={drawerOpen} />
+      <LeftSideMenu drawerOpen={drawerOpen} />
       <main
         className={`main-content ${
           drawerOpen ? 'drawer-open' : 'drawer-closed'

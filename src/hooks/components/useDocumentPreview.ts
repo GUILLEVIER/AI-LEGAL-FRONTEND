@@ -1,12 +1,5 @@
 import { useCallback } from 'react'
-import { AssignedField } from '../../../interfaces/interactiveEditorInterface'
-
-interface UseDocumentPreviewProps {
-  htmlContent: string
-  assignedFields: AssignedField[]
-  previewData: Record<string, string>
-  onPreviewDataChange: (data: Record<string, string>) => void
-}
+import { UseDocumentPreviewProps } from '../../interfaces/propsInterface'
 
 /**
  * Custom hook for managing document preview functionality

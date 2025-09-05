@@ -5,6 +5,8 @@ import {
   TemplateField,
   UploadedDocument,
 } from './apiResponsesInterface'
+import { AssignedField } from './interactiveEditorInterface'
+import { AvailableFieldMapper } from './mappersInterface'
 
 // Box Container App
 export interface BoxContainerAppProps {
@@ -85,4 +87,96 @@ export interface DocumentUploadProps {
   document: UploadedDocument
   onPreview: (document: UploadedDocument) => void
   onDelete: (documentId: number) => void
+}
+
+export interface DocumentEditorProps {
+  content: string
+  placeholder?: string
+  onUpdate: (content: string) => void
+  onTextSelection?: (selectedText: string, from: number, to: number) => void
+  editable?: boolean
+}
+
+export interface DocumentPreviewProps {
+  htmlContent: string
+  assignedFields: AssignedField[]
+  previewData: Record<string, string>
+  onPreviewDataChange: (data: Record<string, string>) => void
+}
+
+export interface FieldsManagerProps {
+  availableFields: AvailableFieldMapper[]
+  assignedFields: AssignedField[]
+  unassignedFields: AvailableFieldMapper[]
+  onCreateField: () => void
+  onRemoveAssignedField: (index: number) => void
+  isLoading?: boolean
+}
+
+export interface HelpGuideProps {
+  isVisible?: boolean
+  onToggle?: () => void
+}
+
+export interface DialogModalPreviewProps {
+  open: boolean
+  onClose: () => void
+  title: string
+  subtitle?: string
+  htmlContent: string
+  isLoading?: boolean
+  showInteractiveEditorButton?: boolean
+  onNavigateToEditor?: () => void
+  type: 'template' | 'document'
+}
+
+export interface InformationSectionProps {
+  type: 'template' | 'document'
+  // Props para template
+  templateName?: string
+  setTemplateName?: (name: string) => void
+  templateDescription?: string
+  setTemplateDescription?: (description: string) => void
+  templateType?: string
+  setTemplateType?: (type: string) => void
+  templateTypes?: Array<{ id: number; nombre: string }>
+  onSaveTemplate?: () => void
+  onResetTemplate?: () => void
+  // Props para document
+  documentName?: string
+  setDocumentName?: (name: string) => void
+  onGenerateDocument?: () => void
+  onResetDocument?: () => void
+  // Props comunes
+  loading?: boolean
+  disabled?: boolean
+}
+
+export interface UseDocumentEditorProps {
+  content: string
+  placeholder?: string
+  onUpdate: (content: string) => void
+  onTextSelection?: (selectedText: string, from: number, to: number) => void
+  editable?: boolean
+}
+
+export interface UseDocumentPreviewProps {
+  htmlContent: string
+  assignedFields: AssignedField[]
+  previewData: Record<string, string>
+  onPreviewDataChange: (data: Record<string, string>) => void
+}
+
+export interface UseFieldsManagerProps {
+  availableFields: AvailableFieldMapper[]
+  assignedFields: AssignedField[]
+  unassignedFields: AvailableFieldMapper[]
+  onCreateField: () => void
+  onRemoveAssignedField: (index: number) => void
+  isLoading?: boolean
+}
+
+export interface UseHelpGuideProps {
+  isVisible?: boolean
+  onToggle?: () => void
 }

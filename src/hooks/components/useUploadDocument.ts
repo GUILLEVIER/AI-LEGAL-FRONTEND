@@ -5,6 +5,9 @@ import { UploadDocumentResponse } from '../../interfaces/apiResponsesInterface'
 import { UploadedFile } from '../../interfaces/propsInterface'
 import { useDispatch } from 'react-redux'
 import { deletePreviewDocument, savePreviewDocument } from '../../redux/actions'
+import { ErrorHandler } from '@/utils/ErrorHandler'
+import { AppError } from '@/interfaces/configInterface'
+import { showToastifyError } from '@/utils/showToastify'
 
 /**
  * Estado mejorado para gestión de archivos.
@@ -65,6 +68,13 @@ export const useUploadDocument = () => {
       dispatchPD(deletePreviewDocument(null))
     }
   }, [previewDocument])
+
+  useEffect(() => {
+    if (error) {
+      ErrorHandler.logError(error as AppError)
+      showToastifyError(error.details.errors[0])
+    }
+  }, [error])
 
   // CONSTANTES
   const acceptedFileTypes = ['.pdf', '.doc', '.docx', '.png', '.jpg']

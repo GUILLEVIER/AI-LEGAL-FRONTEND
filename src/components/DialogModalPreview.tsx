@@ -10,18 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import HtmlPreview from './HtmlPreview'
-
-interface DialogModalPreviewProps {
-  open: boolean
-  onClose: () => void
-  title: string
-  subtitle?: string
-  htmlContent: string
-  isLoading?: boolean
-  showInteractiveEditorButton?: boolean
-  onNavigateToEditor?: () => void
-  type: 'template' | 'document'
-}
+import { DialogModalPreviewProps } from '@/interfaces/propsInterface'
 
 const DialogModalPreview: React.FC<DialogModalPreviewProps> = ({
   open,

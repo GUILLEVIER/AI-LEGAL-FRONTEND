@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import ApiFactory from '../../api/ApiFactory'
-import { AuthManager, ClearReason } from '../../utils/AuthManager'
-import { ErrorHandler } from '../../utils/ErrorHandler'
-import { AppError } from '../../interfaces/configInterface'
+import ApiFactory from '@/api/ApiFactory'
+import { AuthManager, ClearReason } from '@/utils/AuthManager'
+import { ErrorHandler } from '@/utils/ErrorHandler'
+import { AppError } from '@/interfaces/configInterface'
 
 /**
  * Hook simple para validación y renovación de tokens

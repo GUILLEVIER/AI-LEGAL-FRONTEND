@@ -24,12 +24,8 @@ import {
   Mouse,
   Timer,
 } from '@mui/icons-material'
-import { useHelpGuide } from '../../hooks/components/interactiveEditor/useHelpGuide'
-
-interface HelpGuideProps {
-  isVisible?: boolean
-  onToggle?: () => void
-}
+import { useHelpGuide } from '@/hooks/components/useHelpGuide'
+import { HelpGuideProps } from '@/interfaces/propsInterface'
 
 /**
  * Help Guide Component

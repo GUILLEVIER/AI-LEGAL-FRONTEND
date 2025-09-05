@@ -10,7 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { TableHeadCell } from '../assets/styles/style'
+import { TableHeadCell } from '@/assets/styles/style'
 
 const TableInfo = ({ data, headData, resourceType, actionButtons }) => {
   return (

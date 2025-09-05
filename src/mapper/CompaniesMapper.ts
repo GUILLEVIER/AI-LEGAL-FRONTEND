@@ -1,5 +1,5 @@
-import { CompaniesResponse, Company } from '../interfaces/apiResponsesInterface'
-import { CompaniesResponseMapper } from '../interfaces/mappersInterface'
+import { CompaniesResponse, Company } from '@/interfaces/apiResponsesInterface'
+import { CompaniesResponseMapper } from '@/interfaces/mappersInterface'
 
 export const CompaniesMapper = {
   fromApiGetCompanies: (

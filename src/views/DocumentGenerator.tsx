@@ -15,11 +15,11 @@ import {
   Paper,
 } from '@mui/material'
 import { ArrowBack, Visibility } from '@mui/icons-material'
-import { ContainerApp, BoxContainerApp } from '../layouts'
-import DocumentPreview from '../components/interactiveEditor/DocumentPreview'
-import InformationSection from '../components/InformationSection'
-import { useDocumentGenerator } from '../hooks/views/useDocumentGenerator'
-import { Template } from '../interfaces/apiResponsesInterface'
+import { ContainerApp, BoxContainerApp } from '@/layouts'
+import DocumentPreview from '@/components/DocumentPreview'
+import InformationSection from '@/components/InformationSection'
+import { useDocumentGenerator } from '@/hooks/views/useDocumentGenerator'
+import { Template } from '@/interfaces/apiResponsesInterface'
 
 /**
  * Document Generator View Component

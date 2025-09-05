@@ -12,3 +12,10 @@ export interface UserProfile {
   email?: string
   avatar?: string
 }
+
+export interface HelpStep {
+  iconName: string
+  title: string
+  description: string
+  tips: string[]
+}

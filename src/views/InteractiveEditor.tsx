@@ -14,14 +14,14 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { Save } from '@mui/icons-material'
-import { BoxContainerApp, ContainerApp } from '../layouts'
-import DialogModal from '../components/DialogModal'
-import DocumentEditor from '../components/interactiveEditor/DocumentEditor'
-import DocumentPreview from '../components/interactiveEditor/DocumentPreview'
-import HelpGuide from '../components/interactiveEditor/HelpGuide'
-import InformationSection from '../components/InformationSection'
-import { useInteractiveEditor } from '../hooks/views/useInteractiveEditor'
-import FieldsManager from '../components/interactiveEditor/FieldsManager'
+import { BoxContainerApp, ContainerApp } from '@/layouts'
+import DialogModal from '@/components/DialogModal'
+import DocumentEditor from '@/components/DocumentEditor'
+import DocumentPreview from '@/components/DocumentPreview'
+import HelpGuide from '@/components/HelpGuide'
+import InformationSection from '@/components/InformationSection'
+import { useInteractiveEditor } from '@/hooks/views/useInteractiveEditor'
+import FieldsManager from '@/components/FieldsManager'
 
 /**
  * Interactive Editor View Component
@@ -96,8 +96,25 @@ const InteractiveEditor: React.FC = () => {
           {/* <HelpGuide /> */}
           {/* Main Editor Layout */}
           <Grid container spacing={3}>
-            {/* Left Column - Document Editor */}
+            {/* Far Right Column - Document Preview */}
+            {/*
             <Grid size={{ xs: 12, lg: 6 }}>
+              <Typography variant='h6' sx={{ mb: 1 }}>
+                Previsualización del Documento
+              </Typography>
+              <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
+                Previsualiza cómo se verá tu documento con datos de ejemplo
+              </Typography>
+              <DocumentPreview
+                htmlContent={htmlContent}
+                assignedFields={assignedFields}
+                previewData={previewData}
+                onPreviewDataChange={setPreviewData}
+              />
+            </Grid>
+            */}
+            {/* Center Column - Document Editor */}
+            <Grid size={{ xs: 12 }}>
               <Box sx={{ mb: 2 }}>
                 <Typography variant='h6' sx={{ mb: 1 }}>
                   Editor de Documentos
@@ -133,30 +150,13 @@ const InteractiveEditor: React.FC = () => {
                 </Box>
               </Box>
             </Grid>
-
-            {/* Far Right Column - Document Preview */}
-            <Grid size={{ xs: 12, lg: 6 }}>
-              <Typography variant='h6' sx={{ mb: 1 }}>
-                Previsualización del Documento
-              </Typography>
-              <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-                Previsualiza cómo se verá tu documento con datos de ejemplo
-              </Typography>
-              <DocumentPreview
-                htmlContent={htmlContent}
-                assignedFields={assignedFields}
-                previewData={previewData}
-                onPreviewDataChange={setPreviewData}
-              />
-            </Grid>
-
             {/* Right Column - Fields Management */}
-            <Grid size={{ xs: 12 }}>
+            <Grid size={{ xs: 12, lg: 6 }}>
               <Typography variant='h6' sx={{ mb: 1 }}>
                 Gestión de Campos
               </Typography>
               <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-                Gestiona los campos disponibles y sus asignaciones
+                Gestiona los campos disponibles y sus asignaciones.
               </Typography>
               <FieldsManager
                 availableFields={availableFields}
@@ -167,25 +167,28 @@ const InteractiveEditor: React.FC = () => {
                 isLoading={loading}
               />
             </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              {/* Template Information Section */}
+              <InformationSection
+                type='template'
+                templateName={templateName}
+                setTemplateName={setTemplateName}
+                templateDescription={templateDescription}
+                setTemplateDescription={setTemplateDescription}
+                templateType={templateType}
+                setTemplateType={setTemplateType}
+                templateTypes={templateTypes.map((type) => ({
+                  id: type.id,
+                  nombre: type.name,
+                }))}
+                onSaveTemplate={handleSaveTemplate}
+                onResetTemplate={resetForm}
+                loading={loading}
+                disabled={!htmlContent.trim()}
+              />
+            </Grid>
           </Grid>
-          {/* Template Information Section */}
-          <InformationSection
-            type='template'
-            templateName={templateName}
-            setTemplateName={setTemplateName}
-            templateDescription={templateDescription}
-            setTemplateDescription={setTemplateDescription}
-            templateType={templateType}
-            setTemplateType={setTemplateType}
-            templateTypes={templateTypes.map((type) => ({
-              id: type.id,
-              nombre: type.name,
-            }))}
-            onSaveTemplate={handleSaveTemplate}
-            onResetTemplate={resetForm}
-            loading={loading}
-            disabled={!htmlContent.trim()}
-          />
+          {/*
           <DialogModal
             open={isFieldModalOpen}
             handleClose={handleCloseFieldModal}
@@ -243,6 +246,7 @@ const InteractiveEditor: React.FC = () => {
               </Box>
             }
           />
+          */}
           <DialogModal
             open={isAssignModalOpen}
             handleClose={handleCloseAssignModal}
@@ -266,7 +270,7 @@ const InteractiveEditor: React.FC = () => {
                     label='Seleccionar Campo'
                   >
                     <MenuItem value=''>Elige un campo</MenuItem>
-                    {unassignedFields.map((field) => (
+                    {availableFields.map((field) => (
                       <MenuItem key={field.id} value={field.id}>
                         {field.name} ({field.dataType})
                       </MenuItem>

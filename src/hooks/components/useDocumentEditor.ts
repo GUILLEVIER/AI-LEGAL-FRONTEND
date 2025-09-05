@@ -4,14 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import { Mark, mergeAttributes } from '@tiptap/core'
-
-interface UseDocumentEditorProps {
-  content: string
-  placeholder?: string
-  onUpdate: (content: string) => void
-  onTextSelection?: (selectedText: string, from: number, to: number) => void
-  editable?: boolean
-}
+import { UseDocumentEditorProps } from '../../interfaces/propsInterface'
 
 /**
  * Custom hook for managing document editor state and actions

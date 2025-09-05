@@ -1,15 +1,5 @@
 import { useCallback } from 'react'
-import { AssignedField } from '../../../interfaces/interactiveEditorInterface'
-import { AvailableFieldMapper } from '../../../interfaces/mappersInterface'
-
-interface UseFieldsManagerProps {
-  availableFields: AvailableFieldMapper[]
-  assignedFields: AssignedField[]
-  unassignedFields: AvailableFieldMapper[]
-  onCreateField: () => void
-  onRemoveAssignedField: (index: number) => void
-  isLoading?: boolean
-}
+import { UseFieldsManagerProps } from '../../interfaces/propsInterface'
 
 /**
  * Custom hook for managing fields functionality

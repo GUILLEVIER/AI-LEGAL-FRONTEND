@@ -1,4 +1,4 @@
-import { UploadedFile } from './interfaces/propsInterface'
+import { UploadedFile } from '@/interfaces/propsInterface'
 
 export interface LegalReduxStates {
   session: SessionState

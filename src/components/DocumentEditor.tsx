@@ -18,15 +18,8 @@ import {
   FormatAlignRight,
   FormatAlignJustify,
 } from '@mui/icons-material'
-import { useDocumentEditor } from '../../hooks/components/interactiveEditor/useDocumentEditor'
-
-interface DocumentEditorProps {
-  content: string
-  placeholder?: string
-  onUpdate: (content: string) => void
-  onTextSelection?: (selectedText: string, from: number, to: number) => void
-  editable?: boolean
-}
+import { useDocumentEditor } from '@/hooks/components/useDocumentEditor'
+import { DocumentEditorProps } from '@/interfaces/propsInterface'
 
 /**
  * Document editor component using TipTap

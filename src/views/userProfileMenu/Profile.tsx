@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-  CircularProgress,
-  Grid,
-  Link,
-} from '@mui/material'
-import { BoxContainerApp, ContainerApp } from '../../layouts'
-import { DialogModal } from '../../components'
-import { useProfile } from '../../hooks/views/userProfileMenu/useProfile'
+import React from 'react'
+import { Typography, Box, Button, TextField, Grid, Link } from '@mui/material'
+import { BoxContainerApp, ContainerApp } from '@/layouts'
+import { DialogModal } from '@/components'
+import { useProfile } from '@/hooks/views/userProfileMenu/useProfile'
 
 const Profile: React.FC = () => {
   const {

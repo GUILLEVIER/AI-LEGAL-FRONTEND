@@ -1,6 +1,9 @@
-//import { ErrorTypes } from "../utils/ErrorHandler"
-import { LoginRequest } from "./apiRequestsInteface"
-import { LoginResponse, LogoutResponse, RefreshResponse } from "./apiResponsesInterface"
+import { LoginRequest } from './apiRequestsInteface'
+import {
+  LoginResponse,
+  LogoutResponse,
+  RefreshResponse,
+} from './apiResponsesInterface'
 
 // Respuesta de error personalizada de la aplicación REACT
 export interface AppError {
@@ -20,22 +23,25 @@ export interface ApiResponse<T = any> {
 }
 
 export interface ApiGenericResponse<T = any> {
-  data: T,
-  message: string,
-  status: string,
-  code: string,
-  http_status: number,
+  data: T
+  message: string
+  status: string
+  code: string
+  http_status: number
   errors: string[]
 }
 
 // Interfaz para los servicios de autenticación
 // Esto se implementa en Services.ts
 export interface AuthService {
-  login(credentials: LoginRequest): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>>
+  login(
+    credentials: LoginRequest
+  ): Promise<ApiResponse<ApiGenericResponse<LoginResponse>>>
   logout(): Promise<ApiResponse<ApiGenericResponse<LogoutResponse>>>
-  refreshToken(refreshToken: string): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>>
+  refreshToken(
+    refreshToken: string
+  ): Promise<ApiResponse<ApiGenericResponse<RefreshResponse>>>
 }
-
 
 export interface AuthData {
   authorization: string // Token de Autenticación

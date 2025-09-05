@@ -1,7 +1,7 @@
 import React from 'react'
-import { LeftSideMenuProps } from '../interfaces/propsInterface'
-import LoadingLogo from '../assets/logos/LoadingLogo.svg?url'
-import { useLeftSideMenu } from '../hooks/components/useLeftSideMenu'
+import { LeftSideMenuProps } from '@/interfaces/propsInterface'
+import LoadingLogo from '@/assets/logos/LoadingLogo.svg?url'
+import { useLeftSideMenu } from '@/hooks/components/useLeftSideMenu'
 
 const LeftSideMenu: React.FC<LeftSideMenuProps> = ({ drawerOpen = false }) => {
   const { activeItem, handleItemClick, leftSideMenuItems } = useLeftSideMenu()

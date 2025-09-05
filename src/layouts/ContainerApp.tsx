@@ -1,5 +1,5 @@
 import { Container } from '@mui/material'
-import { ContainerAppProps } from '../interfaces/propsInterface'
+import { ContainerAppProps } from '@/interfaces/propsInterface'
 
 const ContainerApp: React.FC<ContainerAppProps> = ({ maxWidth, children }) => {
   return (

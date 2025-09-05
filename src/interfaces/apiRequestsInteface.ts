@@ -17,6 +17,7 @@ export interface UserUpdateRequest {
   last_name: string
   email: string
   empresa: number | null
+  grupos: number[] | null
   password: string
 }
 

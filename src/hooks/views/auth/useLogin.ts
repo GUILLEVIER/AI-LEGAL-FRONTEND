@@ -1,20 +1,13 @@
-import {
-  showToastifySuccess,
-  showToastifyError,
-} from '../../../utils/showToastify'
+import { showToastifySuccess, showToastifyError } from '@/utils/showToastify'
 import { useNavigate } from 'react-router'
-import {
-  sessionErrors,
-  sessionResult,
-  sessionStatus,
-} from '../../../redux/selectors'
-import { logIn } from '../../../redux/actions'
-import { LoginFormInterface } from '../../../interfaces/formsInterface'
-import { SessionState } from '../../../legal'
-import { useTokenValidator } from '../../../hooks/utils/useTokenValidator'
+import { sessionErrors, sessionResult, sessionStatus } from '@/redux/selectors'
+import { logIn } from '@/redux/actions'
+import { LoginFormInterface } from '@/interfaces/formsInterface'
+import { SessionState } from '@/legal'
+import { useTokenValidator } from '@/hooks/utils/useTokenValidator'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { resetValues } from '../../../data/resetValuesForm'
+import { resetValues } from '@/data/resetValuesForm'
 
 export const useLogin = () => {
   // USE STATES AND HOOKS

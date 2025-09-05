@@ -1,12 +1,12 @@
 import React from 'react'
-import { useTemplate } from '../../hooks/views/leftSideMenu/useTemplate'
+import { useTemplate } from '@/hooks/views/leftSideMenu/useTemplate'
 import { Box, Button, Typography } from '@mui/material'
-import { BoxContainerApp, ContainerApp } from '../../layouts'
+import { BoxContainerApp, ContainerApp } from '@/layouts'
 import {
   TemplateList,
   UploadDocument,
   UploadedDocumentsList,
-} from '../../components'
+} from '@/components'
 
 const Templates: React.FC = () => {
   const { selectedButton, setSelectedButton } = useTemplate()
@@ -53,7 +53,7 @@ const Templates: React.FC = () => {
             >
               Crear Plantilla
             </Button>
-            <Button
+            {/* <Button
               variant='contained'
               color='primary'
               onClick={() => {
@@ -66,7 +66,7 @@ const Templates: React.FC = () => {
               }}
             >
               Documentos Subidos
-            </Button>
+            </Button> */}
             <Button
               variant='contained'
               color='primary'
@@ -84,7 +84,7 @@ const Templates: React.FC = () => {
           </Box>
           {selectedButton.createTemplate && <UploadDocument />}
           {selectedButton.existingTemplates && <TemplateList />}
-          {selectedButton.uploadedDocuments && <UploadedDocumentsList />}
+          {/* {selectedButton.uploadedDocuments && <UploadedDocumentsList />} */}
           {/* {selectedButton.generatedDocuments && <GeneratedDocuments />} */}
         </BoxContainerApp>
       </ContainerApp>

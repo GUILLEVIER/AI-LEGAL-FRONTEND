@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDocumentsApi } from '../api/apiWithAuth/useDocumentsApi'
-import { Template, TemplateField } from '../../interfaces/apiResponsesInterface'
-import { AssignedField } from '../../interfaces/interactiveEditorInterface'
-import { PreviewDocumentState } from '../../legal'
-import { previewDocumentResult } from '../../redux/selectors'
-import { UploadedFile } from '../../interfaces/propsInterface'
-import {
-  showToastifySuccess,
-  showToastifyError,
-} from '../../utils/showToastify'
+import { Template, TemplateField } from '@/interfaces/apiResponsesInterface'
+import { AssignedField } from '@/interfaces/interactiveEditorInterface'
+import { PreviewDocumentState } from '@/legal'
+import { previewDocumentResult } from '@/redux/selectors'
+import { UploadedFile } from '@/interfaces/propsInterface'
+import { showToastifySuccess, showToastifyError } from '@/utils/showToastify'
 import { useParams } from 'react-router'
 
 /**

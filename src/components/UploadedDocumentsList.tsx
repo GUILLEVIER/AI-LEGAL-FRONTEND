@@ -11,8 +11,8 @@ import {
 import Grid from '@mui/material/Grid'
 import { SearchOutlined } from '@mui/icons-material'
 import DialogModalPreview from './DialogModalPreview'
-import { useUploadedDocumentsList } from '../hooks/components/useUploadedDocumentsList'
-import { UploadedDocument } from '../interfaces/apiResponsesInterface'
+import { useUploadedDocumentsList } from '@/hooks/components/useUploadedDocumentsList'
+import { UploadedDocument } from '@/interfaces/apiResponsesInterface'
 import DocumentUploadCard from './DocumentUploadCard'
 
 const UploadedDocumentsList: React.FC = () => {

@@ -27,8 +27,8 @@ import {
   BalanceOutlined,
   AccountBalanceOutlined,
 } from '@mui/icons-material'
-import { useTemplateCard } from '../hooks/components/useTemplateCard'
-import { TemplateCardProps } from '../interfaces/propsInterface'
+import { useTemplateCard } from '@/hooks/components/useTemplateCard'
+import { TemplateCardProps } from '@/interfaces/propsInterface'
 
 /**
  * Diseño de tarjeta con hover effects.

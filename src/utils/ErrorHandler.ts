@@ -3,7 +3,7 @@
  */
 
 import { AxiosError } from 'axios'
-import { ApiGenericResponse, AppError } from '../interfaces/configInterface'
+import { ApiGenericResponse, AppError } from '@/interfaces/configInterface'
 
 export enum ErrorTypes {
   VALIDATION_ERROR = 'ERR_BAD_REQUEST',

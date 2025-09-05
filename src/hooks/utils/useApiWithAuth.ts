@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react'
-import ApiFactory from '../../api/ApiFactory'
+import ApiFactory from '@/api/ApiFactory'
 import {
   ApiResponse,
   ApiGenericResponse,
   AppError,
-} from '../../interfaces/configInterface'
+} from '@/interfaces/configInterface'
 import { useTokenValidator } from './useTokenValidator'
 
 /**

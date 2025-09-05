@@ -20,7 +20,10 @@ export interface ManageUsersFormInterface {
     name: string
     id: number
   }
-  group: string
+  group: {
+    name: string
+    id: number
+  }
   showPassword: boolean
 }
 

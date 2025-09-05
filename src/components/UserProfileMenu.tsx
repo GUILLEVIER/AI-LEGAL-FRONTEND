@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUserProfileMenu } from '../hooks/components/useUserProfileMenu'
+import { useUserProfileMenu } from '@/hooks/components/useUserProfileMenu'
 
 const UserProfileMenu: React.FC = () => {
   const {
