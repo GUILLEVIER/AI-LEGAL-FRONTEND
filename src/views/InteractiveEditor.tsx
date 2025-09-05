@@ -41,6 +41,12 @@ const InteractiveEditor: React.FC = () => {
     templateType,
     setTemplateType,
     templateTypes,
+    templateCategories,
+    templateCategory,
+    setTemplateCategory,
+    templateClassifications,
+    templateClassification,
+    setTemplateClassification,
 
     // Fields state
     availableFields,
@@ -177,10 +183,13 @@ const InteractiveEditor: React.FC = () => {
                 setTemplateDescription={setTemplateDescription}
                 templateType={templateType}
                 setTemplateType={setTemplateType}
-                templateTypes={templateTypes.map((type) => ({
-                  id: type.id,
-                  nombre: type.name,
-                }))}
+                templateTypes={templateTypes}
+                templateCategories={templateCategories}
+                templateCategory={templateCategory}
+                setTemplateCategory={setTemplateCategory}
+                templateClassifications={templateClassifications}
+                templateClassification={templateClassification}
+                setTemplateClassification={setTemplateClassification}
                 onSaveTemplate={handleSaveTemplate}
                 onResetTemplate={resetForm}
                 loading={loading}

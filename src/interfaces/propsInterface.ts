@@ -139,7 +139,13 @@ export interface InformationSectionProps {
   setTemplateDescription?: (description: string) => void
   templateType?: string
   setTemplateType?: (type: string) => void
-  templateTypes?: Array<{ id: number; nombre: string }>
+  templateTypes?: Array<{ id: number; name: string }>
+  templateCategories?: Array<{ id: number; name: string }>
+  templateClassifications?: Array<{ id: number; name: string }>
+  templateCategory?: string
+  templateClassification?: string
+  setTemplateCategory?: (category: string) => void
+  setTemplateClassification?: (classification: string) => void
   onSaveTemplate?: () => void
   onResetTemplate?: () => void
   // Props para document

@@ -30,6 +30,12 @@ const InformationSection: React.FC<InformationSectionProps> = ({
   templateType = '',
   setTemplateType,
   templateTypes = [],
+  templateCategories = [],
+  templateClassifications = [],
+  templateCategory = '',
+  templateClassification = '',
+  setTemplateCategory,
+  setTemplateClassification,
   onSaveTemplate,
   onResetTemplate,
   // Document props
@@ -102,7 +108,47 @@ const InformationSection: React.FC<InformationSectionProps> = ({
                     >
                       {templateTypes.map((type) => (
                         <MenuItem key={type.id} value={type.id}>
-                          {type.nombre}
+                          {type.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormControl fullWidth disabled={disabled || loading}>
+                    <InputLabel>Tipo de Categoría</InputLabel>
+                    <Select
+                      value={templateCategory}
+                      onChange={(e) => setTemplateCategory?.(e.target.value)}
+                      label='Tipo de Categoría'
+                    >
+                      {templateCategories.map((templateCategory) => (
+                        <MenuItem
+                          key={templateCategory.id}
+                          value={templateCategory.id}
+                        >
+                          {templateCategory.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormControl fullWidth disabled={disabled || loading}>
+                    <InputLabel>Tipo de Clasificación</InputLabel>
+                    <Select
+                      value={templateClassification}
+                      onChange={(e) =>
+                        setTemplateClassification?.(e.target.value)
+                      }
+                      label='Tipo de Clasificación'
+                    >
+                      {templateClassifications.map((templateClassification) => (
+                        <MenuItem
+                          key={templateClassification.id}
+                          value={templateClassification.id}
+                        >
+                          {templateClassification.name}
                         </MenuItem>
                       ))}
                     </Select>

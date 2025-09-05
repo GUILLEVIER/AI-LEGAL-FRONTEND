@@ -198,6 +198,48 @@ export const useDocumentsApi = () => {
     return null
   }
 
+  // Tipos de categoría de plantilla
+  const getTemplateCategories = async () => {
+    const response = await getWithAuth<TemplateTypesResponse>(
+      '/documents/v1/categorias-plantilla/'
+    )
+    if (response && response.data && response.data.data) {
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          data: DocumentsMapper.fromApiGetTemplateTypes(response.data.data),
+        },
+      } as {
+        data: {
+          data: TemplateTypesResponseMapper
+        }
+      }
+    }
+    return null
+  }
+
+  // Tipos de clasificación de plantilla
+  const getTemplateClassifications = async () => {
+    const response = await getWithAuth<TemplateTypesResponse>(
+      '/documents/v1/clasificacion-plantillas-generales/'
+    )
+    if (response && response.data && response.data.data) {
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          data: DocumentsMapper.fromApiGetTemplateTypes(response.data.data),
+        },
+      } as {
+        data: {
+          data: TemplateTypesResponseMapper
+        }
+      }
+    }
+    return null
+  }
+
   return {
     isLoading,
     error,
@@ -215,6 +257,8 @@ export const useDocumentsApi = () => {
     removeFavorite,
     getMyFavorites,
     getTemplateTypes,
+    getTemplateCategories,
+    getTemplateClassifications,
     removeUploadedDocument,
   }
 }

@@ -48,6 +48,12 @@ export interface UseInteractiveEditorReturn {
   templateType: string
   setTemplateType: (type: string) => void
   templateTypes: TemplateTypeMapper[]
+  templateCategories: TemplateTypeMapper[]
+  templateCategory: string
+  setTemplateCategory: (category: string) => void
+  templateClassifications: TemplateTypeMapper[]
+  templateClassification: string
+  setTemplateClassification: (classification: string) => void
 
   // Fields state
   availableFields: AvailableFieldMapper[]

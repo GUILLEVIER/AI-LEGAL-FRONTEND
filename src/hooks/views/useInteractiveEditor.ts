@@ -29,6 +29,8 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
     getTemplateTypes,
     createAvailableField,
     createTemplate,
+    getTemplateCategories,
+    getTemplateClassifications,
   } = useDocumentsApi()
   // Template state
   const [templateName, setTemplateName] = useState<string>('')
@@ -36,6 +38,15 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
   const [htmlContent, setHtmlContent] = useState<string>('')
   const [templateType, setTemplateType] = useState<string>('')
   const [templateTypes, setTemplateTypes] = useState<TemplateTypeMapper[]>([])
+  const [templateCategories, setTemplateCategories] = useState<
+    TemplateTypeMapper[]
+  >([])
+  const [templateCategory, setTemplateCategory] = useState<string>('')
+  const [templateClassifications, setTemplateClassifications] = useState<
+    TemplateTypeMapper[]
+  >([])
+  const [templateClassification, setTemplateClassification] =
+    useState<string>('')
 
   // Fields state - Initialize with some example fields
   const [availableFields, setAvailableFields] = useState<
@@ -96,7 +107,12 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
   // CALLS API
   const firstLoad = async () => {
     setLoading(true)
-    await Promise.all([loadAvailableFieldsData(), loadTemplateTypesData()])
+    await Promise.all([
+      loadAvailableFieldsData(),
+      loadTemplateTypesData(),
+      loadTemplateCategoriesData(),
+      loadTemplateClassificationsData(),
+    ])
     setLoading(false)
   }
 
@@ -111,6 +127,20 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
     const response = await getTemplateTypes()
     if (response?.data?.data?.results) {
       setTemplateTypes(response.data.data.results)
+    }
+  }
+
+  const loadTemplateCategoriesData = async () => {
+    const response = await getTemplateCategories()
+    if (response?.data?.data?.results) {
+      setTemplateCategories(response.data.data.results)
+    }
+  }
+
+  const loadTemplateClassificationsData = async () => {
+    const response = await getTemplateClassifications()
+    if (response?.data?.data?.results) {
+      setTemplateClassifications(response.data.data.results)
     }
   }
 
@@ -263,10 +293,9 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
 
     setLoading(true)
     const response = await createTemplate({
-      tipo_id:
-        templateTypes.find(
-          (type: TemplateTypeMapper) => type.name === templateType
-        )?.id || null,
+      tipo_id: templateType,
+      categoria_id: templateCategory,
+      clasificacion_id: templateClassification,
       nombre: templateName,
       descripcion: templateDescription,
       html_con_campos: htmlContent,
@@ -408,6 +437,12 @@ export const useInteractiveEditor = (): UseInteractiveEditorReturn => {
     templateType,
     setTemplateType,
     templateTypes,
+    templateCategories,
+    templateCategory,
+    setTemplateCategory,
+    templateClassifications,
+    templateClassification,
+    setTemplateClassification,
 
     // Fields state
     availableFields,

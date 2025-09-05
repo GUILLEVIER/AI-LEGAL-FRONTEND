@@ -23,6 +23,7 @@ export const DocumentsMapper = {
     })),
   }),
 
+  // USA PARA TIPOS DE PLANTILLA, CATEGORÍAS Y CLASIFICACIONES.
   fromApiGetTemplateTypes: (
     templateTypes: TemplateTypesResponse
   ): TemplateTypesResponseMapper => ({
